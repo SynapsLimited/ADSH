@@ -65,7 +65,6 @@ function App() {
 
   return (
     <HelmetProvider>
-      <Router>
       <BackgroundAnimation />
         <ScrollToTop />
         <Navbar />
@@ -100,7 +99,6 @@ function App() {
         </div>
         <Footer />
         </Layout>
-      </Router>
     </HelmetProvider>
   );
 }
