@@ -5,6 +5,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './App.css';
+import axios from 'axios';
 
 
 import Navbar from './components/Navbar';
