@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet-async';
 
 function Blog() {
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
 
   // Track scroll position to apply parallax effect
   useEffect(() => {

@@ -299,10 +299,10 @@ function DisplacementSlider() {
         </div>
       </div>
       {/* Images */}
-      <img src="/assets/Homepage - Hero.jpg" alt="Image 1" />
-      <img src="/assets/Products - Hero.jpg" alt="Image 2" />
-      <img src="/assets/About - Hero.jpg" alt="Image 3" />
-      <img src="/assets/Blog - Hero.jpg" alt="Image 4" />
+      <img src="/assets/Homepage - Hero.jpg" alt="Dairy Home" />
+      <img src="/assets/Products - Hero.jpg" alt="Dairy Products" />
+      <img src="/assets/About - Hero.jpg" alt="About Dairy" />
+      <img src="/assets/Blog - Hero.jpg" alt="Dairy Blog" />
       {/* Pagination */}
       <div id="pagination" ref={paginationRef}>
         <button className="active" data-slide="0"></button>
