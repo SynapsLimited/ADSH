@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import DisplacementSlider from './../components/DisplacementSlider';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import axios from 'axios';
+import PostItem from './../components/PostItem';
 
 // Swiper Imports
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -26,6 +28,9 @@ const stats = [
 function Home() {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [latestPost, setLatestPost] = useState(null); // State for latest post
+  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [error, setError] = useState(null); // Error state
 
   // Track scroll position to apply parallax effect
   useEffect(() => {
@@ -60,6 +65,32 @@ function Home() {
       if (target) observer.unobserve(target);
     };
   }, []);
+
+
+   // Fetch the latest post
+   useEffect(() => {
+    const fetchLatestPost = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/posts`);
+        const posts = response.data;
+  
+        if (posts.length > 0) {
+          setLatestPost(posts[0]);
+        } else {
+          setError('No posts found.');
+        }
+      } catch (err) {
+        console.error('Error fetching latest post:', err);
+        setError('Error fetching latest post');
+      }
+      setIsLoading(false);
+    };
+    fetchLatestPost();
+  }, []);
+  
+
+
 
   // Array of images for the slider
   const slideImages = [
@@ -247,36 +278,42 @@ function Home() {
       </section>
 
 
-      <section data-aos="fade-up"  className="blog-section">
-  <div className="container">
-    <div className="blog-container">
-      <div className="blog-card">
-        <img
-          src="/assets/Blog - Hero.jpg"
-          alt="Blog post thumbnail"
-          width={400}
-          height={300}
-        />
-        <div className="blog-card-content">
-          <h3>Latest Blog Post Title</h3>
-          <p>
-            This is a short description of the latest blog post. It provides a brief overview of the content to entice readers.
-          </p>
-          <Link href="/blog/latest-post" className="btn btn-primary">Read more</Link>
+ {/* Blog Section */}
+ <section data-aos="fade-up" className="blog-section">
+      <div className="container">
+        <div className="blog-container">
+        {isLoading ? (
+            <p>Loading latest post...</p>
+          ) : error ? (
+            <p>{error}</p>
+          ) : latestPost ? (
+            <div className="blog-card">
+              <PostItem
+                postID={latestPost._id}
+                category={latestPost.category}
+                title={latestPost.title}
+                description={latestPost.description}
+                authorID={latestPost.creator}
+                thumbnail={latestPost.thumbnail}
+                createdAt={latestPost.createdAt}
+              />
+            </div>
+          ) : (
+            <p>No posts available.</p>
+          )}
+
+          <div className="blog-content container">
+            <h2>Blog</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus tellus leo in nullam non ullamcorper leo semper. Dui donec est urna ac bibendum nullam blandit euismod. Ullamcorper vitae nibh ante cursus tristique euismod bibendum id nunc. Leo turpis enim tristique vulputate sed sit et.
+            </p>
+            <Link to="/blog" className="btn btn-primary blog-button">
+              Blog
+            </Link>
+          </div>
         </div>
       </div>
-      <div className="blog-content container">
-        <h2>Blog</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus tellus leo in nullam non ullamcorper leo semper. Dui donec est urna ac bibendum nullam blandit euismod. Ullamcorper vitae nibh ante cursus tristique quismod bibendum id nunc. Leo turpis enim tristique vulputate sed sit et.
-        </p>
-        <a href="/blog" className="btn btn-primary blog-button">
-          Blog
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
 
             

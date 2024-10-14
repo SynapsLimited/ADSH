@@ -6,10 +6,8 @@ import Loader from '../components/Loader';
 import DeletePost from './DeletePost';
 import { UserContext } from '../context/userContext';
 import axios from 'axios';
-import { useTranslation } from 'react-i18next'; // Importing useTranslation hook
 
 const PostDetail = () => {
-  const { t } = useTranslation(); // Initialize useTranslation hook
   const { id } = useParams(); // Get the post ID from URL params
   const [post, setPost] = useState(null); // State to hold post data
   const [error, setError] = useState(null); // State to hold errors
