@@ -168,10 +168,10 @@ img:hover {
   width: 100%;
 }
 
-.error-page h2{
-  margin-top: 3rem;
-  font-family: "Righteous", sans-serif;
-  filter: drop-shadow(4px 5px 3px rgba(26, 26, 26, 0.374)); /* Optional: Larger shadow on hover for a subtle effect */
+.error-page h3{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-size: 2rem;
 }
 
 /* ====================== Loader =============================== */

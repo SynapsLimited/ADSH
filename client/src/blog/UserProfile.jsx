@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEdit, FaCheck } from "react-icons/fa";
-import './../css/blog.css'; // Assuming you have a corresponding CSS file for styling
+import './../css/blog.css';
 import { UserContext } from '../context/userContext';
 import axios from 'axios';
 
@@ -35,44 +35,38 @@ const UserProfile = () => {
           withCredentials: true,
           headers: { Authorization: `Bearer ${token}` },
         });
-        const { name, email, avatar } = response.data; // Get the correct avatar URL here
+        const { name, email, avatar } = response.data;
         setName(name);
         setEmail(email);
-        setAvatarPreview(avatar); // Set the avatarPreview to the updated avatar URL
+        setAvatarPreview(avatar);
       } catch (error) {
         console.log(error);
       }
     };
     getUser();
-}, [currentUser.id, token]);
+  }, [currentUser.id, token]);
 
-
-const changeAvatarHandler = async () => {
-  try {
+  const changeAvatarHandler = async () => {
+    try {
       if (!avatar) return;
 
-
       const formData = new FormData();
-      formData.append('avatar', avatar); // Attach the file
+      formData.append('avatar', avatar);
 
       // Call backend to upload the avatar and update user profile
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/users/change-avatar`, formData, {
-          headers: {
-              'Content-Type': 'multipart/form-data', // Required for file uploads
-              Authorization: `Bearer ${token}`  // Pass the JWT token in the Authorization header
-          }
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/users/change-avatar`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`
+        }
       });
 
-
       setError('');
-  } catch (error) {
-      console.error('Error changing avatar:', error); // Log any errors
+    } catch (error) {
+      console.error('Error changing avatar:', error);
       setError('Failed to update avatar.');
-  }
-};
-
-
-
+    }
+  };
 
   const updateUserDetails = async (e) => {
     e.preventDefault();
@@ -99,25 +93,24 @@ const changeAvatarHandler = async () => {
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-        setAvatar(file);
-        setAvatarPreview(URL.createObjectURL(file)); // Show the preview locally before uploading
-        setIsAvatarTouched(true);
+      setAvatar(file);
+      setAvatarPreview(URL.createObjectURL(file));
+      setIsAvatarTouched(true);
     }
-};
-
+  };
 
   return (
-    <section data-aos="fade-up"   className="profile">
-      <div  className="container profile-container">
+    <section data-aos="fade-up" className="profile">
+      <div className="container profile-container">
         <Link to={`/myposts/${currentUser.id}`} className="btn btn-secondary">Dashboard</Link>
 
-        <div  className="profile-details">
-          <div  className="avatar-wrapper">
-            <div  className="profile-avatar">
-              <img src={avatarPreview} alt="User Avatar" /> {/* Display the avatar preview */}
+        <div className="profile-details">
+          <div className="avatar-wrapper">
+            <div className="profile-avatar">
+              <img src={avatarPreview} alt="User Avatar" />
             </div>
             {/* Form to update avatar */}
-            <form  className="avatar-form">
+            <form className="avatar-form">
               <input 
                 type="file" 
                 name="avatar" 
@@ -129,28 +122,28 @@ const changeAvatarHandler = async () => {
                 <FaEdit /> 
               </label>
             </form>
-            {isAvatarTouched && <button 
-                  className="btn btn-primary profile-avatar-btn" 
-                  onClick={changeAvatarHandler}
-                  type="button" // Ensure this is a button and not submitting a form
+            {isAvatarTouched && (
+              <button 
+                className="btn btn-primary profile-avatar-btn" 
+                onClick={changeAvatarHandler}
+                type="button"
               >
-                  <FaCheck />
+                <FaCheck />
               </button>
-
-                      }
+            )}
           </div>
 
           <h1>{currentUser.name}</h1>
 
           {/* Form to update user details */}
-          <form  className="form profile-form" onSubmit={updateUserDetails}>
-            {error && <p  className="form-error-message">{error}</p>}
+          <form className="form profile-form" onSubmit={updateUserDetails}>
+            {error && <p className="form-error-message">{error}</p>}
             <input type="text" placeholder="Full Name" value={name} onChange={e => setName(e.target.value)} />
             <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
             <input type="password" placeholder="Current Password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} />
             <input type="password" placeholder="New Password" value={newPassword} onChange={e => setNewPassword(e.target.value)} />
             <input type="password" placeholder="Confirm New Password" value={confirmNewPassword} onChange={e => setConfirmNewPassword(e.target.value)} />
-            <button type="submit"  className='btn btn-primary btn-submit-profile'> Update my details </button>
+            <button type="submit" className='btn btn-primary btn-submit-profile'> Update my details </button>
           </form>
         </div>
       </div>

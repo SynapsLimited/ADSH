@@ -89,6 +89,7 @@ function Products() {
           ))}
         </div>
       </section>
+      
     </div>
   );
 }

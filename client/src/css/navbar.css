@@ -48,7 +48,7 @@
 }
 
 .nav-item a {
-  color: var(--color-white);
+  color: var(--color-complementary);
   font-size: 0.9rem;
   font-weight: 400;
   font-family: 'Nunito Sans', sans-serif;

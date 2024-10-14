@@ -278,6 +278,8 @@ function Home() {
   </div>
 </section>
 
+
+            
     </div>
   );
 }
@@ -287,12 +289,15 @@ function Counter({ from, to }) {
 
   useEffect(() => {
     if (count < to) {
-      const timer = setTimeout(() => setCount(count + 1), 20);
+      // Adjusting the speed based on the target value
+      const duration = to <= 99 ? 100 : 20; // If the value is small (like 30), slow it down
+      const timer = setTimeout(() => setCount(count + 1), duration);
       return () => clearTimeout(timer);
     }
   }, [count, to]);
 
   return <>{count}+</>;
 }
+
 
 export default Home;

@@ -3,10 +3,8 @@ import './../css/blog.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../context/userContext';
-import { useTranslation } from 'react-i18next'; // Importing useTranslation hook
 
 const Login = () => {
-  const { t } = useTranslation(); // Initialize useTranslation hook
   const [userData, setUserData] = useState({
     email: '',
     password: '',
@@ -41,16 +39,16 @@ const Login = () => {
   };
 
   return (
-    <section data-aos="fade-up"   className="login">
-      <div  className="container">
-        <div  className="blog-title">
-          <h1>{t('Login.signIn')}</h1>
+    <section data-aos="fade-up" className="login">
+      <div className="container">
+        <div className="blog-title">
+          <h1>Sign In</h1>
         </div>
-        <form  className="form login-form" onSubmit={loginUser}>
-          {error && <p  className="form-error-message">{error}</p>}
+        <form className="form login-form" onSubmit={loginUser}>
+          {error && <p className="form-error-message">{error}</p>}
           <input
             type="text"
-            placeholder={t('Login.emailPlaceholder')}
+            placeholder="Email"
             name="email"
             value={userData.email}
             onChange={changeInputHandler}
@@ -58,16 +56,16 @@ const Login = () => {
           />
           <input
             type="password"
-            placeholder={t('Login.passwordPlaceholder')}
+            placeholder="Password"
             name="password"
             value={userData.password}
             onChange={changeInputHandler}
           />
           <button type="submit" className="btn btn-secondary btn-submit">
-            {t('Login.loginButton')}
+            Login
           </button>
         </form>
-        <small>{t('Login.signUpPrompt')} <Link to="/register">{t('Register.signUp')}</Link></small>
+        <small>Don't have an account? <Link to="/register">Sign Up</Link></small>
       </div>
     </section>
   );

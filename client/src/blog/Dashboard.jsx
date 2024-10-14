@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../context/userContext';
 import axios from 'axios';
 import Loader from '../components/Loader';
 import DeletePost from './DeletePost';
-import { useTranslation } from 'react-i18next'; // Importing useTranslation hook
 
 const Dashboard = () => {
-  const { t } = useTranslation(); // Initialize useTranslation hook
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,10 +32,8 @@ const Dashboard = () => {
       } catch (error) {
         console.log(error);
       }
-
       setIsLoading(false);
     };
-
     fetchPosts();
   }, [id, token]);
 
@@ -46,32 +42,31 @@ const Dashboard = () => {
   }
 
   return (
-    <section data-aos="fade-up"   className="dashboard">
-      <div  className="blog-title-filtered">
-        <h1>{t('Dashboard.dashboard')}</h1>
+    <section data-aos="fade-up" className="dashboard">
+      <div className="blog-title-filtered">
+        <h1>Dashboard</h1>
       </div>
 
       {posts.length ? (
-        <div  className="container dashboard-container">
+        <div className="container dashboard-container">
           {posts.map((post) => (
-            <article key={post._id}  className="dashboard-post">
-              <div  className="dashboard-post-info">
-                <div  className="dashboard-post-thumbnail">
-                  {/* Directly use post.thumbnail since it now contains the full URL */}
+            <article key={post._id} className="dashboard-post">
+              <div className="dashboard-post-info">
+                <div className="dashboard-post-thumbnail">
                   <img src={post.thumbnail} alt={post.title} />
                 </div>
                 <h4>{post.title}</h4>
               </div>
-              <div  className="dashboard-post-actions">
-                <Link to={`/posts/${post._id}`} className="btn btn-background">{t('Dashboard.viewButton')}</Link>
-                <Link to={`/posts/${post._id}/edit`} className="btn btn-primary">{t('Dashboard.editButton')}</Link>
-                <DeletePost postId={post._id} /> {/* Pass the postId here */}
+              <div className="dashboard-post-actions">
+                <Link to={`/posts/${post._id}`} className="btn btn-background">View</Link>
+                <Link to={`/posts/${post._id}/edit`} className="btn btn-primary">Edit</Link>
+                <DeletePost postId={post._id} />
               </div>
             </article>
           ))}
         </div>
       ) : (
-        <h2  className="center">{t('Dashboard.noPosts')}</h2>
+        <h2 className="center">No posts found.</h2>
       )}
     </section>
   );

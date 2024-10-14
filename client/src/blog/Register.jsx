@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import './../css/blog.css'; 
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useTranslation } from 'react-i18next'; // Importing useTranslation hook
 
 const Register = () => {
-  const { t } = useTranslation(); // Initialize useTranslation hook
   const [userData, setUserData] = useState({
     name: '',
     email: '',
@@ -56,16 +54,16 @@ const Register = () => {
   };
 
   return (
-    <section data-aos="fade-up"   className="register">
-      <div  className="container">
-        <div  className="blog-title">
-          <h1>{t('Register.signUp')}</h1>
+    <section data-aos="fade-up" className="register">
+      <div className="container">
+        <div className="blog-title">
+          <h1>Sign Up</h1>
         </div>
-        <form  className="form register-form" onSubmit={registerUser}>
-          {error && <p  className="form-error-message">{error}</p>}
+        <form className="form register-form" onSubmit={registerUser}>
+          {error && <p className="form-error-message">{error}</p>}
           <input
             type="text"
-            placeholder={t('Register.fullNamePlaceholder')}
+            placeholder="Full Name"
             name="name"
             value={userData.name}
             onChange={changeInputHandler}
@@ -73,30 +71,30 @@ const Register = () => {
           />
           <input
             type="text"
-            placeholder={t('Register.emailPlaceholder')}
+            placeholder="Email"
             name="email"
             value={userData.email}
             onChange={changeInputHandler}
           />
           <input
             type="password"
-            placeholder={t('Register.passwordPlaceholder')}
+            placeholder="Password"
             name="password"
             value={userData.password}
             onChange={changeInputHandler}
           />
           <input
             type="password"
-            placeholder={t('Register.confirmPasswordPlaceholder')}
+            placeholder="Confirm Password"
             name="password2"
             value={userData.password2}
             onChange={changeInputHandler}
           />
           <button type="submit" className="btn btn-secondary btn-submit">
-            {t('Register.registerButton')}
+            Register
           </button>
         </form>
-        <small>{t('Register.signInPrompt')} <Link to="/login">{t('Login.signIn')}</Link></small>
+        <small>Already have an account? <Link to="/login">Sign In</Link></small>
       </div>
     </section>
   );
