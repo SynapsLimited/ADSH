@@ -1,0 +1,94 @@
+.fixed-menu {
+  position: fixed;
+  bottom: 20px; /* Adjust as needed */
+  right: 10px; /* Adjust as needed */
+  z-index: 998; /* Ensure the menu stays on top */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fixed-menu .menu-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: var(--color-background-transparent);
+  border-radius: 50%; /* Make the block around the menu icon a circle */
+  box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.192); /* Adjust shadow to match the design */
+  width: 60px;
+  height: 60px;
+  transition: var(--transition);
+  position: relative;
+  z-index: 1000; /* Ensure it stays on top of the menu */
+}
+
+.fixed-menu .menu-toggle .bar {
+  width: 24px;
+  height: 3px;
+  background-color: white;
+  margin: 3px 0;
+  transition: var(--transition);
+}
+
+.menu-toggle.is-active .bar:nth-child(2) {
+  opacity: 0; /* Hide the middle bar */
+}
+
+.menu-toggle.is-active .bar:nth-child(1) {
+  transform: translateY(7px) translateX(1px) rotate(45deg); /* Adjust position and rotation */
+}
+
+.menu-toggle.is-active .bar:nth-child(3) {
+  transform: translateY(-11px) translateX(-1px) rotate(-45deg); /* Adjust position and rotation */
+}
+
+.fixed-menu .menu-content {
+  display: none;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  background-color: var(--color-background-transparent);
+  box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.192); /* Adjust shadow to match the design */
+  border-radius: 22px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  transition: var(--transition);
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  width: 220px; /* Ensure consistent width */
+  position: absolute;
+  bottom: 100%; /* Position above the toggle */
+  right: 0;
+}
+
+.fixed-menu .menu-content.show {
+  display: block;
+  max-height: 500px; /* Adjust based on content */
+  opacity: 1;
+}
+
+.fixed-menu .menu-content li {
+  margin: 0; /* Remove margin for consistency */
+  padding: 10px; /* Add padding for spacing */
+}
+
+.fixed-menu .menu-content li a {
+  color: white; /* Adjust as needed */
+  text-decoration: none;
+  font-size: 16px;
+  display: block;
+  padding: 10px;
+  text-align: center;
+}
+
+.fixed-menu .menu-content li a:hover {
+  color: var(--color-primary);
+}
+
+
+.welcome-user {
+  text-align: center;
+}
