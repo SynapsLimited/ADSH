@@ -1,0 +1,360 @@
+/*====================  Navbar  =============================*/
+
+.page-wrapper {
+  width: auto;
+  height: auto;
+}
+
+.nav-wrapper {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  transition: background-color 0.3s ease;
+  background-color: transparent; /* Set initial background to transparent */
+  z-index: 998; /* Ensures the navbar stays on top */
+}
+
+.nav-wrapper.scrolled {
+  background-color: var(--color-white);
+  transition: background-color 200ms linear;
+  box-shadow: 0px 5px 2px rgba(0, 0, 0, 0.192); /* Adjust shadow to match the design */
+}
+
+.navbar {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  align-items: center;
+  height: 80px;
+  overflow: hidden;
+}
+
+.navbar img {
+  height: 70px;
+  width: auto;
+  justify-self: start;
+  margin-left: 20px;
+  transition: all 1200ms ease;
+}
+
+.navbar img:hover {
+  transform: scale(1.3);
+}
+
+.navbar ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(6,1fr);
+  justify-self: end;
+}
+
+.nav-item a {
+  color: var(--color-white);
+  font-size: 0.9rem;
+  font-weight: 400;
+  font-family: 'Nunito Sans', sans-serif;
+  text-decoration: none;
+  transition: color 0.3s ease-out;
+  transition: all 1000ms ease;
+  margin: 20px;
+}
+
+.nav-item a.scrolled {
+  color: var(--color-secondary);
+}
+
+.nav-item a:hover {
+  color: var(--color-primary);
+}
+
+.nav-item a:hover.scrolled {
+  color: var(--color-primary);
+}
+
+/* Dropdown Menu */
+.nav-item.has-dropdown .dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: transparent;
+  z-index: 999;
+  width: 90px;
+  border: 22px;
+  transition: background-color 0.3s ease;
+  margin-top: 26.5px;
+}
+
+.nav-item.has-dropdown .dropdown-menu.scrolled {
+  background-color: var(--color-white);
+  box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.4);
+  transition: background-color 200ms linear;
+}
+
+.nav-item.has-dropdown .dropdown-menu.show {
+  display: block;
+  border-radius: 0 0 22px 22px;
+}
+
+.nav-item.has-dropdown .dropdown-menu li,
+.nav-item.has-dropdown .dropdown-menu .last-link {
+  padding: 12px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  transition: var(--transition);
+  padding-left: 0px;
+}
+
+.nav-item.has-dropdown .dropdown-menu li.scrolled,
+.nav-item.has-dropdown .dropdown-menu .last-link.scrolled {
+  color: var(--color-secondary);
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 0.9rem;
+}
+
+.country-flags {
+  width: 2em;
+  height: 1.5em;
+  margin-right: 7px;
+  text-align: center;
+  border-radius: 50%;
+}
+
+.nav-item.has-dropdown .dropdown-menu li:hover {
+  background-color: var(--color-primary-transparent);
+}
+
+.nav-item.has-dropdown .dropdown-menu li.scrolled:hover {
+  background-color: var(--color-primary-transparent);
+}
+
+
+.nav-item.has-dropdown .dropdown-menu .last-link:hover {
+  border-radius: 0 0 22px 22px;
+}
+
+
+/* MOBILE MENU & ANIMATION */
+
+.menu-toggle .bar {
+  width: 25px;
+  height: 3px;
+  background-color: var(--color-primary);
+  margin: 5px auto;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.menu-toggle .bar.scrolled {
+  background-color: var(--color-secondary);
+}
+
+.menu-toggle {
+  justify-self: end;
+  margin-right: 25px;
+  display: none;
+}
+
+.menu-toggle:hover {
+  cursor: pointer;
+}
+
+#mobile-menu.is-active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+#mobile-menu.is-active .bar:nth-child(1) {
+  -webkit-transform: translateY(8px) rotate(45deg);
+  -ms-transform: translateY(8px) rotate(45deg);
+  -o-transform: translateY(8px) rotate(45deg);
+  transform: translateY(8px) rotate(45deg);
+}
+
+#mobile-menu.is-active .bar:nth-child(3) {
+  -webkit-transform: translateY(-8px) rotate(-45deg);
+  -ms-transform: translateY(-8px) rotate(-45deg);
+  -o-transform: translateY(-8px) rotate(-45deg);
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+
+/* Dropdown Menu Animation */
+.nav-item.has-dropdown .dropdown-menu.show {
+  display: block;
+  animation: fadeIn 0.4s ease forwards; /* Fade in for the whole dropdown */
+  border-radius: 0 0 22px 22px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px); /* Menu starts slightly above */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Menu settles into place */
+  }
+}
+
+/* Staggered Animation for showing each item */
+.nav-item.has-dropdown .dropdown-menu.show li {
+  opacity: 0; /* Initially hidden */
+  transform: translateY(-10px); /* Starts slightly above */
+  animation: fadeInItem 0.3s ease forwards;
+}
+
+@keyframes fadeInItem {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add delay for each item to create staggered effect */
+.nav-item.has-dropdown .dropdown-menu.show li:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.nav-item.has-dropdown .dropdown-menu.show li:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.nav-item.has-dropdown .dropdown-menu.show li:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.nav-item.has-dropdown .dropdown-menu.show li:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.nav-item.has-dropdown .dropdown-menu.show li:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.nav-item.has-dropdown .dropdown-menu.show .last-link {
+  animation-delay: 0.6s;
+}
+
+/* Dropdown Menu Closing Animation */
+.nav-item.has-dropdown .dropdown-menu.hide li {
+  opacity: 1;
+  transform: translateY(0);
+  animation: fadeOutItem 0.3s ease forwards;
+}
+
+@keyframes fadeOutItem {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px); /* Items roll back up as they fade out */
+  }
+}
+
+/* Staggered Animation for closing each item in reverse */
+.nav-item.has-dropdown .dropdown-menu.hide li:nth-child(1) {
+  animation-delay: 0.6s; /* Delayed more so it's the last to disappear */
+}
+
+.nav-item.has-dropdown .dropdown-menu.hide li:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.nav-item.has-dropdown .dropdown-menu.hide li:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.nav-item.has-dropdown .dropdown-menu.hide li:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.nav-item.has-dropdown .dropdown-menu.hide li:nth-child(5) {
+  animation-delay: 0.2s;
+}
+
+.nav-item.has-dropdown .dropdown-menu.hide .last-link {
+  animation-delay: 0.1s; /* First to disappear */
+}
+
+
+
+
+
+/* Mobile Devices - Phones/Tablets */
+
+@media only screen and (max-width: 800px) { 
+
+  /* MOBILE NAVIGATION */
+     
+  .navbar ul {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    justify-content: start;
+    top: 55px;
+    background-color: var(--color-primary);
+    width: 100%;
+    height: calc(100vh - 55px);
+    transform: translateX(-100%);
+    text-align: center;
+    overflow: scroll;
+    
+  }
+
+  .navbar ul.scrolled {
+    background-color: var(--color-white);
+  }
+  
+  .navbar li {
+    padding: 15px;
+  }
+  
+  .navbar li:first-child {
+    margin-top: 50px;
+  }
+  
+  .navbar li a {
+    font-size: 1rem;
+  }
+
+  .navbar img {
+    z-index: 100000;
+  }
+   
+  .menu-toggle, .bar {
+    display: block;
+    cursor: pointer;
+  }
+  
+  .mobile-nav {
+    transform: translate(0%)!important;
+  }
+
+  .nav-item.has-dropdown .dropdown-menu {
+    position: static; /* Remove absolute positioning */
+    width: 100%; /* Full width */
+    background-color: none !important;
+    display: none; /* Hidden by default */
+    flex-direction: column; /* Arrange items in a column */
+    align-items: center; /* Center items horizontally */
+    margin-top: -10px; /* Optional: Add padding for spacing */
+    transition: max-height 0.3s ease, opacity 0.3s ease; /* Smooth transition for opening */
+    overflow: hidden; /* Hide overflowing content */
+    opacity: 0; /* Transparent by default */
+    box-shadow: none !important;
+  }
+
+  .nav-item.has-dropdown .dropdown-menu.scrolled {
+    background-color: transparent;
+  }
+
+}
+
+

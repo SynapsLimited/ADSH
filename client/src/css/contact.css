@@ -1,0 +1,219 @@
+/*====================  Contact Details =============================*/
+
+.contact-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 100px;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.contact-overview-title {
+    align-self: center; /* Center the title */
+    padding-top: 20px; /* Space from the top */
+    text-align: center; /* Center align text */
+    margin-bottom: 4rem; /* Add margin bottom to separate from blobs */
+  }
+  
+  .contact-overview-title h1 {
+    font-size: 2.4rem; /* Increase font size */
+    color: var(--color-secondary);
+    margin:30px;
+  }
+  
+  .contact-overview-title p {
+    color: var(--color-secondary);
+    margin: 0 15rem 0 15rem;
+
+  }
+
+.blob {
+    background-color: var(--color-primary);
+    box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 40px;
+    flex: 1;
+    transition: var(--transition);
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.blob:hover {
+    transform: scale(1.05);
+    box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.3);
+}
+
+.blob h2 {
+    color: var(--color-background);
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.blob .location-img {
+    width: 130px;
+    height: 130px;
+}
+
+.blob img {
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    display: block;
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.blob img:hover {
+    transform: scale(1.2);
+}
+
+.blob h5, .blob h4 {
+    color: var(--color-white);
+    text-align: center;
+}
+
+.blob h4 {
+    font-size: 1rem;
+    font-weight: 200;
+    text-decoration: underline;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.blob h4:hover {
+    color: var(--color-secondary);
+    opacity: 60%;
+}
+
+.social-icons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 50%;
+}
+
+.contact-link {
+    transition: var(--transition);
+}
+
+.contact-link:hover {
+    filter: invert(80%) sepia(10%) saturate(100%) hue-rotate(180deg);
+    opacity: 60%;
+}
+
+
+/*====================  Contact Form  =============================*/
+
+
+.contact-form-title h1 {
+    font-size: 2.4rem; /* Increase font size */
+    color: var(--color-secondary);
+    margin: 30px;
+  }
+  
+  .contact-form-title p {
+    color: var(--color-secondary);
+  }
+  
+  .contact-form {
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .form-group {
+    display: flex;
+    gap: 20px; /* Decrease gap between form groups */
+    flex-wrap: wrap; /* Allow form groups to wrap on smaller screens */
+  }
+  
+  .contact-form input,
+  .contact-form textarea {
+    padding: 15px;
+    border-radius: 22px;
+    color: var(--color-secondary);
+    background-color: var(--color-tertiary) ;
+    border: 2px solid var(--color-secondary);
+    width: calc(50% - 10px); /* Maintain width while accounting for gap */
+    max-width: 100%;
+  }
+  
+  .contact-form textarea {
+    width: 100%; /* Make textarea full width */
+    height: 100px; /* Set a fixed height for the textarea */
+  }
+  
+  
+  .btn-submit-form {
+    width: 20%;
+    height: 40px;
+    align-self: center;
+    margin-top: 25px;
+    margin-bottom: 50px;
+  }
+
+  /*====================  Tablet  =============================*/
+
+
+@media (max-width: 1024px) {
+    .contact-section {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .blob {
+        flex: 0 1 calc(50% - 20px);
+    }
+
+    .form-group {
+        flex-direction: column; /* Stack form groups vertically on smaller screens */
+        gap: 10px; /* Reduce gap on smaller screens */
+      }
+    
+      .contact-form input,
+      .contact-form textarea {
+        width: 100%; /* Full width on smaller screens */
+      }
+    
+      .btn-submit-form {
+        width: 100%; /* Full width submit button on smaller screens */
+      }
+}
+
+
+/*====================  Mobile  =============================*/
+
+
+@media (max-width: 768px) {
+    .contact-section {
+        display: grid;
+        grid-template-columns: 1fr;
+        padding: 3rem;
+    }
+    .blob {
+        flex: 1 1 100%;
+    }
+
+    .contact-overview-title p {
+        color: var(--color-white);
+        margin: 0 5rem 0 5rem;
+    
+      }
+
+      .form-group {
+        flex-direction: column; /* Stack form groups vertically on small screens */
+        gap: 10px; /* Reduce gap on smaller screens */
+      }
+    
+      .services-form input,
+      .services-form textarea {
+        width: 100%; /* Full width on smaller screens */
+      }
+    
+      .btn-submit-form {
+        width: 100%;
+    }
+}

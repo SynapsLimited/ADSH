@@ -1,0 +1,398 @@
+@import url('https://fonts.googleapis.com/css2?family=Manjari:wght@100;400&family=Nunito+Sans:wght@700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  text-decoration: none;
+  list-style: none;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #ED205A;
+  --color-secondary: #393939;
+  --color-tertiary: #F5F5F5;
+  --color-complementary: #D9D9D9;
+  --color-white: #FFFFFF;
+  --color-background: #FFFFFF;
+  --color-primary-transparent: rgba(237, 32, 90, 0.7);
+  --color-secondary-transparent: rgba(57, 57, 57, 0.7);
+  --color-tertiary-transparent: rgba(245, 245, 245, 0.7);
+  --color-complementary-transparent: rgba(217, 217, 217, 0.7);
+  --color-white-transparent: rgba(255, 255, 255, 0.7);
+  --color-background-transparent: rgba(255, 255, 255, 0.7);
+
+
+  --container-width-lg: 86%;
+  --container-width-md: 90%;
+  --container-width-sm: 94%;
+  --form-width: 50%;
+
+  --transition: all 400ms ease;
+}
+
+/* Global styles */
+/* src/index.css or src/App.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  position: relative;
+}
+
+.App {
+  position: relative;
+  z-index: 0; /* Ensures main content is above the background animation */
+}
+
+
+/* Optional: Adjust z-index if needed */
+
+
+
+.container {
+  width: var(--container-width-lg);
+  margin: 0 auto;
+}
+/* Heading Styles */
+h1, h2, h3 {
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 700; /* Bold */
+}
+
+h1 {
+  font-size: 2.5rem; /* Adjust based on your design */
+}
+
+h2 {
+  font-size: 2rem; /* Smaller than h1 */
+}
+
+h3 {
+  font-size: 1.5rem; /* Smaller than h2 */
+}
+
+/* Manjari Regular for h4 */
+h4 {
+  font-family: 'Manjari', sans-serif;
+  font-weight: 400; /* Regular */
+  font-size: 1.2rem; /* Adjust size */
+}
+
+/* Manjari Thin for Paragraphs */
+p {
+  font-family: 'Manjari', sans-serif;
+  font-weight: 100; /* Thin */
+  font-size: 1rem; /* Adjust size */
+}
+
+
+img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  transition: var(--transition);
+}
+
+img:hover {
+  transform: scale(1.02);
+}
+
+
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Other container styles */
+.container {
+  width: var(--container-width-lg);
+  margin: 0 auto;
+}
+
+/* Other CSS remains the same... */
+
+
+
+.btn {
+  display: inline-block;
+  background: var(--color-secondary);
+  color: var(--color-background);
+  padding: 0.33rem 1.4rem;
+  border: 3px solid transparent;
+  border-radius: 112px;
+  font-weight: 400;
+  font-family: 'Nunito Sans', sans-serif;
+  transition: var(--transition);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Adjust shadow to match the design */
+}
+
+.btn:hover {
+  background: var(--color-background);
+  color: var(--color-secondary);
+  border-color: var(--color-tertiary);
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-background);
+}
+
+.btn-secondary {
+  background: var(--color-primary);
+  color: var(--color-background);
+}
+
+.btn-background {
+  background: var(--color-background);
+  color: var(--color-white);
+}
+
+
+
+
+
+
+
+/* ====================== Error Page =============================== */
+
+.center {
+  text-align: center;
+  padding-top: 15rem;
+  margin-inline: center;
+  display: block;
+  width: 100%;
+}
+
+.error-page h2{
+  margin-top: 3rem;
+  font-family: "Righteous", sans-serif;
+  filter: drop-shadow(4px 5px 3px rgba(26, 26, 26, 0.374)); /* Optional: Larger shadow on hover for a subtle effect */
+}
+
+/* ====================== Loader =============================== */
+
+.loader {
+  position: relative;
+  top:0;
+  left:0;
+  height:100vh;
+  width:100vw;
+  display: grid;
+  place-items: center;
+  opacity: 70%;
+}
+
+
+
+/* ====================== Hero =============================== */
+
+/* Hero section container */
+.hero-container-home {
+  background-image: url('../public/assets/Homepage - Hero.jpg'); /* Replace with your background image path */
+  background-size: cover;
+  background-attachment: fixed; /* Fix the background to create parallax effect */
+  background-position: center;
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.hero-container-about {
+  background-image: url('../public/assets/About - Hero.jpg'); /* Replace with your background image path */
+  background-size: cover;
+  background-attachment: fixed; /* Fix the background to create parallax effect */
+  background-position: center;
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.hero-container-contact {
+  background-image: url('../public/assets/Contact - Hero.jpg'); /* Replace with your background image path */
+  background-size: cover;
+  background-attachment: fixed; /* Fix the background to create parallax effect */
+  background-position: center;
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.hero-container-blog {
+  background-image: url('../public/assets/Blog - Hero.jpg'); /* Replace with your background image path */
+  background-size: cover;
+  background-attachment: fixed; /* Fix the background to create parallax effect */
+  background-position: center;
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.hero-container-products {
+  background-image: url('../public/assets/Products - Hero.jpg'); /* Replace with your background image path */
+  background-size: cover;
+  background-attachment: fixed; /* Fix the background to create parallax effect */
+  background-position: center;
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.hero-content {
+  max-width: 600px; /* Limit the width for better readability */
+  margin: 0 auto;
+}
+
+.hero-logo {
+  max-width: 200px;
+  margin-bottom: 20px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.hero-title-h1 {
+  font-size: 2.8rem;
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  color: #fff;
+}
+
+
+
+/* ====================== Responsive Tablets =============================== */
+
+@media screen and (max-width: 1024px) {
+  .container {
+    width: var(--container-width-md);
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-size: 1.7rem;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+  }
+
+  h4 {
+    font-size: 1.2rem;
+  }
+
+  .btn {
+    padding: 0.4rem 2rem; /* Increases button size */
+  }
+
+  .container, .main-container {
+    padding: 0 20px; /* Adds padding on the sides */
+  }
+  #spline-container::after {
+    width: 70%; /* Width of the element */
+  }
+}
+
+/* ====================== Responsive Phones =============================== */
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: var(--container-width-sm); /* Uses smaller container width */
+  }
+
+  .btn {
+    padding: 0.4rem 1.5rem; /* Reduces button size for space */
+  }
+
+  /* Increase base text size for readability */
+  body {
+    font-size: 1rem; /* Increases text size */
+  }
+
+  /* Make images and sections adapt to smaller screens */
+  img, .section {
+    width: 100%;
+    height: auto;
+  }
+
+  .hero-div h1 {
+    font-size: 2.5rem; /* Adjusts hero text size */
+  }
+
+  .header__container, .about-section, .services-section, .portfolio-section {
+    padding: 0 15px; /* Reduces padding */
+    justify-content: center; /* Center the image container */
+  }
+
+  spline-viewer {
+    height: 500px;
+    pointer-events: none;
+  }
+
+  #spline-container::after {
+    width: 98%; /* Adjust to 70% of the container's width */
+    bottom: 18px; /* Adjusted to position the element at the bottom */
+    right: 0; /* Positions the element to the right */
+  }
+
+  #spline-container:hover::after {
+    box-shadow: none;
+    transform: none;
+  }
+
+  .header__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 20px; /* This adds space between your flex items */
+  }
+
+  .header__left, .header__right {
+    width: 100%; /* This ensures each child takes full width */
+    margin-bottom: 20px; /* This adds space between your flex items */
+  }
+}
+
+
+
+@media screen and (max-width: 305px) {
+
+  #spline-container::after {
+    width: 100%; /* Adjust to 70% of the container's width */
+  }
+  
+}
