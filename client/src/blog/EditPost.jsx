@@ -42,7 +42,7 @@ const EditPost = () => {
     'link', 'image'
   ];
 
-  const POST_CATEGORIES = ["Uncategorized", "Marketing", "Business", "Technology", "AI", "Gaming", "Product", "Entertainment"];
+  const POST_CATEGORIES = ["Uncategorized", "Dairy", "Ice Cream", "Bakery","Pastry", "Other"];
 
   useEffect(() => {
     const getPost = async () => {

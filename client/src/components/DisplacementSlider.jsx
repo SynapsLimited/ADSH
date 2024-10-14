@@ -285,7 +285,7 @@ function DisplacementSlider() {
           {/* Hidden titles */}
           <span className="hidden" data-slide-title="0">Dairy</span>
           <span className="hidden" data-slide-title="1">Ice Cream</span>
-          <span className="hidden" data-slide-title="2">Patisserie</span>
+          <span className="hidden" data-slide-title="2">Pastry</span>
           <span className="hidden" data-slide-title="3">Bakery</span>
           <div className="meta">ADSH</div>
           <div id="slide-status" ref={slideStatusRef}>

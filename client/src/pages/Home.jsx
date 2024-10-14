@@ -95,10 +95,10 @@ function Home() {
       link: "#ice-cream",
     },
     {
-      title: "Patisserie",
+      title: "Pastry",
       image: "assets/Products - Hero.jpg",
       description: "Exquisite French pastries and desserts.",
-      link: "#patisserie",
+      link: "#Pastry",
     },
     {
       title: "Bakery",

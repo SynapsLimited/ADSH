@@ -5,7 +5,7 @@ import './../css/products.css';
 
 import dairyImage from './../assets/About - Hero.jpg';
 import iceCreamImage from './../assets/Blog - Hero.jpg';
-import patisserieImage from './../assets/Contact - Hero.jpg';
+import PastryImage from './../assets/Contact - Hero.jpg';
 import bakeryImage from './../assets/Products - Hero.jpg'; 
 
 function Products() {
@@ -37,9 +37,9 @@ function Products() {
       link: '/products/ice-cream',
     },
     {
-      name: 'Patisserie',
-      imageUrl: patisserieImage,
-      link: '/products/patisserie',
+      name: 'Pastry',
+      imageUrl: PastryImage,
+      link: '/products/Pastry',
     },
     {
       name: 'Bakery',

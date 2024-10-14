@@ -21,6 +21,15 @@ function Blog() {
     };
   }, []);
 
+
+  const categories = [
+    { key: 'Dairy', value: 'Dairy' },
+    { key: 'Ice Cream', value: 'Ice Cream' },
+    { key: 'Pastry', value: 'Pastry' },
+    { key: 'Bakery', value: 'Bakery' },
+    { key: 'Other', value: 'Other' },
+  ];
+
   return (
     <div>
       <Helmet>
@@ -56,18 +65,11 @@ function Blog() {
           <h1>Categories</h1>
         </div>
         <ul className="blog-categories">
-          <li className="btn btn-secondary">
-            <Link to="/posts/categories/dairy">Dairy</Link>
-          </li>
-          <li className="btn btn-secondary">
-            <Link to="/posts/categories/ice-cream">Ice Cream</Link>
-          </li>
-          <li className="btn btn-secondary">
-            <Link to="/posts/categories/patisserie">Patisserie</Link>
-          </li>
-          <li className="btn btn-secondary">
-            <Link to="/posts/categories/bakery">Bakery</Link>
-          </li>
+          {categories.map(({ key, value }) => (
+            <li key={key} className="btn btn-secondary">
+              <Link to={`/posts/categories/${key}`}>{value}</Link>
+            </li>
+          ))}
         </ul>
       </section>
 

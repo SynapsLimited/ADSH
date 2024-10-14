@@ -75,7 +75,7 @@ const PostDetail = () => {
               {currentUser?.id === (post.creator._id || post.creator) && (
                 <div  className="post-detail-buttons">
                   <Link to={`/posts/${post?._id}/edit`} className="btn btn-primary">
-                    {t('Dashboard.editButton')}
+                    Edit
                   </Link>
                   <DeletePost postId={post._id} /> {/* Pass the postId to the DeletePost component */}
                 </div>

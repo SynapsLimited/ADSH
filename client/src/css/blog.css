@@ -40,7 +40,7 @@
 }
 
 .post {
-    background: var(--color-background-transparent-post);
+    background: var(--color-tertiary);
     padding: 1rem;
     border-radius: 22px;
     padding-bottom: 2rem;
@@ -61,10 +61,12 @@
 
 .post-content {
     margin-top: 1.5rem; 
+    color: var(--color-secondary);
 }
 
 .post-content h3 {
     margin: 1rem 0 0.6rem;
+    color: var(--color-primary);
 }
 
 .post-footer {
@@ -82,6 +84,8 @@
     display: flex;
     gap: 1rem;
     align-items: flex-start;
+    color: var(--color-secondary);
+    
 }
 
 .post-author-avatar {
@@ -125,7 +129,7 @@
 }
 
 .blog-categories a:hover {
-    color: var(--color-white);
+    color: var(--color-secondary);
 
 }
 
@@ -147,7 +151,7 @@
 
 .post-detail {
     width: var(--form-width);
-    background: var(--color-background-transparent);
+    background: var(--color-tertiary);
     margin-inline: auto;
     border-radius: 22px;
     padding: 2rem;
@@ -187,8 +191,9 @@
 
 .error-blog-not-found {
     text-align: center;
-    margin-top: 10rem;
-    filter: drop-shadow(4px 5px 3px rgba(26, 26, 26, 0.374));
+    font-size: 2rem;
+    margin-top: 5rem;
+    color: var(--color-primary);
 }
 
 
@@ -269,7 +274,7 @@ input, select, textarea {
 }
 
 .author {
-    background: var(--color-background-transparent-post);
+    background: var(--color-tertiary);
     padding: 1rem;
     border-radius: 22px;
     display: flex;
@@ -288,7 +293,7 @@ input, select, textarea {
     width: auto;
     aspect-ratio: 1/1;
     border-radius: 50%;
-    border: 0.3rem solid var(--color-primary);
+    border: 0.2rem solid var(--color-primary);
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -331,7 +336,7 @@ input, select, textarea {
 .profile-avatar {
     height: 100%;
     border-radius: 50%;
-    border: 1rem solid var(--color-white);
+    border: 1rem solid var(--color-primary);
     overflow: hidden;
 }
 
@@ -344,7 +349,7 @@ input, select, textarea {
 }
 
 .avatar-form label, .profile-avatar-btn {
-    background: var(--color-background);
+    background: var(--color-primary);
     color: var(--color-white);
     font-size: 1.2rem;
     position: absolute;
@@ -389,7 +394,7 @@ input, select, textarea {
 
 
 .dashboard {
-    padding-top: 7rem;
+    padding-top: 3rem;
 }
 .dashboard-container {
     display: flex;
@@ -440,7 +445,7 @@ input, select, textarea {
     overflow: scroll;
     background: var(--color-white);
     height: 10rem !important; /* Increased height */
-    color: var(--color-background); /* Text color */
+    color: var(--color-secondary); /* Text color */
   }
   
   .ql-container {
@@ -450,29 +455,31 @@ input, select, textarea {
   }
   
   .ql-toolbar.ql-snow {
-    background: var(--color-white);
+    background: var(--color-secondary);
     color: var(--color-background);
     border-radius: 22px 22px 0 0;
   }
   
   .ql-toolbar.ql-snow .ql-picker-label {
-    color: var(--color-background);
+    color: var(--color-white);
+    font-size: 0.9rem;
   }
   
   .ql-toolbar.ql-snow .ql-picker-item {
-    color: var(--color-background);
+    color: var(--color-white);
+    font-size: 0.9rem;
   }
   
   .ql-toolbar.ql-snow .ql-stroke {
-    stroke: var(--color-background);
+    stroke: var(--color-white);
   }
   
   .ql-toolbar.ql-snow .ql-fill {
-    fill: var(--color-background);
+    fill: var(--color-white);
   }
   
   .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {
-    background: var(--color-white);
+    background: var(--color-secondary);
   }
   
   .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-item.ql-selected {

@@ -58,7 +58,7 @@ const Dashboard = () => {
                 <h4>{post.title}</h4>
               </div>
               <div className="dashboard-post-actions">
-                <Link to={`/posts/${post._id}`} className="btn btn-background">View</Link>
+                <Link to={`/posts/${post._id}`} className="btn btn-primary">View</Link>
                 <Link to={`/posts/${post._id}/edit`} className="btn btn-primary">Edit</Link>
                 <DeletePost postId={post._id} />
               </div>
