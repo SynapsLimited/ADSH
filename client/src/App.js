@@ -66,6 +66,7 @@ function App() {
       <BackgroundAnimation />
         <ScrollToTop />
         <Navbar />
+        <FixedMenu />
         <Layout>
         <div className="content">
           <Routes>
