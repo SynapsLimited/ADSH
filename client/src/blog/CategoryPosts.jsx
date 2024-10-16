@@ -67,6 +67,7 @@ const CategoryPosts = () => {
           <li className="btn btn-secondary"><Link to="/posts/categories/Ice Cream">Ice Cream</Link></li>
           <li className="btn btn-secondary"><Link to="/posts/categories/Pastry">Pastry</Link></li>
           <li className="btn btn-secondary"><Link to="/posts/categories/Bakery">Bakery</Link></li>
+          <li className="btn btn-secondary"><Link to="/posts/categories/Packaging">Packaging</Link></li>
           <li className="btn btn-secondary"><Link to="/posts/categories/Other">Other</Link></li>
         </ul>
       </section>

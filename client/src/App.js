@@ -41,8 +41,18 @@ import AuthorPosts from './blog/AuthorPosts';
 import Dashboard from './blog/Dashboard';
 import Logout from './blog/Logout';
 
-// Import product catalog
+// Import product components
 import ProductCatalog from './components/ProductCatalog';
+import FullCatalog from './components/FullCatalog';
+
+
+//import product pages
+import ProductDashboard from './products/ProductDashboard';
+import CreateProduct from './products/CreateProduct';
+import DeleteProduct from './products/DeleteProduct';
+import EditProduct from './products/EditProduct';
+import ProductDetail from './products/ProductDetail';
+
 
 
 
@@ -96,6 +106,15 @@ function App() {
             <Route path="posts/:id/delete" element={<DeletePost />} />
             <Route path="logout" element={<Logout />} />
             <Route path="*" element={<ErrorPage />} />
+
+
+            {/* Product routes */}
+            <Route path="/full-catalog" element={<FullCatalog />} />
+            <Route path="/products-dashboard" element={<ProductDashboard />} />
+            <Route path="/create-product" element={<CreateProduct />} />
+            <Route path="/delete-product/:id" element={<DeleteProduct />} />
+            <Route path="/products/:id/edit" element={<EditProduct />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
 
 
           </Routes>

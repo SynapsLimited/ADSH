@@ -287,6 +287,7 @@ function DisplacementSlider() {
           <span className="hidden" data-slide-title="1">Ice Cream</span>
           <span className="hidden" data-slide-title="2">Pastry</span>
           <span className="hidden" data-slide-title="3">Bakery</span>
+          <span className="hidden" data-slide-title="4">Packaging</span>
           <div className="meta">ADSH</div>
           <div id="slide-status" ref={slideStatusRef}>
             Products
@@ -296,6 +297,7 @@ function DisplacementSlider() {
           <span className="hidden" data-slide-status="1">Products</span>
           <span className="hidden" data-slide-status="2">Products</span>
           <span className="hidden" data-slide-status="3">Products</span>
+          <span className="hidden" data-slide-status="4">Products</span>
         </div>
       </div>
       {/* Images */}
@@ -303,12 +305,14 @@ function DisplacementSlider() {
       <img src="/assets/Products - Hero.jpg" alt="Dairy Products" />
       <img src="/assets/About - Hero.jpg" alt="About Dairy" />
       <img src="/assets/Blog - Hero.jpg" alt="Dairy Blog" />
+      <img src="/assets/Contact - Hero.jpg" alt="Dairy Packaging" />
       {/* Pagination */}
       <div id="pagination" ref={paginationRef}>
         <button className="active" data-slide="0"></button>
         <button data-slide="1"></button>
         <button data-slide="2"></button>
         <button data-slide="3"></button>
+        <button data-slide="4"></button>
       </div>
     </div>
   );

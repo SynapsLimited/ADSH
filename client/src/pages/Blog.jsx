@@ -27,6 +27,7 @@ function Blog() {
     { key: 'Ice Cream', value: 'Ice Cream' },
     { key: 'Pastry', value: 'Pastry' },
     { key: 'Bakery', value: 'Bakery' },
+    { key: 'Packaging', value: 'Packaging' },
     { key: 'Other', value: 'Other' },
   ];
 

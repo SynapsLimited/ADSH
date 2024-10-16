@@ -132,6 +132,12 @@ function Home() {
       link: "#Pastry",
     },
     {
+      title: "Packaging",
+      image: "assets/Products - Hero.jpg",
+      description: "High-quality packaging solutions for your products.",
+      link: "#Packaging",
+    },
+    {
       title: "Bakery",
       image: "/assets/Contact - Hero.jpg",
       description: "Freshly baked bread, cakes, and pastries.",

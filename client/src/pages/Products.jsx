@@ -7,6 +7,8 @@ import dairyImage from './../assets/About - Hero.jpg';
 import iceCreamImage from './../assets/Blog - Hero.jpg';
 import PastryImage from './../assets/Contact - Hero.jpg';
 import bakeryImage from './../assets/Products - Hero.jpg'; 
+import packagingImage from './../assets/About - Hero.jpg';
+
 
 function Products() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -45,6 +47,11 @@ function Products() {
       name: 'Bakery',
       imageUrl: bakeryImage,
       link: '/products/bakery',
+    },
+    {
+      name: 'Packaging',
+      imageUrl: packagingImage,
+      link: '/products/packaging',
     },
   ];
 

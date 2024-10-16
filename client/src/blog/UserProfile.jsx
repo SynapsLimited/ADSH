@@ -102,7 +102,14 @@ const UserProfile = () => {
   return (
     <section data-aos="fade-up" className="profile">
       <div className="container profile-container">
-        <Link to={`/myposts/${currentUser.id}`} className="btn btn-secondary">Dashboard</Link>
+      <div className="category-buttons">
+          <Link to={`/myposts/${currentUser.id}`} className="btn btn-secondary">
+            Blog Dashboard
+          </Link>
+          <Link to="/products-dashboard" className="btn btn-secondary">
+            Product Dashboard
+          </Link>
+        </div>
 
         <div className="profile-details">
           <div className="avatar-wrapper">

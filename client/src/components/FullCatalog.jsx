@@ -1,24 +1,21 @@
-// src/components/ProductCatalog.jsx
+// src/components/FullCatalog.jsx
 
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './../css/products.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-function ProductCatalog() {
-  const { category } = useParams();
+const FullCatalog = () => {
   const [products, setProducts] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
 
-  // Fetch products by category from the backend
+  // Fetch all products from the backend
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_BASE_URL}/products/categories/${category}`
-        );
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products`);
         const data = await response.json();
         // Sort products alphabetically by name
         const sortedProducts = data.sort((a, b) => a.name.localeCompare(b.name));
@@ -28,7 +25,7 @@ function ProductCatalog() {
       }
     };
     fetchProducts();
-  }, [category]);
+  }, []);
 
   // Track scroll position to apply parallax effect
   useEffect(() => {
@@ -56,10 +53,6 @@ function ProductCatalog() {
     autoplaySpeed: 2000,
   };
 
-  if (products.length === 0) {
-    return <p>No products found for this category.</p>;
-  }
-
   return (
     <div>
       {/* Hero Section */}
@@ -68,11 +61,9 @@ function ProductCatalog() {
         style={{ backgroundPositionY: `${scrollPosition * 0}px` }}
       >
         <div className="hero-content">
-          <h1 className="hero-title-h1">
-            {category.charAt(0).toUpperCase() + category.slice(1)} Products
-          </h1>
+          <h1 className="hero-title-h1">All Products</h1>
           <p className="hero-description">
-            Explore our {category} products.
+            Explore our full range of products across all categories.
           </p>
           <a href="/contact" className="btn btn-primary">
             Contact
@@ -82,27 +73,8 @@ function ProductCatalog() {
 
       <section className="container product-catalog-section">
         <p className="center-p">
-          Discover our range of {category} products.
+          Browse through our extensive catalog of products, sorted alphabetically for your convenience.
         </p>
-
-        {/* Navigation Buttons */}
-        <div className="category-buttons">
-          <Link to="/products/dairy" className="btn btn-primary">
-            Dairy
-          </Link>
-          <Link to="/products/ice-cream" className="btn btn-primary">
-            Ice Cream
-          </Link>
-          <Link to="/products/pastry" className="btn btn-primary">
-            Pastry
-          </Link>
-          <Link to="/products/packaging" className="btn btn-primary">
-            Packaging
-          </Link>
-          <Link to="/products/bakery" className="btn btn-primary">
-            Bakery
-          </Link>
-        </div>
 
         <div className="product-catalog-cards">
           {products.map((product) => (
@@ -136,6 +108,6 @@ function ProductCatalog() {
       </section>
     </div>
   );
-}
+};
 
-export default ProductCatalog;
+export default FullCatalog;

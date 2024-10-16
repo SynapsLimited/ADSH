@@ -42,7 +42,7 @@ const formats = [
   'link', 'image'
 ]
 
-const POST_CATEGORIES = ["Uncategorized", "Dairy", "Ice Cream", "Bakery","Pastry", "Other"  ]
+const POST_CATEGORIES = ["Uncategorized", "Dairy", "Ice Cream", "Bakery","Pastry","Packaging", "Other"  ]
 
 
 const createPost = async (e) => {
