@@ -41,6 +41,9 @@ import AuthorPosts from './blog/AuthorPosts';
 import Dashboard from './blog/Dashboard';
 import Logout from './blog/Logout';
 
+// Import product catalog
+import ProductCatalog from './components/ProductCatalog';
+
 
 
 
@@ -73,6 +76,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/products/:category" element={<ProductCatalog />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
 

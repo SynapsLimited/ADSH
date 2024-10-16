@@ -169,6 +169,11 @@ img:hover {
   width: 100%;
 }
 
+.center-p {
+  text-align: center;
+  padding: 2rem;
+}
+
 .error-page h3{
   margin-top: 2rem;
   margin-bottom: 2rem;
