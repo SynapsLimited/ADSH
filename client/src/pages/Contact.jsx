@@ -77,14 +77,12 @@ const Contact = () => {
                 <h1>Location</h1>
             </div>
 
-            <section className="map-section container">
+            <section data-aos="fade-up" className="map-section container">
         <div className="map-container">
         <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1498.30682134506!2d19.7912799!3d41.3172679!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x135031b2d86be505%3A0x7f9de65e08ceaa89!2sADSH-2014!5e0!3m2!1sen!2s!4v1729073480619!5m2!1sen!2s" 
-              width="600" 
-              height="450" 
-              allowfullscreen="" 
+              width="auto" 
+              height="auto" 
               loading="lazy" 
-              referrerpolicy="no-referrer-when-downgrade"
               title="ADSH Location Google Maps"
           ></iframe>
         </div>

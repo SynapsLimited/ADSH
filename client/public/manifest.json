@@ -1,19 +1,19 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "ADSH",
+  "name": "Albanian Dairy & Supply Hub",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "assets/Website Icon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "assets/Logo-Red.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "assets/Logo-Red.png",
       "type": "image/png",
       "sizes": "512x512"
     }
