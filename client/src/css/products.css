@@ -201,7 +201,7 @@ body {
     max-width: 300px; /* Optional: set a max width for cards */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: var(--transition);
-
+    height: fit-content;
   }
 
   
@@ -221,7 +221,7 @@ body {
 }
 
 .product-catalog-card-content {
-  padding: 1rem;
+  padding: 1.5rem;
 }
 
 .product-catalog-card h3 {
@@ -236,6 +236,7 @@ body {
 
 .product-catalog-card p {
   color: var(--color-secondary);
+  padding-bottom: 1rem;
 }
 
 
@@ -293,6 +294,17 @@ body {
   align-self: center;
 }
 
+
+.product-detail h3 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.product-detail h4 {
+  color: var(--color-primary);
+  padding-bottom: 1rem;
+}
+
 /* ================== Create & Edit Product ================== */
 
 /* Remove the fixed height and adjust padding */
@@ -332,14 +344,18 @@ body {
 .dashboard-product {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  background: var(--color-primary-transparent);
-  padding: 0.5rem 1.2rem;
+  gap: 1.5rem; /* Increased gap for better spacing between elements */
+  background: var(--color-secondary-transparent);
+  padding: 1rem 2rem; /* Increased padding for better aesthetics */
   border-radius: 22px;
-  box-shadow: 4px 5px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 4px 5px 2px rgba(0, 0, 0, 0.1);
   transition: var(--transition);
+  color: var(--color-white);
+  width: 100%; /* Ensures the product takes full width of the container */
+  max-width: 1000px; /* Limits the maximum width for better readability */
+  margin: 0 auto; /* Centers the product within the container */
 }
+
 
 .dashboard-product:hover {
   transform: scale(1.01);
@@ -347,22 +363,40 @@ body {
 
 .dashboard-product-info {
   display: flex;
-  gap: 2rem;
+  align-items: center; /* Vertically centers the thumbnail and title */
+  gap: 1.5rem;
   width: 100%;
-  align-items: center;
 }
 
-.dashboard-product-thumbnail {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
-  overflow: hidden;
+.dashboard-product-info h4 {
+  color: var(--color-white);
+  margin: 0; /* Removes default margin */
+  font-size: 1.2rem; /* Adjusts font size for better visibility */
+  text-align: left; /* Aligns text to the left for readability */
+  flex: 1; /* Allows the title to take up available space */
 }
+
+
+.dashboard-product-thumbnail {
+  width: 80px; /* Adjusted width for better alignment */
+  height: 80px; /* Maintains a square aspect ratio */
+  border-radius: 20px; /* Makes the thumbnail circular */
+  overflow: hidden;
+  flex-shrink: 0; /* Prevents the thumbnail from shrinking */
+}
+
+.dashboard-product-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the container without distortion */
+}
+
 
 .dashboard-product-actions {
   display: flex;
   gap: 1rem;
 }
+
 
 /* ================== Responsive Design ================== */
 
@@ -464,5 +498,59 @@ body {
   .dashboard-product-actions .btn {
     padding: 10px 10px 10px 10px;
     margin-bottom: 20px;
+  }
+}
+
+
+
+
+
+
+/* src/css/products.css */
+
+/* Existing styles... */
+
+/* Loading Message */
+.loading-message {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  color: var(--color-secondary);
+}
+
+/* No Products Found Message */
+.no-products-message {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  color: var(--color-primary);
+}
+
+/* Ensure Category Buttons are properly spaced */
+.category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Optional: Adjust product-catalog-section for better spacing */
+.product-catalog-section {
+  padding: 2rem 1rem;
+}
+
+/* Ensure proper alignment on smaller screens */
+@media screen and (max-width: 1100px) {
+  .category-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .category-buttons {
+    flex-direction: column;
+    align-items: center;
   }
 }

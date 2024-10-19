@@ -117,31 +117,31 @@ function Home() {
       title: "Dairy",
       image: "assets/About - Hero.jpg",
       description: "Fresh and creamy dairy products from local farms.",
-      link: "#dairy",
+      link: "/products/category/Dairy",
     },
     {
       title: "Ice Cream",
       image: "assets/Homepage - Hero.jpg",
       description: "Delicious, handcrafted ice cream in various flavors.",
-      link: "#ice-cream",
+      link: "/products/category/Ice Cream",
     },
     {
       title: "Pastry",
       image: "assets/Products - Hero.jpg",
       description: "Exquisite French pastries and desserts.",
-      link: "#Pastry",
+      link: "/products/category/Pastry",
     },
     {
       title: "Packaging",
       image: "assets/Products - Hero.jpg",
       description: "High-quality packaging solutions for your products.",
-      link: "#Packaging",
+      link: "/products/category/Packaging",
     },
     {
       title: "Bakery",
       image: "/assets/Contact - Hero.jpg",
       description: "Freshly baked bread, cakes, and pastries.",
-      link: "#bakery",
+      link: "/products/category/Bakery",
     },
   ];
 
@@ -276,9 +276,14 @@ function Home() {
             <p>
               Too lazy to roam around the website and look at the built-in catalog on the website? You can download our product catalog to have a physical copy of all our products.
             </p>
+            <div className="category-buttons">
+            <a href="/full-catalog" className="btn btn-primary">
+              Browse Catalog
+            </a>
             <a href="/path/to/catalog.pdf" className="btn btn-primary">
               Download Catalog
             </a>
+            </div>
           </div>
         </div>
       </section>

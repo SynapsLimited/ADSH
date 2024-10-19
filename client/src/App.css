@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Manjari:wght@100;400&family=Nunito+Sans:wght@700&display=swap');
 
+
 * {
   margin: 0;
   padding: 0;
@@ -18,7 +19,7 @@
   --color-white: #FFFFFF;
   --color-background: #FFFFFF;
   --color-primary-transparent: rgba(237, 32, 90, 0.7);
-  --color-secondary-transparent: rgba(57, 57, 57, 0.7);
+  --color-secondary-transparent: rgba(57, 57, 57, 0.9);
   --color-tertiary-transparent: rgba(245, 245, 245, 0.7);
   --color-complementary-transparent: rgba(217, 217, 217, 0.7);
   --color-white-transparent: rgba(255, 255, 255, 0.7);
@@ -33,6 +34,8 @@
   --transition: all 400ms ease;
 }
 
+
+
 /* Global styles */
 /* src/index.css or src/App.css */
 
@@ -42,6 +45,34 @@ body {
   font-family: sans-serif;
   position: relative;
 }
+
+body {
+  transition: filter 0.3s ease;
+}
+
+
+
+/* Theme Classes applied to .theme-container */
+.theme-container.normal {
+  filter: none;
+}
+
+.theme-container.light-blue {
+  filter: invert(0) hue-rotate(220deg) brightness(0.9) saturate(0.6);
+}
+
+.theme-container.yellowish-beige {
+  filter: invert(0) hue-rotate(70deg) brightness(1) saturate(1.6);
+}
+
+/* Transition for smooth theme change */
+.theme-container {
+  transition: filter 0.3s ease;
+}
+
+
+
+
 
 .App {
   position: relative;

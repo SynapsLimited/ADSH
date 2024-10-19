@@ -76,8 +76,8 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className={`page-wrapper ${isScrolled ? 'scrolled' : ''}`}>
-      <div className={`nav-wrapper ${isScrolled ? 'scrolled' : ''}`}>
+      <div className={`page-wrapper ${isScrolled ? 'scrolled' : ''}`}>
+        <div className={`nav-wrapper ${isScrolled ? 'scrolled' : ''}`}>
         <nav className="navbar">
           <Link to="/" onClick={handleMenuClose}>
             <img src="/assets/Logo-Red.png" alt="ADSH Logo" className={isScrolled ? 'scrolled' : ''} />
@@ -127,7 +127,8 @@ const Navbar = () => {
           </ul>
         </nav>
       </div>
-    </div>
+      </div>
+
   );
 };
 

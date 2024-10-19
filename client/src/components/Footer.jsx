@@ -37,6 +37,10 @@ const Footer = () => {
           <div className="footer-column footer-socials">
             <h4>Socials</h4>
             <div className="socials-container">
+            <div className="social-row">
+                <img src={`${process.env.PUBLIC_URL}/assets/whatsapp.png`} alt="Whatsapp" />
+                <a href="https://wa.link/oj2ybw" className="footer-link">Whatsapp</a>
+              </div>
               <div className="social-row">
                 <img src={`${process.env.PUBLIC_URL}/assets/instagram.png`} alt="Instagram" />
                 <a href="https://www.instagram.com" className="footer-link">Instagram</a>

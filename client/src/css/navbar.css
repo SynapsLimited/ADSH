@@ -48,7 +48,7 @@
 }
 
 .nav-item a {
-  color: var(--color-complementary);
+  color: var(--color-primary-transparent);
   font-size: 0.9rem;
   font-weight: 400;
   font-family: 'Nunito Sans', sans-serif;
@@ -63,7 +63,7 @@
 }
 
 .nav-item a:hover {
-  color: var(--color-primary);
+  color: var(--color-secondary-transparent);
 }
 
 .nav-item a:hover.scrolled {
@@ -292,20 +292,23 @@
 @media only screen and (max-width: 800px) { 
 
   /* MOBILE NAVIGATION */
+
+
+
      
   .navbar ul {
     display: flex;
     flex-direction: column;
     position: fixed;
     justify-content: start;
-    top: 55px;
+    top: 65px;
     background-color: var(--color-primary);
     width: 100%;
-    height: calc(100vh - 55px);
+    height: calc(100vh - 0px);
     transform: translateX(-100%);
     text-align: center;
     overflow: scroll;
-    
+    z-index: 1000;
   }
 
   .navbar ul.scrolled {
@@ -353,6 +356,10 @@
 
   .nav-item.has-dropdown .dropdown-menu.scrolled {
     background-color: transparent;
+  }
+
+  .nav-item a {
+    color: var(--color-white);
   }
 
 }

@@ -9,7 +9,6 @@ import PastryImage from './../assets/Contact - Hero.jpg';
 import bakeryImage from './../assets/Products - Hero.jpg'; 
 import packagingImage from './../assets/About - Hero.jpg';
 
-
 function Products() {
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -31,27 +30,27 @@ function Products() {
     {
       name: 'Dairy',
       imageUrl: dairyImage,
-      link: '/products/dairy',
+      link: '/products/category/Dairy',
     },
     {
       name: 'Ice Cream',
       imageUrl: iceCreamImage,
-      link: '/products/ice-cream',
+      link: '/products/category/Ice Cream',
     },
     {
       name: 'Pastry',
       imageUrl: PastryImage,
-      link: '/products/Pastry',
+      link: '/products/category/Pastry',
     },
     {
       name: 'Bakery',
       imageUrl: bakeryImage,
-      link: '/products/bakery',
+      link: '/products/category/Bakery',
     },
     {
       name: 'Packaging',
       imageUrl: packagingImage,
-      link: '/products/packaging',
+      link: '/products/category/Packaging',
     },
   ];
 
@@ -63,7 +62,7 @@ function Products() {
       {/* Hero Section */}
       <div
         className="hero-container-products"
-        style={{ backgroundPositionY: `${scrollPosition * 0}px` }} // Apply parallax effect
+        style={{ backgroundPositionY: `${scrollPosition * 0}px` }} // Adjusted for subtle parallax
       >
         <div className="hero-content">
           {/* Text Section */}
@@ -73,11 +72,11 @@ function Products() {
           </p>
 
           {/* Contact Button */}
-          <a href="/contact" className="btn btn-primary">Contact</a>
+          <Link to="/contact" className="btn btn-primary">Contact</Link>
         </div>
       </div>
 
-      <section data-aos="fade-up"  className="container products-section">
+      <section data-aos="fade-up" className="container products-section">
         <span>Our</span>
         <h2>Products</h2>
         <p>Discover our range of delicious products.</p>
@@ -85,7 +84,7 @@ function Products() {
         <div className="products-cards">
           {products.map((product, index) => (
             <div className="products-card" key={index}>
-              <img src={product.imageUrl} alt={product.name} />
+              <img src={product.imageUrl} alt={product.name} loading="lazy" />
               <div className="products-card-content">
                 <h3>{product.name}</h3>
                 <Link to={product.link} className="btn btn-primary">
