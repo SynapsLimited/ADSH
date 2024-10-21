@@ -85,6 +85,21 @@ const ProductCatalog = () => {
     navigate(`/products/${product._id}`);
   };
 
+  // Helper function to capitalize the first letter
+  const capitalizeFirstLetter = (string) => {
+    if (!string) return '';
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  // Helper function to truncate description after 16 words
+  const truncateDescription = (text, wordLimit) => {
+    const words = text.split(' ');
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(' ') + '...';
+    }
+    return text;
+  };
+
   return (
     <div>
       {/* Hero Section */}
@@ -124,23 +139,24 @@ const ProductCatalog = () => {
           All Products
         </Link>
       </div>
-         {/* Download Catalog Link */}
-         <div style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}>
-          <Link to={`/download-catalog/${category}`} className="btn btn-primary">
-            Download {capitalizeFirstLetter(category)} Catalog
-          </Link>
-        </div>
 
-        <p className="center-p">
-          Browse through our {category.toLowerCase()} products, sorted alphabetically for your convenience.
-        </p>
-        <SearchBar
-          query={searchQuery}
-          setQuery={setSearchQuery}
-          suggestions={suggestions}
-          onSuggestionClick={handleSuggestionClick}
-        />
+      {/* Download Catalog Link */}
+      <div style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}>
+        <Link to={`/download-catalog/${category}`} className="btn btn-primary">
+          Download {capitalizeFirstLetter(category)} Catalog
+        </Link>
+      </div>
 
+      <p className="center-p">
+        Browse through our {category.toLowerCase()} products, sorted alphabetically for your convenience.
+      </p>
+
+      <SearchBar
+        query={searchQuery}
+        setQuery={setSearchQuery}
+        suggestions={suggestions}
+        onSuggestionClick={handleSuggestionClick}
+      />
 
       {/* Product Catalog Section */}
       <section className="container product-catalog-section">
@@ -166,7 +182,8 @@ const ProductCatalog = () => {
                   {product.variations.length > 0 && (
                     <h4>{product.variations.join(', ')}</h4>
                   )}
-                  <p>{product.description}</p>
+                  {/* Truncated Description */}
+                  <p>{truncateDescription(product.description, 20)}</p>
                   <Link to={`/products/${product._id}`} className="btn btn-secondary">
                     View Details
                   </Link>
@@ -180,12 +197,6 @@ const ProductCatalog = () => {
       </section>
     </div>
   );
-};
-
-// Helper function to capitalize the first letter
-const capitalizeFirstLetter = (string) => {
-  if (!string) return '';
-  return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 export default ProductCatalog;

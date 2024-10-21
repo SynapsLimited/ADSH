@@ -82,6 +82,15 @@ const FullCatalog = () => {
     navigate(`/products/${product._id}`);
   };
 
+  // Helper function to truncate description after 16 words
+  const truncateDescription = (text, wordLimit) => {
+    const words = text.split(' ');
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(' ') + '...';
+    }
+    return text;
+  };
+
   return (
     <div>
       {/* Hero Section */}
@@ -122,28 +131,26 @@ const FullCatalog = () => {
         </Link>
       </div>
 
+      {/* Download Catalog Link */}
+      <div style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}>
+        <Link to={`/download-catalog`} className="btn btn-primary">
+          Download All Products Catalog
+        </Link>
+      </div>
 
-         {/* Download Catalog Link */}
-         <div style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}>
-          <Link to={`/download-catalog`} className="btn btn-primary">
-            Download All Products Catalog
-          </Link>
-        </div>
+      <p className="center-p">
+        Browse through our extensive catalog of products, sorted alphabetically for your convenience.
+      </p>
 
-        <p className="center-p">
-          Browse through our extensive catalog of products, sorted alphabetically for your convenience.
-        </p>
-
-        <SearchBar 
-          query={searchQuery}
-          setQuery={setSearchQuery}
-          suggestions={suggestions}
-          onSuggestionClick={handleSuggestionClick}
-        />
+      <SearchBar
+        query={searchQuery}
+        setQuery={setSearchQuery}
+        suggestions={suggestions}
+        onSuggestionClick={handleSuggestionClick}
+      />
 
       {/* Product Catalog Section */}
       <section className="container product-catalog-section">
-
         <div className="product-catalog-cards">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
@@ -166,7 +173,8 @@ const FullCatalog = () => {
                   {product.variations.length > 0 && (
                     <h4>{product.variations.join(', ')}</h4>
                   )}
-                  <p>{product.description}</p>
+                  {/* Truncated Description */}
+                  <p>{truncateDescription(product.description, 20)}</p>
                   <Link to={`/products/${product._id}`} className="btn btn-secondary">
                     View Details
                   </Link>
