@@ -180,6 +180,7 @@ body {
   grid-template-columns: 1fr; /* Default to one column */
   gap: 2rem;
   justify-items: center; /* Center the items horizontally */
+  margin-top: 20px;
 }
 
 @media screen and (min-width: 768px) {
@@ -396,6 +397,10 @@ body {
   display: flex;
   gap: 1rem;
 }
+
+
+
+
 
 
 /* ================== Responsive Design ================== */

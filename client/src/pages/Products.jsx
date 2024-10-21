@@ -52,6 +52,12 @@ function Products() {
       imageUrl: packagingImage,
       link: '/products/category/Packaging',
     },
+
+    {
+      name: 'All Products',
+      imageUrl: packagingImage,
+      link: '/full-catalog',
+    },
   ];
 
   return (

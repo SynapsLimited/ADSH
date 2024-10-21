@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import FixedMenu from './components/FixedMenu';
 import ThemeToggle from './components/ThemeToggle'; // Import ThemeToggle
 import UserProvider, { UserContext } from './context/userContext';
+import LogoShowcase from './components/LogoShowcase';
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -40,6 +41,8 @@ import Posts from './components/Posts';
 // Product components
 import ProductCatalog from './components/ProductCatalog';
 import FullCatalog from './components/FullCatalog';
+import DownloadCatalog from './components/DownloadCatalog';
+
 
 // Product pages
 import ProductDashboard from './products/ProductDashboard';
@@ -85,28 +88,36 @@ function App() {
       <UserContext.Consumer>
         {({ currentUser }) => (
           <>
-            {/* Fixed Elements */}
+            {/* Fixed Elements Routes */}
             <Navbar currentTheme={currentTheme} /> {/* Navbar outside theme-container */}
             <ThemeToggle updateTheme={updateTheme} currentTheme={currentTheme} />
             <FixedMenu currentTheme={currentTheme} /> {/* FixedMenu outside theme-container */}
 
             {/* Themed Content */}
             <div className={`theme-container ${currentTheme}`}>
+
+
+              {/* Technical Routes */}
               <BackgroundAnimation />
               <ScrollToTop />
               <Layout>
                 <div className="content">
                   <Routes>
+
+                    {/* Main Routes */}
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/products" element={<Products />} />
-                    <Route path="/products/category/:category" element={<ProductCatalog />} />
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/contact" element={<Contact />} />
-                    <Route path="posts/:id" element={<PostDetail />} />
+
+                    {/* User Routes */}
                     <Route path="register" element={<Register />} />
                     <Route path="login" element={<Login />} />
                     <Route path="profile/:id" element={<UserProfile />} />
+
+                    {/* Blog Routes */}
+                    <Route path="posts/:id" element={<PostDetail />} />
                     <Route path="authors" element={<Authors />} />
                     <Route path="create" element={<CreatePost />} />
                     <Route path="posts" element={<Posts />} />
@@ -117,6 +128,11 @@ function App() {
                     <Route path="posts/:id/delete" element={<DeletePost />} />
                     <Route path="logout" element={<Logout />} />
                     <Route path="*" element={<ErrorPage />} />
+
+                    {/* Product Routes */}
+                    <Route path="/products/category/:category" element={<ProductCatalog />} />
+                    <Route path="/download-catalog/:category" element={<DownloadCatalog />} />
+                    <Route path="/download-catalog" element={<DownloadCatalog />} />
                     <Route path="/full-catalog" element={<FullCatalog />} />
                     <Route path="/products-dashboard" element={<ProductDashboard />} />
                     <Route path="/create-product" element={<CreateProduct />} />
@@ -125,6 +141,7 @@ function App() {
                     <Route path="/products/:id" element={<ProductDetail />} />
                   </Routes>
                 </div>
+                <LogoShowcase />
                 <Footer />
               </Layout>
             </div>

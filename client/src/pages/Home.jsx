@@ -277,12 +277,12 @@ function Home() {
               Too lazy to roam around the website and look at the built-in catalog on the website? You can download our product catalog to have a physical copy of all our products.
             </p>
             <div className="category-buttons">
-            <a href="/full-catalog" className="btn btn-primary">
+            <Link to="/full-catalog" className="btn btn-primary">
               Browse Catalog
-            </a>
-            <a href="/path/to/catalog.pdf" className="btn btn-primary">
-              Download Catalog
-            </a>
+            </Link>
+            <Link to="/download-catalog" className="btn btn-primary">
+            Download Catalog
+          </Link>
             </div>
           </div>
         </div>

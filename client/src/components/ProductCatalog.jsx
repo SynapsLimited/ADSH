@@ -1,13 +1,19 @@
+// src/components/ProductCatalog.jsx
+
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './../css/products.css';
+import SearchBar from './SearchBar'; // Import the SearchBar component
 
 const ProductCatalog = () => {
   const { category } = useParams(); // Get the category from the URL
+  const navigate = useNavigate(); // For navigation after clicking a suggestion
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]); // Products to display
+  const [searchQuery, setSearchQuery] = useState(''); // Search input value
   const [scrollPosition, setScrollPosition] = useState(0);
 
   // Fetch products by category from the backend
@@ -17,16 +23,29 @@ const ProductCatalog = () => {
         const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products`);
         const data = await response.json();
         // Filter products by category
-        const filteredProducts = data.filter((product) => product.category === category);
+        const filtered = data.filter((product) => product.category === category);
         // Sort products alphabetically by name
-        const sortedProducts = filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+        const sortedProducts = filtered.sort((a, b) => a.name.localeCompare(b.name));
         setProducts(sortedProducts);
+        setFilteredProducts(sortedProducts); // Initialize with all products
       } catch (error) {
         console.log(error);
       }
     };
     fetchProducts();
   }, [category]);
+
+  // Update filtered products based on search query
+  useEffect(() => {
+    if (searchQuery.trim() === '') {
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter((product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [searchQuery, products]);
 
   // Track scroll position to apply parallax effect
   useEffect(() => {
@@ -54,6 +73,18 @@ const ProductCatalog = () => {
     autoplaySpeed: 2000,
   };
 
+  // Generate suggestions based on search query
+  const suggestions = searchQuery.trim()
+    ? products.filter((product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
+
+  // Handle suggestion click
+  const handleSuggestionClick = (product) => {
+    navigate(`/products/${product._id}`);
+  };
+
   return (
     <div>
       {/* Hero Section */}
@@ -62,7 +93,7 @@ const ProductCatalog = () => {
         style={{ backgroundPositionY: `${scrollPosition * 0}px` }}
       >
         <div className="hero-content">
-          <h1 className="hero-title-h1">{category} Products</h1>
+          <h1 className="hero-title-h1">{capitalizeFirstLetter(category)} Products</h1>
           <p className="hero-description">
             Discover our range of {category.toLowerCase()} products.
           </p>
@@ -89,17 +120,33 @@ const ProductCatalog = () => {
         <Link to="/products/category/Bakery" className="btn btn-primary">
           Bakery
         </Link>
+        <Link to="/full-catalog" className="btn btn-primary">
+          All Products
+        </Link>
       </div>
+         {/* Download Catalog Link */}
+         <div style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}>
+          <Link to={`/download-catalog/${category}`} className="btn btn-primary">
+            Download {capitalizeFirstLetter(category)} Catalog
+          </Link>
+        </div>
 
-      {/* Product Catalog Section */}
-      <section className="container product-catalog-section">
         <p className="center-p">
           Browse through our {category.toLowerCase()} products, sorted alphabetically for your convenience.
         </p>
+        <SearchBar
+          query={searchQuery}
+          setQuery={setSearchQuery}
+          suggestions={suggestions}
+          onSuggestionClick={handleSuggestionClick}
+        />
 
+
+      {/* Product Catalog Section */}
+      <section className="container product-catalog-section">
         <div className="product-catalog-cards">
-          {products.length > 0 ? (
-            products.map((product) => (
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
               <div className="product-catalog-card" key={product._id}>
                 {/* Image Container */}
                 <div className="product-image-container">
@@ -133,6 +180,12 @@ const ProductCatalog = () => {
       </section>
     </div>
   );
+};
+
+// Helper function to capitalize the first letter
+const capitalizeFirstLetter = (string) => {
+  if (!string) return '';
+  return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 export default ProductCatalog;
