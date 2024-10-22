@@ -11,6 +11,7 @@ import FixedMenu from './components/FixedMenu';
 import ThemeToggle from './components/ThemeToggle'; // Import ThemeToggle
 import UserProvider, { UserContext } from './context/userContext';
 import LogoShowcase from './components/LogoShowcase';
+import LoadingScreen from './components/LoadingScreen';
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -82,6 +83,30 @@ function App() {
     setCurrentTheme(themeClass);
     localStorage.setItem('theme', themeClass);
   };
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Initialize AOS
+    AOS.init({
+      duration: 1000,
+      once: true,
+      mirror: false,
+    });
+
+    AOS.refresh();
+
+    // Simulate a loading time (e.g., fetching data)
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000); // Adjust the duration as needed
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <HelmetProvider>
