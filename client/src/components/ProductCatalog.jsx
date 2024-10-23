@@ -16,16 +16,40 @@ const ProductCatalog = () => {
   const [searchQuery, setSearchQuery] = useState(''); // Search input value
   const [scrollPosition, setScrollPosition] = useState(0);
 
+  // Mapping from category to CSS class name
+  const categoryClassMap = {
+    "Dairy": "hero-container-products-dairy",
+    "Ice Cream": "hero-container-products-ice-cream",
+    "Pastry": "hero-container-products-pastry",
+    "Bakery": "hero-container-products-bakery",
+    "Packaging": "hero-container-products-packaging",
+    "All Products": "hero-container-products-all"
+  };
+
+  // Normalize the category name to match the keys in the mapping
+  const normalizedCategory = category
+    .replace('-', ' ')
+    .replace(/\b\w/g, (l) => l.toUpperCase());
+
+  const heroClassName =
+    categoryClassMap[normalizedCategory] || 'hero-container-products';
+
   // Fetch products by category from the backend
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products`);
+        const response = await fetch(
+          `${process.env.REACT_APP_BASE_URL}/products`
+        );
         const data = await response.json();
         // Filter products by category
-        const filtered = data.filter((product) => product.category === category);
+        const filtered = data.filter(
+          (product) => product.category === normalizedCategory
+        );
         // Sort products alphabetically by name
-        const sortedProducts = filtered.sort((a, b) => a.name.localeCompare(b.name));
+        const sortedProducts = filtered.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
         setProducts(sortedProducts);
         setFilteredProducts(sortedProducts); // Initialize with all products
       } catch (error) {
@@ -33,7 +57,7 @@ const ProductCatalog = () => {
       }
     };
     fetchProducts();
-  }, [category]);
+  }, [category, normalizedCategory]);
 
   // Update filtered products based on search query
   useEffect(() => {
@@ -104,13 +128,15 @@ const ProductCatalog = () => {
     <div>
       {/* Hero Section */}
       <div
-        className="hero-container-products"
+        className={heroClassName}
         style={{ backgroundPositionY: `${scrollPosition * 0}px` }}
       >
         <div className="hero-content">
-          <h1 className="hero-title-h1">{capitalizeFirstLetter(category)} Products</h1>
+          <h1 className="hero-title-h1">
+            {capitalizeFirstLetter(normalizedCategory)} Products
+          </h1>
           <p className="hero-description">
-            Discover our range of {category.toLowerCase()} products.
+            Discover our range of {normalizedCategory.toLowerCase()} products.
           </p>
           <a href="/contact" className="btn btn-primary">
             Contact
@@ -141,14 +167,17 @@ const ProductCatalog = () => {
       </div>
 
       {/* Download Catalog Link */}
-      <div style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}>
+      <div
+        style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}
+      >
         <Link to={`/download-catalog/${category}`} className="btn btn-primary">
-          Download {capitalizeFirstLetter(category)} Catalog
+          Download {capitalizeFirstLetter(normalizedCategory)} Catalog
         </Link>
       </div>
 
       <p className="center-p">
-        Browse through our {category.toLowerCase()} products, sorted alphabetically for your convenience.
+        Browse through our {normalizedCategory.toLowerCase()} products, sorted
+        alphabetically for your convenience.
       </p>
 
       <SearchBar
@@ -184,7 +213,10 @@ const ProductCatalog = () => {
                   )}
                   {/* Truncated Description */}
                   <p>{truncateDescription(product.description, 20)}</p>
-                  <Link to={`/products/${product._id}`} className="btn btn-secondary">
+                  <Link
+                    to={`/products/${product._id}`}
+                    className="btn btn-secondary"
+                  >
                     View Details
                   </Link>
                 </div>

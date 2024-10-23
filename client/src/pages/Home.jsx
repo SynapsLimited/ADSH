@@ -95,51 +95,55 @@ function Home() {
   // Array of images for the slider
   const slideImages = [
     {
-      src: '/assets/About - Hero.jpg',
-      alt: 'Image 1 description',
+      src: '/assets/Slideshow 1.png',
+      alt: 'Bulmet / Dairy',
     },
     {
-      src: '/assets/Blog - Hero.jpg',
-      alt: 'Image 2 description',
+      src: '/assets/Slideshow 2.png',
+      alt: 'Akullore / Ice Cream',
     },
     {
-      src: '/assets/Homepage - Hero.jpg',
-      alt: 'Image 3 description',
+      src: '/assets/Slideshow 3.png',
+      alt: 'Pasticeri / Pastry',
     },
     {
-      src: '/assets/Contact - Hero.jpg',
-      alt: 'Image 4 description',
+      src: '/assets/Slideshow 4.png',
+      alt: 'Paketime / Packaging',
+    },
+    {
+      src: '/assets/Slideshow 5.png',
+      alt: 'ADSH / ADSH',
     },
   ];
 
   const categories = [
     {
       title: "Dairy",
-      image: "assets/About - Hero.jpg",
+      image: "/assets/Homepage - Hero.jpg", // Updated image source
       description: "Fresh and creamy dairy products from local farms.",
       link: "/products/category/Dairy",
     },
     {
       title: "Ice Cream",
-      image: "assets/Homepage - Hero.jpg",
+      image: "/assets/Product - Ice Cream.jpg", // Updated image source
       description: "Delicious, handcrafted ice cream in various flavors.",
       link: "/products/category/Ice Cream",
     },
     {
       title: "Pastry",
-      image: "assets/Products - Hero.jpg",
+      image: "/assets/Product - Pastry.jpg", // Updated image source
       description: "Exquisite French pastries and desserts.",
       link: "/products/category/Pastry",
     },
     {
       title: "Packaging",
-      image: "assets/Products - Hero.jpg",
+      image: "/assets/Product - Packaging.jpg", // Updated image source
       description: "High-quality packaging solutions for your products.",
       link: "/products/category/Packaging",
     },
     {
       title: "Bakery",
-      image: "/assets/Contact - Hero.jpg",
+      image: "/assets/Product - Bakery.jpg", // Updated image source
       description: "Freshly baked bread, cakes, and pastries.",
       link: "/products/category/Bakery",
     },

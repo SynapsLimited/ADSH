@@ -3,11 +3,6 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import './../css/products.css';
 
-import dairyImage from './../assets/About - Hero.jpg';
-import iceCreamImage from './../assets/Blog - Hero.jpg';
-import PastryImage from './../assets/Contact - Hero.jpg';
-import bakeryImage from './../assets/Products - Hero.jpg'; 
-import packagingImage from './../assets/About - Hero.jpg';
 
 function Products() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -29,33 +24,32 @@ function Products() {
   const products = [
     {
       name: 'Dairy',
-      imageUrl: dairyImage,
+      imageUrl: '/assets/Homepage - Hero.jpg', // Updated image source
       link: '/products/category/Dairy',
     },
     {
       name: 'Ice Cream',
-      imageUrl: iceCreamImage,
+      imageUrl: '/assets/Product - Ice Cream.jpg', // Updated image source
       link: '/products/category/Ice Cream',
     },
     {
       name: 'Pastry',
-      imageUrl: PastryImage,
+      imageUrl: '/assets/Product - Pastry.jpg', // Updated image source
       link: '/products/category/Pastry',
     },
     {
       name: 'Bakery',
-      imageUrl: bakeryImage,
+      imageUrl: '/assets/Product - Bakery.jpg', // Updated image source
       link: '/products/category/Bakery',
     },
     {
       name: 'Packaging',
-      imageUrl: packagingImage,
+      imageUrl: '/assets/Product - Packaging.jpg', // Updated image source
       link: '/products/category/Packaging',
     },
-
     {
       name: 'All Products',
-      imageUrl: packagingImage,
+      imageUrl: '/assets/About - Hero.jpg', // Updated image source
       link: '/full-catalog',
     },
   ];

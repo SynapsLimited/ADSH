@@ -60,7 +60,7 @@ function About() {
           </p>
         </div>
         <div className="about-image">
-          <img src="/assets/About - Hero.jpg" alt="ADSH History" />
+          <img src="/assets/Slideshow 5.png" alt="ADSH History" />
         </div>
       </div>
     </section>

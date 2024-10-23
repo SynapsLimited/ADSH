@@ -10,7 +10,6 @@ import Footer from './components/Footer';
 import FixedMenu from './components/FixedMenu';
 import ThemeToggle from './components/ThemeToggle'; // Import ThemeToggle
 import UserProvider, { UserContext } from './context/userContext';
-import LogoShowcase from './components/LogoShowcase';
 import LoadingScreen from './components/LoadingScreen';
 
 import Home from './pages/Home';
@@ -166,7 +165,6 @@ function App() {
                     <Route path="/products/:id" element={<ProductDetail />} />
                   </Routes>
                 </div>
-                <LogoShowcase />
                 <Footer />
               </Layout>
             </div>

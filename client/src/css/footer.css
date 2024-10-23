@@ -3,6 +3,7 @@
     background-size: cover;
     background-position: center;
     color: var(--color-white);
+    margin-top: 3rem;
   }
   
   .footer-container {

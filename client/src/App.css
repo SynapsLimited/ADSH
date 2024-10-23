@@ -299,6 +299,90 @@ img:hover {
   padding: 20px;
 }
 
+.hero-container-products-dairy {
+  background-image: url('../public/assets/Homepage - Hero.jpg'); /* Dairy */
+  background-size: cover;
+  background-attachment: fixed; /* Fix the background to create parallax effect */
+  background-position: center;
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.hero-container-products-ice-cream {
+  background-image: url('../public/assets/Product - Ice Cream.jpg'); /* Ice Cream */
+  background-size: cover;
+  background-attachment: fixed; /* Fix the background to create parallax effect */
+  background-position: center;
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.hero-container-products-pastry {
+  background-image: url('../public/assets/Product - Pastry.jpg'); /* Pastry */
+  background-size: cover;
+  background-attachment: fixed; /* Fix the background to create parallax effect */
+  background-position: center;
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.hero-container-products-bakery {
+  background-image: url('../public/assets/Product - Bakery.jpg'); /* Bakery */
+  background-size: cover;
+  background-attachment: fixed; /* Fix the background to create parallax effect */
+  background-position: center;
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.hero-container-products-packaging {
+  background-image: url('../public/assets/Product - Packaging.jpg'); /* Packaging */
+  background-size: cover;
+  background-attachment: fixed; /* Fix the background to create parallax effect */
+  background-position: center;
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.hero-container-products-all {
+  background-image: url('../public/assets/Products - Hero.jpg'); /* All Products */
+  background-size: cover;
+  background-attachment: fixed; /* Fix the background to create parallax effect */
+  background-position: center;
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
 .hero-content {
   max-width: 600px; /* Limit the width for better readability */
   margin: 0 auto;

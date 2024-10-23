@@ -301,11 +301,11 @@ function DisplacementSlider() {
         </div>
       </div>
       {/* Images */}
-      <img src="/assets/Homepage - Hero.jpg" alt="Dairy Home" />
-      <img src="/assets/Products - Hero.jpg" alt="Dairy Products" />
-      <img src="/assets/About - Hero.jpg" alt="About Dairy" />
-      <img src="/assets/Blog - Hero.jpg" alt="Dairy Blog" />
-      <img src="/assets/Contact - Hero.jpg" alt="Dairy Packaging" />
+      <img src="/assets/Homepage - Hero.jpg" alt="Dairy Products / Produkte Bulmeti" />
+      <img src="/assets/Product - Ice Cream.jpg" alt="Ice Cream Products / Produkte Akullore" />
+      <img src="/assets/Product - Pastry.jpg" alt="Pastry Products / Produkte Pasticerie" />
+      <img src="/assets/Product - Bakery.jpg" alt="Bakery Products / Produkte per Furra" />
+      <img src="/assets/Product - Packaging.jpg" alt="Packaging Products / Produkte Paketimi" />
       {/* Pagination */}
       <div id="pagination" ref={paginationRef}>
         <button className="active" data-slide="0"></button>
