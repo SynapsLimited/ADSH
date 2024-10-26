@@ -39,7 +39,7 @@ function Blog() {
       
       {/* Hero Section */}
       <div
-        className="hero-container-blog"
+        className="hero-container hero-container-blog"
         style={{ backgroundPositionY: `${scrollPosition * 0}px` }} // Apply parallax effect
       >
         <div className="hero-content">

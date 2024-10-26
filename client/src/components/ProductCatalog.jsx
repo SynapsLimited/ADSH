@@ -18,12 +18,12 @@ const ProductCatalog = () => {
 
   // Mapping from category to CSS class name
   const categoryClassMap = {
-    "Dairy": "hero-container-products-dairy",
-    "Ice Cream": "hero-container-products-ice-cream",
-    "Pastry": "hero-container-products-pastry",
-    "Bakery": "hero-container-products-bakery",
-    "Packaging": "hero-container-products-packaging",
-    "All Products": "hero-container-products-all"
+    "Dairy": "hero-container hero-container-products-dairy",
+    "Ice Cream": "hero-container hero-container-products-ice-cream",
+    "Pastry": "hero-container hero-container-products-pastry",
+    "Bakery": "hero-container hero-container-products-bakery",
+    "Packaging": "hero-container hero-container-products-packaging",
+    "All Products": "hero-container hero-container-products-all"
   };
 
   // Normalize the category name to match the keys in the mapping

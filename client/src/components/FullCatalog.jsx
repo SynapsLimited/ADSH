@@ -95,7 +95,7 @@ const FullCatalog = () => {
     <div>
       {/* Hero Section */}
       <div
-        className="hero-container-about"
+        className="hero-container hero-container-about"
         style={{ backgroundPositionY: `${scrollPosition * 0}px` }}
       >
         <div className="hero-content">

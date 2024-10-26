@@ -506,6 +506,12 @@ img:hover {
     width: 100%; /* This ensures each child takes full width */
     margin-bottom: 20px; /* This adds space between your flex items */
   }
+
+  .hero-container {
+    width: 100%;
+    background-size: cover;
+  background-attachment: scroll;
+  }
 }
 
 

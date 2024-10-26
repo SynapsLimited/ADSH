@@ -156,7 +156,7 @@ function Home() {
             </Helmet>
       {/* Hero Section */}
       <div
-        className="hero-container-home"
+        className="hero-container hero-container-home"
         style={{ backgroundPositionY: `${scrollPosition * 0}px` }} // Apply parallax effect
       >
         <div className="hero-content">

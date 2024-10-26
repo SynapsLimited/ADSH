@@ -61,7 +61,7 @@ function Products() {
       </Helmet>
       {/* Hero Section */}
       <div
-        className="hero-container-products"
+        className="hero-container hero-container-products"
         style={{ backgroundPositionY: `${scrollPosition * 0}px` }} // Adjusted for subtle parallax
       >
         <div className="hero-content">

@@ -28,7 +28,7 @@ const Contact = () => {
             </Helmet>
  {/* Hero Section */}
  <div
-        className="hero-container-contact"
+        className="hero-container hero-container-contact"
         style={{ backgroundPositionY: `${scrollPosition * 0}px` }} // Apply parallax effect
       >
         <div className="hero-content">
