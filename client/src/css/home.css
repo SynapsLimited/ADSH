@@ -467,6 +467,8 @@
     width: 50%;
     
   }
+
+  
 }
 
   
@@ -543,6 +545,9 @@
     .blog-card {
       padding: 0.5rem;
     }
+    .blog-content p {
+      font-size: 1.1rem;
+    }
 
   }
   
@@ -565,4 +570,6 @@
     .who-we-are-description {
       font-size: 1rem;
     }
+
+    
   }

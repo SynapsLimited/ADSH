@@ -23,7 +23,19 @@ const ProductCatalog = () => {
     "Pastry": "hero-container hero-container-products-pastry",
     "Bakery": "hero-container hero-container-products-bakery",
     "Packaging": "hero-container hero-container-products-packaging",
+    "Equipment": "hero-container hero-container-products-equipment",
     "All Products": "hero-container hero-container-products-all"
+  };
+
+  // Mapping from English category names to Albanian translations
+  const categoryTranslationMap = {
+    "Dairy": "Bulmetore",
+    "Ice Cream": "Akullore",
+    "Pastry": "Pastiçeri",
+    "Bakery": "Furra",
+    "Packaging": "Paketime",
+    "Equipment": "Pajisje",
+    "All Products": "Të gjitha produktet"
   };
 
   // Normalize the category name to match the keys in the mapping
@@ -34,6 +46,10 @@ const ProductCatalog = () => {
   const heroClassName =
     categoryClassMap[normalizedCategory] || 'hero-container-products';
 
+  // Get the display name in Albanian
+  const categoryDisplayName =
+    categoryTranslationMap[normalizedCategory] || normalizedCategory;
+
   // Fetch products by category from the backend
   useEffect(() => {
     const fetchProducts = async () => {
@@ -42,7 +58,7 @@ const ProductCatalog = () => {
           `${process.env.REACT_APP_BASE_URL}/products`
         );
         const data = await response.json();
-        // Filter products by category
+        // Filter products by category using English category name
         const filtered = data.filter(
           (product) => product.category === normalizedCategory
         );
@@ -133,13 +149,13 @@ const ProductCatalog = () => {
       >
         <div className="hero-content">
           <h1 className="hero-title-h1">
-            {capitalizeFirstLetter(normalizedCategory)} Products
+            Produkte për {categoryDisplayName}
           </h1>
           <p className="hero-description">
-            Discover our range of {normalizedCategory.toLowerCase()} products.
+            Zbuloni dhe shfletoni produktet tona për {categoryDisplayName.toLowerCase()}.
           </p>
           <a href="/contact" className="btn btn-primary">
-            Contact
+            Kontakto
           </a>
         </div>
       </div>
@@ -147,22 +163,25 @@ const ProductCatalog = () => {
       {/* Category Navigation Buttons */}
       <div className="category-buttons">
         <Link to="/products/category/Dairy" className="btn btn-primary">
-          Dairy
+          Bulmetore
         </Link>
         <Link to="/products/category/Ice Cream" className="btn btn-primary">
-          Ice Cream
+          Akullore
         </Link>
         <Link to="/products/category/Pastry" className="btn btn-primary">
-          Pastry
+          Pastiçeri
         </Link>
         <Link to="/products/category/Packaging" className="btn btn-primary">
-          Packaging
+          Paketime
         </Link>
         <Link to="/products/category/Bakery" className="btn btn-primary">
-          Bakery
+          Furra
+        </Link>
+        <Link to="/products/category/Equipment" className="btn btn-primary">
+          Pajisje
         </Link>
         <Link to="/full-catalog" className="btn btn-primary">
-          All Products
+          Të gjitha produktet
         </Link>
       </div>
 
@@ -171,13 +190,12 @@ const ProductCatalog = () => {
         style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}
       >
         <Link to={`/download-catalog/${category}`} className="btn btn-primary">
-          Download {capitalizeFirstLetter(normalizedCategory)} Catalog
+          Shkarko katalog për {categoryDisplayName}
         </Link>
       </div>
 
       <p className="center-p">
-        Browse through our {normalizedCategory.toLowerCase()} products, sorted
-        alphabetically for your convenience.
+        Shfletoni produktet tona për {categoryDisplayName.toLowerCase()}, të renditura alfabetikisht për komoditetin tuaj.
       </p>
 
       <SearchBar
@@ -217,13 +235,13 @@ const ProductCatalog = () => {
                     to={`/products/${product._id}`}
                     className="btn btn-secondary"
                   >
-                    View Details
+                    Shiko Detajet
                   </Link>
                 </div>
               </div>
             ))
           ) : (
-            <p>No products found in this category.</p>
+            <p>Nuk u gjetën produkte në këtë kategori.</p>
           )}
         </div>
       </section>

@@ -47,10 +47,10 @@ const ContactForm = () => {
     )
       .then((response) => {
         console.log('SUCCESS!', response.status, response.text);
-        alert('Your message has been sent successfully!');
+        alert('Mesazhi u dërgua me sukses!');
       }, (err) => {
         console.error('FAILED...', err);
-        alert('There was an error sending your message. Please try again later.');
+        alert('Problem i përkohshëm. Provo përsëri më vonë!');
       });
   };
 
@@ -61,7 +61,7 @@ const ContactForm = () => {
           <input
             type="text"
             name="name"
-            placeholder="Name"
+            placeholder="Emri"
             value={formData.name}
             onChange={handleChange}
             required
@@ -69,7 +69,7 @@ const ContactForm = () => {
           <input
             type="text"
             name="surname"
-            placeholder="Surname"
+            placeholder="Mbiemri"
             value={formData.surname}
             onChange={handleChange}
             required
@@ -79,7 +79,7 @@ const ContactForm = () => {
           <input
             type="text"
             name="country"
-            placeholder="Country"
+            placeholder="Shteti"
             value={formData.country}
             onChange={handleChange}
             required
@@ -97,7 +97,7 @@ const ContactForm = () => {
           <input
             type="text"
             name="phoneNumber"
-            placeholder="Phone Number"
+            placeholder="Telefon"
             value={formData.phoneNumber}
             onChange={handleChange}
             required
@@ -105,20 +105,20 @@ const ContactForm = () => {
           <input
             type="text"
             name="companyName"
-            placeholder="Company Name"
+            placeholder="Kompania"
             value={formData.companyName}
             onChange={handleChange}
           />
         </div>
         <textarea
           name="message"
-          placeholder="Your Message"
+          placeholder="Mesazhi"
           value={formData.message}
           onChange={handleChange}
           required
         />
         <button type="submit" className="btn btn-secondary btn-submit-form">
-          Submit
+          Dërgo
         </button>
       </form>
     </section>

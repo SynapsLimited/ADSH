@@ -48,7 +48,7 @@
 }
 
 .nav-item a {
-  color: var(--color-primary-transparent);
+  color: var(--color-complementary);
   font-size: 0.9rem;
   font-weight: 400;
   font-family: 'Nunito Sans', sans-serif;
@@ -302,7 +302,7 @@
     position: fixed;
     justify-content: start;
     top: 65px;
-    background-color: var(--color-primary);
+    background-color: var(--color-secondary);
     width: 100%;
     height: calc(100vh - 0px);
     transform: translateX(-100%);
@@ -362,6 +362,9 @@
     color: var(--color-white);
   }
 
+  .menu-toggle .bar {
+    background-color: var(--color-secondary);
+  }
 }
 
 

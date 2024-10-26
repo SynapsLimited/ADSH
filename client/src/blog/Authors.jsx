@@ -32,7 +32,7 @@ const Authors = () => {
   return (
     <section data-aos="fade-up"   className="authors">
       <div  className="blog-title">
-        <h1>Authors</h1>
+        <h1>Autorët</h1>
       </div>
       {authors.length > 0 ? (
         <div  className="authors-container">
@@ -57,7 +57,7 @@ const Authors = () => {
           ))}
         </div>
       ) : (
-        <h2 className="error-blog-not-found">No authors found</h2>
+        <h2 className="error-blog-not-found">Su gjetën autorët!</h2>
       )}
     </section>
   );

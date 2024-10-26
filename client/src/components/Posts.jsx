@@ -31,7 +31,7 @@ const Posts = ({ limit }) => {
     return (
       <section data-aos="fade-up" className="posts">
         <div className="blog-title-filtered">
-          <h1>Posts</h1>
+          <h1>Postimet</h1>
         </div>
         {displayedPosts.length > 0 ? (
           <div className="container posts-container">

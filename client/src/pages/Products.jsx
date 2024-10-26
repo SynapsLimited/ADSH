@@ -23,32 +23,37 @@ function Products() {
 
   const products = [
     {
-      name: 'Dairy',
+      name: 'Bulmetore',
       imageUrl: '/assets/Homepage - Hero.jpg', // Updated image source
       link: '/products/category/Dairy',
     },
     {
-      name: 'Ice Cream',
+      name: 'Akullore',
       imageUrl: '/assets/Product - Ice Cream.jpg', // Updated image source
       link: '/products/category/Ice Cream',
     },
     {
-      name: 'Pastry',
+      name: 'Pastiçeri',
       imageUrl: '/assets/Product - Pastry.jpg', // Updated image source
       link: '/products/category/Pastry',
     },
     {
-      name: 'Bakery',
+      name: 'Furra',
       imageUrl: '/assets/Product - Bakery.jpg', // Updated image source
       link: '/products/category/Bakery',
     },
     {
-      name: 'Packaging',
+      name: 'Paketime',
       imageUrl: '/assets/Product - Packaging.jpg', // Updated image source
       link: '/products/category/Packaging',
     },
     {
-      name: 'All Products',
+      name: 'Pajisje',
+      imageUrl: '/assets/Product - Equipment.jpg', // Updated image source
+      link: '/products/category/Equipment',
+    },
+    {
+      name: 'Të gjitha produktet',
       imageUrl: '/assets/About - Hero.jpg', // Updated image source
       link: '/full-catalog',
     },
@@ -57,7 +62,7 @@ function Products() {
   return (
     <div>
       <Helmet>
-        <title>ADSH - Products</title>
+        <title>ADSH - Produkte</title>
       </Helmet>
       {/* Hero Section */}
       <div
@@ -66,20 +71,20 @@ function Products() {
       >
         <div className="hero-content">
           {/* Text Section */}
-          <h1 className="hero-title-h1">Products</h1>
+          <h1 className="hero-title-h1">Produkte</h1>
           <p className="hero-description">
-            Lorem ipsum dolor sit amet consectetur. Maecenas mollis mus ut risus at aenean dignissim. Patea tempor vitae suspendisse pellentesque.
+            ADSH ofron produkte në disa kategori të industrisë ushqimore.             
           </p>
 
           {/* Contact Button */}
-          <Link to="/contact" className="btn btn-primary">Contact</Link>
+          <Link to="/contact" className="btn btn-primary">Kontakto</Link>
         </div>
       </div>
 
       <section data-aos="fade-up" className="container products-section">
-        <span>Our</span>
-        <h2>Products</h2>
-        <p>Discover our range of delicious products.</p>
+        <span>Katalog</span>
+        <h2>Produktesh</h2>
+        <p>Zbulo produktet tona ndërmjet katalogëve digjital të ndara në kategori për të përmirësuar eksperiencën tuaj përgjatë shfletimit të tyre.</p>
         <span className="bg-watermark">products</span>
         <div className="products-cards">
           {products.map((product, index) => (
@@ -88,7 +93,7 @@ function Products() {
               <div className="products-card-content">
                 <h3>{product.name}</h3>
                 <Link to={product.link} className="btn btn-primary">
-                  {product.name} Catalog
+                 Katalog për  {product.name}
                 </Link>
               </div>
             </div>

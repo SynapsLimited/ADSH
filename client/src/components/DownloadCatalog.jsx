@@ -28,7 +28,7 @@ const addFooter = (doc) => {
     doc.setFont('ManjariThin', 'normal'); // Use 'ManjariThin' font
     doc.setFontSize(10);
     // Align footer to the left using the fixed left margin
-    doc.text(`Page ${i} of ${pageCount}`, leftMargin, pageHeight - 10);
+    doc.text(`Faqja ${i} nga ${pageCount}`, leftMargin, pageHeight - 10);
   }
 };
 
@@ -74,7 +74,7 @@ const loadFonts = async (doc) => {
   }
 };
 
-// Updated Helper function to convert image URL to data URL with high quality based on desired physical size in mm
+// Helper function to convert image URL to data URL with high quality based on desired physical size in mm
 const getImageDataUrl = async (
   url,
   desiredWidthMM,
@@ -174,7 +174,7 @@ const estimateProductHeight = (doc, product, containerWidth, imageHeightMM) => {
   if (product.variations && product.variations.length > 0) {
     doc.setFont('NunitoSansSemiBold', 'normal');
     doc.setFontSize(14);
-    const variationsText = `Variations: ${product.variations.join(', ')}`;
+    const variationsText = `Variantet: ${product.variations.join(', ')}`;
     const splitVariations = doc.splitTextToSize(variationsText, containerWidth);
     height += splitVariations.length * 7 + 7; // 7mm per line + spacing
   }
@@ -192,7 +192,7 @@ const estimateProductHeight = (doc, product, containerWidth, imageHeightMM) => {
 };
 
 // Helper function to add a cover page with additional sections
-const addCoverPage = async (doc, category, bgDataURL) => {
+const addCoverPage = async (doc, category, bgDataURL, categoryTranslationMap) => {
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
   const margin = 20; // Fixed margin in mm
@@ -215,11 +215,12 @@ const addCoverPage = async (doc, category, bgDataURL) => {
       desiredLogoWidthMM,
       desiredLogoHeightMM,
       300,
-      'PNG'
-    ); // 300 DPI for high quality
+      'PNG',
+      80 // Border radius in pixels
+    ); // Use 'PNG' for product images with rounded corners
     const { dataURL } = imgDataObj;
 
-    // Physical size already determined by desiredLogoWidthMM and desiredLogoHeightMM
+    // Calculate centered position
     const imgX = (pageWidth - desiredLogoWidthMM) / 2;
     const imgY = pageHeight * 0.05; // Reduced from 10% to 5% to decrease top padding
     doc.addImage(dataURL, 'PNG', imgX, imgY, desiredLogoWidthMM, desiredLogoHeightMM); // Use 'PNG' format
@@ -230,8 +231,8 @@ const addCoverPage = async (doc, category, bgDataURL) => {
     doc.setFont('NunitoSansBold', 'normal'); // Use NunitoSansBold
     doc.setFontSize(24);
     const titleText = category
-      ? `${capitalizeFirstLetter(category)} Catalog`
-      : 'Full Catalog';
+      ? `Katalog për ${capitalizeFirstLetter(categoryTranslationMap[category])}`
+      : 'Katalog i Plotë';
     doc.text(titleText, centerX, currentY, { align: 'center' });
 
     currentY += 15; // Reduced spacing after title from 20 to 15
@@ -240,10 +241,8 @@ const addCoverPage = async (doc, category, bgDataURL) => {
     doc.setFont('ManjariThin', 'normal'); // Use the thin variant
     doc.setFontSize(12);
     const missionText = category
-      ? `Welcome to the ${capitalizeFirstLetter(
-          category
-        )} Catalog of Albanian Dairy & Supply Hub (ADSH). Discover our range of high-quality ${category.toLowerCase()} products designed to meet your needs.`
-      : `Welcome to the Full Catalog of Albanian Dairy & Supply Hub (ADSH). Explore our extensive range of products across all categories, crafted with quality and care to serve you better.`;
+      ? `Mirë se vini në Katalogun e ${capitalizeFirstLetter(categoryTranslationMap[category])} të Albanian Dairy & Supply Hub (ADSH). Zbuloni gamën tonë të produkteve të larta të cilësisë së ${category.toLowerCase()} të dizajnuara për të plotësuar nevojat tuaja.`
+      : `Mirë se vini në Katalogun e Plotë të Albanian Dairy & Supply Hub (ADSH). Shfletoni gamën tonë të gjerë të produkteve në të gjitha kategoritë, të krijuara me cilësi dhe kujdes për t'ju shërbyer më mirë.`;
 
     const splitMission = doc.splitTextToSize(missionText, containerWidth);
     doc.text(splitMission, centerX, currentY, { align: 'center' });
@@ -275,7 +274,7 @@ const addCoverPage = async (doc, category, bgDataURL) => {
 
     // Add "Produktet Tona" Section
     const productsTitle = 'Produktet Tona';
-    const productsText = `Cilësi e lartë dhe çmime konkuruse ne treg. Kemi rreth 200 produkte në disponim. Disa prej tyre mund ti gjeni më poshtë.`;
+    const productsText = `Cilësi e lartë dhe çmime konkuruse në treg. Kemi rreth 200 produkte në dispozim. Disa prej tyre mund ti gjeni më poshtë.`;
     addSection(productsTitle, productsText);
 
     // Add "Vlerat e Kompanisë" Section
@@ -293,8 +292,8 @@ const addCoverPage = async (doc, category, bgDataURL) => {
     doc.setFont('NunitoSansBold', 'normal'); // Use NunitoSansBold
     doc.setFontSize(24);
     const titleText = category
-      ? `${capitalizeFirstLetter(category)} Catalog`
-      : 'Full Catalog';
+      ? `${categoryTranslationMap[category]} Katalog`
+      : 'Katalog i Plotë';
     doc.text(titleText, centerX, currentY, { align: 'center' });
 
     currentY += 15; // Increased spacing after title
@@ -303,10 +302,8 @@ const addCoverPage = async (doc, category, bgDataURL) => {
     doc.setFont('ManjariThin', 'normal');
     doc.setFontSize(12);
     const missionText = category
-      ? `Welcome to the ${capitalizeFirstLetter(
-          category
-        )} Catalog of Albanian Dairy & Supply Hub (ADSH). Discover our range of high-quality ${category.toLowerCase()} products designed to meet your needs.`
-      : `Welcome to the Full Catalog of Albanian Dairy & Supply Hub (ADSH). Explore our extensive range of products across all categories, crafted with quality and care to serve you better.`;
+      ? `Mirë se vini në Katalogun e ${capitalizeFirstLetter(categoryTranslationMap[category])} të Albanian Dairy & Supply Hub (ADSH). Zbuloni gamën tonë të produkteve të larta të cilësisë së ${category.toLowerCase()} të dizajnuara për të plotësuar nevojat tuaja.`
+      : `Mirë se vini në Katalogun e Plotë të Albanian Dairy & Supply Hub (ADSH). Shfletoni gamën tonë të gjerë të produkteve në të gjitha kategoritë, të krijuara me cilësi dhe kujdes për t'ju shërbyer më mirë.`;
 
     const splitMission = doc.splitTextToSize(missionText, containerWidth);
     doc.text(splitMission, centerX, currentY, { align: 'center' });
@@ -338,7 +335,7 @@ const addCoverPage = async (doc, category, bgDataURL) => {
 
     // Add "Produktet Tona" Section
     const productsTitle = 'Produktet Tona';
-    const productsText = `Cilësi e lartë dhe çmime konkuruse ne treg. Kemi rreth 200 produkte në disponim. Disa prej tyre mund ti gjeni më poshtë.`;
+    const productsText = `Cilësi e lartë dhe çmime konkuruse në treg. Kemi rreth 200 produkte në dispozim. Disa prej tyre mund ti gjeni më poshtë.`;
     addSection(productsTitle, productsText);
 
     // Add "Vlerat e Kompanisë" Section
@@ -356,6 +353,18 @@ const DownloadCatalog = () => {
   const navigate = useNavigate(); // For navigation after download
   const [isLoading, setIsLoading] = useState(true); // State for loading indicator
   const downloadInitiated = useRef(false); // Ref to prevent multiple downloads
+
+  // Mapping from English category names to Albanian translations
+  const categoryTranslationMap = {
+    "Dairy": "Bulmetore",
+    "Ice Cream": "Akullore",
+    "Pastry": "Pastiçeri",
+    "Bakery": "Furra",
+    "Packaging": "Paketime",
+    "Equipment": "Pajisje",
+    "All Products": "Të gjitha produktet",
+    "Other": "Të tjera"
+  };
 
   useEffect(() => {
     const fetchAndDownload = async () => {
@@ -381,7 +390,7 @@ const DownloadCatalog = () => {
           : data;
 
         if (filteredProducts.length === 0) {
-          alert('No products found for the selected category.');
+          alert('Nuk ka produkte në këtë kategori.');
           navigate('/'); // Redirect to Home.jsx
           return;
         }
@@ -412,7 +421,7 @@ const DownloadCatalog = () => {
         const bgDataURL = bgDataObj.dataURL;
 
         // Add Cover Page with additional sections and background
-        await addCoverPage(doc, category, bgDataURL);
+        await addCoverPage(doc, category, bgDataURL, categoryTranslationMap);
 
         // Initialize coordinates after the cover page
         const pageWidth = doc.internal.pageSize.getWidth();
@@ -537,8 +546,8 @@ const DownloadCatalog = () => {
 
         // Save the PDF
         const fileName = category
-          ? `${capitalizeFirstLetter(category)}_Catalog.pdf`
-          : 'Full_Catalog.pdf';
+          ? `${capitalizeFirstLetter(categoryTranslationMap[category])}_Katalog.pdf`
+          : 'Katalog_i_Plotë.pdf';
         doc.save(fileName);
 
         // Update loading state and redirect to Home.jsx
@@ -546,8 +555,8 @@ const DownloadCatalog = () => {
         navigate('/'); // Redirect to Home.jsx
       } catch (error) {
         console.error('Error generating catalog PDF:', error);
-        alert(`There was an error generating the catalog: ${error.message}. Please try again.`);
-        navigate('/products '); // Redirect to Products.jsx
+        alert(`Ka pasur një gabim gjatë krijimit të katalogut: ${error.message}. Ju lutem provoni përsëri.`);
+        navigate('/products'); // Redirect to Products.jsx (Removed extra space)
       }
     };
 
@@ -560,7 +569,7 @@ const DownloadCatalog = () => {
         <Loader /> // Display Loader while generating PDF
       ) : (
         <div style={{ textAlign: 'center', marginTop: '50px' }}>
-          <p>Download complete! Check your downloads folder.</p>
+          <p>Shkarkimi u krye.</p>
         </div>
       )}
     </div>

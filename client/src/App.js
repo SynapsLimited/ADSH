@@ -116,7 +116,6 @@ function App() {
             <Navbar currentTheme={currentTheme} /> {/* Navbar outside theme-container */}
             <ThemeToggle updateTheme={updateTheme} currentTheme={currentTheme} />
             <FixedMenu currentTheme={currentTheme} /> {/* FixedMenu outside theme-container */}
-
             {/* Themed Content */}
             <div className={`theme-container ${currentTheme}`}>
 

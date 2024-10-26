@@ -52,7 +52,7 @@ const AuthorPosts = () => {
   return (
     <section data-aos="fade-up"   className="posts">
       <div  className="blog-title-filtered">
-        <h1>Posts by {authorName}</h1>
+        <h1>Postime nga {authorName}</h1>
       </div>
 
       {posts.length > 0 ? (
@@ -71,7 +71,7 @@ const AuthorPosts = () => {
           ))}
         </div>
       ) : (
-        <h1  className="error-blog-not-found">No Posts Found</h1>
+        <h1  className="error-blog-not-found">Nuk ka postime!</h1>
       )}
 
         <Authors />

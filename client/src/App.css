@@ -65,6 +65,10 @@ body {
   filter: invert(0) hue-rotate(70deg) brightness(1) saturate(1.6);
 }
 
+.theme-container.green {
+  filter: invert(0) hue-rotate(190deg) brightness(1) saturate(0.9);
+}
+
 /* Transition for smooth theme change */
 .theme-container {
   transition: filter 0.3s ease;
@@ -369,6 +373,20 @@ img:hover {
   padding: 20px;
 }
 
+.hero-container-products-equipment {
+  background-image: url('../public/assets/Product - Equipment.jpg'); /* Packaging */
+  background-size: cover;
+  background-attachment: fixed; /* Fix the background to create parallax effect */
+  background-position: center;
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
 .hero-container-products-all {
   background-image: url('../public/assets/Products - Hero.jpg'); /* All Products */
   background-size: cover;
@@ -511,6 +529,11 @@ img:hover {
     width: 100%;
     background-size: cover;
   background-attachment: scroll;
+  }
+
+  p {
+    font-weight: 400;
+    font-size: 1.2rem;
   }
 }
 

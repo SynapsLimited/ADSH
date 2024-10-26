@@ -19,10 +19,10 @@ import 'swiper/css/pagination';
 import './../css/home.css'; // Import the CSS file
 
 const stats = [
-  { title: "Products", value: 100 },
-  { title: "Partners", value: 30 },
-  { title: "Experience", value: 30 },
-  { title: "Happy Clients", value: 350 },
+  { title: "Produkte", value: 100 },
+  { title: "Partnerët", value: 30 },
+  { title: "Eksperiencë", value: 30 },
+  { title: "Klientë të kënaqur", value: 350 },
 ];
 
 function Home() {
@@ -78,7 +78,7 @@ function Home() {
         if (posts.length > 0) {
           setLatestPost(posts[0]);
         } else {
-          setError('No posts found.');
+          setError('Nuk ka postime.');
         }
       } catch (err) {
         console.error('Error fetching latest post:', err);
@@ -118,41 +118,47 @@ function Home() {
 
   const categories = [
     {
-      title: "Dairy",
+      title: "Bulmetore",
       image: "/assets/Homepage - Hero.jpg", // Updated image source
-      description: "Fresh and creamy dairy products from local farms.",
+      description: "Lëndë e parë për bulmetore për të asistuar klinetët tanë ne prodhimin e një produkti me kualitet sa më të lartë!",
       link: "/products/category/Dairy",
     },
     {
-      title: "Ice Cream",
+      title: "Akullore",
       image: "/assets/Product - Ice Cream.jpg", // Updated image source
-      description: "Delicious, handcrafted ice cream in various flavors.",
+      description: "Lëndë përbërëse për prodhimin e akullores për ti dhënë një freski jetës në muajt e nxehtë të verës!",
       link: "/products/category/Ice Cream",
     },
     {
-      title: "Pastry",
+      title: "Pastiçeri",
       image: "/assets/Product - Pastry.jpg", // Updated image source
-      description: "Exquisite French pastries and desserts.",
+      description: "Produkte për pastiçeri, torta, kruasant, dhe më shumë!",
       link: "/products/category/Pastry",
     },
     {
-      title: "Packaging",
+      title: "Paketime",
       image: "/assets/Product - Packaging.jpg", // Updated image source
-      description: "High-quality packaging solutions for your products.",
+      description: "Paketime plastike për bulmet, akullore, ose pastiçeri.",
       link: "/products/category/Packaging",
     },
     {
-      title: "Bakery",
+      title: "Furra",
       image: "/assets/Product - Bakery.jpg", // Updated image source
-      description: "Freshly baked bread, cakes, and pastries.",
+      description: "Përbërës të ndryshëm për furra buke.",
       link: "/products/category/Bakery",
+    },
+    {
+      title: "Pajisje",
+      image: "/assets/Product - Equipment.jpg", // Updated image source
+      description: "Pajisje dhe veshje pune për ushqimoret.",
+      link: "/products/category/Equipment",
     },
   ];
 
   return (
     <div>
       <Helmet>
-                <title>ADSH - Home</title>
+                <title>ADSH - Kryesore</title>
             </Helmet>
       {/* Hero Section */}
       <div
@@ -166,17 +172,17 @@ function Home() {
           {/* Text Section */}
           <h3 className="hero-title">Albanian Dairy & Supply Hub</h3>
           <p className="hero-description">
-            Lorem ipsum dolor sit amet consectetur. Maecenas mollis mus ut risus at aenean dignissim. Patea tempor vitae suspendisse pellentesque.
+          Fuqizojmë krijimet tuaja kulinare me përbërës dhe furnizime cilësore. Nga kënaqësitë e bulmetit deri te përsosmëria e pastiçerisë, ne jemi partneri juaj i besueshëm në ekselencën kulinare.
           </p>
 
           {/* Contact Button */}
-          <a href="/contact" className="btn btn-primary">Contact</a>
+          <a href="/contact" className="btn btn-primary">Kontakto</a>
         </div>
       </div>
 
       {/* Stats Section */}
       <div id="stats-section" className="stats-section-container">
-        <h2 className="stats-title">Why ADSH?</h2>
+        <h2 className="stats-title">Përse duhet të zgjidhni ADSH-n?</h2>
         <div className="stats-blobs">
           {stats.map((stat, index) => (
             <motion.div
@@ -202,8 +208,8 @@ function Home() {
           ))}
         </div>
         <p className="stats-paragraph">
-          Lorem ipsum dolor sit amet consectetur. Dictum arcu porttitor tincidunt sagittis odio integer elementum.
-        </p>
+          Këto janë disa prej statistikave që ADSH ka arritur gjatë viteve që ka qënë ne treg. 
+         </p>
       </div>
 
       {/* "Who are we?" Section */}
@@ -212,13 +218,11 @@ function Home() {
           <div className="who-we-are-content">
             {/* Text Section */}
             <div className="who-we-are-text">
-              <h2 className="who-we-are-title">Who are we?</h2>
+              <h2 className="who-we-are-title">Kush jemi ne?</h2>
               <p className="who-we-are-description">
-                Lorem ipsum dolor sit amet consectetur. Purus tellus leo in nullam non ullamcorper leo semper. Dui donec
-                est urna ac bibendum nullam blandit euismod. Ullamcorper vitae nibh ante cursus tristique euismod
-                bibendum id nunc. Leo turpis enim tristique vulputate sed sit et.
+              ADSH-2014 është një kompani që është krijuar në vitin 2014. Kompania zotëron mbi 26 vite eksperiencë në fushën e lëndëve të para për bulmetore dhe pastiçeri.
               </p>
-              <a href="/about" className="btn btn-primary" >About</a>
+              <a href="/about" className="btn btn-primary" >Rreth Nesh</a>
             </div>
             {/* Swiper Section */}
             <div className="who-we-are-swiper">
@@ -255,7 +259,7 @@ function Home() {
       {/* Product Categories Section */}
       <section data-aos="fade-up"  className="product-categories">
         <div className="container">
-          <h2>Product Categories</h2>
+          <h2>Kategoritë e produkteve</h2>
           <div className="category-grid">
             {categories.map((category, index) => (
               <div key={index} className="category-card">
@@ -278,14 +282,14 @@ function Home() {
           {/* Added Paragraph and Button */}
           <div className="catalog-download container">
             <p>
-              Too lazy to roam around the website and look at the built-in catalog on the website? You can download our product catalog to have a physical copy of all our products.
+            Shfletoni kataloget tanë digjital në website-n tonë në bazë të kategorisë. Nuk jeni të sigurt ç'farë produkti po kërkoni? Shfletoni katalogun e plotë ose shkarkoni katalogun e plotë për një eksperiencë me të rehatshme. Katalogët e çdo kategorie mund të shkarkohen gjithashtu për thjeshtimin e eksperiencës tuaj!
             </p>
             <div className="category-buttons">
             <Link to="/full-catalog" className="btn btn-primary">
-              Browse Catalog
+              Shfleto Katalogun e plotë
             </Link>
             <Link to="/download-catalog" className="btn btn-primary">
-            Download Catalog
+            Shkarko Katalogun e plotë
           </Link>
             </div>
           </div>
@@ -298,7 +302,7 @@ function Home() {
       <div className="container">
         <div className="blog-container">
         {isLoading ? (
-            <p>Loading latest post...</p>
+            <p>Duke ngarkuar postimin...</p>
           ) : error ? (
             <p>{error}</p>
           ) : latestPost ? (
@@ -314,16 +318,15 @@ function Home() {
               />
             </div>
           ) : (
-            <p>No posts available.</p>
+            <p>Nuk ka postime.</p>
           )}
 
           <div className="blog-content container">
-            <h2>Blog</h2>
+            <h2>Artikuj</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus tellus leo in nullam non ullamcorper leo semper. Dui donec est urna ac bibendum nullam blandit euismod. Ullamcorper vitae nibh ante cursus tristique euismod bibendum id nunc. Leo turpis enim tristique vulputate sed sit et.
-            </p>
+            Shfletoni artikujt tanë për të mësuar më shumë rreth produkteve tona dhe përdorimit të tyre në krijimet tuaja kulinare. Ne mbulojmë të gjitha kategoritë e produkteve, duke ju ofruar këshilla, receta, dhe trendet më të fundit në industri. Qëndroni të informuar dhe të frymëzuar me përmbajtjen tonë të përditësuar rregullisht.            </p>
             <Link to="/blog" className="btn btn-primary blog-button">
-              Blog
+              Artikujt
             </Link>
           </div>
         </div>

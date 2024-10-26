@@ -1,3 +1,5 @@
+// src/components/CategoryPosts.jsx
+
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import PostItem from '../components/PostItem';
@@ -12,15 +14,33 @@ const CategoryPosts = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { category } = useParams();
 
+  // Mapping from English category names to Albanian translations
+  const categoryTranslationMap = {
+    "Dairy": "Bulmetore",
+    "Ice Cream": "Akullore",
+    "Pastry": "Pastiçeri",
+    "Bakery": "Furra",
+    "Packaging": "Paketime",
+    "Equipment": "Pajisje",
+    "Other": "Të tjera"
+  };
+
+  // Get the display name in Albanian
+  const categoryDisplayName =
+    categoryTranslationMap[category] || category;
+
   useEffect(() => {
     const fetchAuthorAndPosts = async () => {
       setIsLoading(true);
       try {
-        const authorResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}/posts/categories/${category}`);
-        setAuthorName(authorResponse.data.name);
-
+        // Merrni postimet për kategorinë aktuale
         const postsResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}/posts/categories/${category}`);
-        setPosts(postsResponse?.data);
+        setPosts(postsResponse.data);
+        
+        // Nëse keni nevojë të merrni emrin e autorit, mund të bëni një kërkesë tjetër
+        // Për shembull:
+        // const authorResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}/authors/${authorId}`);
+        // setAuthorName(authorResponse.data.name);
       } catch (err) {
         console.log(err);
       }
@@ -36,7 +56,7 @@ const CategoryPosts = () => {
   return (
     <section data-aos="fade-up" className="posts">
       <div className="blog-title-filtered">
-        <h1>{category}</h1>
+        <h1>{categoryDisplayName}</h1>
       </div>
 
       {posts.length > 0 ? (
@@ -55,20 +75,24 @@ const CategoryPosts = () => {
           ))}
         </div>
       ) : (
-        <h1 className="error-blog-not-found">No Posts Found</h1>
+        <h1 className="error-blog-not-found">Nuk u gjetën postime</h1>
       )}
 
+      {/* Blog Categories Section */}
       <section data-aos="fade-up" className="container blog-categories-section">
         <div className="blog-title">
-          <h1>Categories</h1>
+          <h1>Kategori</h1>
         </div>
         <ul className="blog-categories">
-          <li className="btn btn-secondary"><Link to="/posts/categories/Dairy">Dairy</Link></li>
-          <li className="btn btn-secondary"><Link to="/posts/categories/Ice Cream">Ice Cream</Link></li>
-          <li className="btn btn-secondary"><Link to="/posts/categories/Pastry">Pastry</Link></li>
-          <li className="btn btn-secondary"><Link to="/posts/categories/Bakery">Bakery</Link></li>
-          <li className="btn btn-secondary"><Link to="/posts/categories/Packaging">Packaging</Link></li>
-          <li className="btn btn-secondary"><Link to="/posts/categories/Other">Other</Link></li>
+          {Object.keys(categoryTranslationMap).map((key) => (
+            <li key={key} className="btn btn-secondary">
+              <Link to={`/posts/categories/${key}`}>{categoryTranslationMap[key]}</Link>
+            </li>
+          ))}
+          {/* Nëse keni kategori të tjera, shtoni ato këtu */}
+          <li className="btn btn-secondary">
+            <Link to={`/posts/categories/Other`}>Të tjera</Link>
+          </li>
         </ul>
       </section>
     </section>

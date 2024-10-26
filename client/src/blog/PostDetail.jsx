@@ -54,7 +54,7 @@ const PostDetail = () => {
 
   // Show error if no post data is available
   if (!post) {
-    return <p  className='error'>Post not found.</p>;
+    return <p  className='error'>Postimi nuk u gjet.</p>;
   }
 
   // Default thumbnail if no custom thumbnail is available for the post
@@ -92,11 +92,11 @@ const PostDetail = () => {
             <p dangerouslySetInnerHTML={{ __html: post.description }}></p>
           </div>
         ) : (
-          <p  className='error'>Author not found for this post.</p>
+          <p  className='error'>Author nuk u gjet.</p>
         )}
 
         {/* Back to blog button */}
-        <a href="/blog" className="btn btn-secondary post-detail-btn">Back to Blog</a>
+        <a href="/blog" className="btn btn-secondary post-detail-btn">Kthehu te Artikujt</a>
       </section>
     </div>
   );

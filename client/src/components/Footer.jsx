@@ -12,7 +12,7 @@ const Footer = () => {
 
         <div className="footer-bottom">
           <div className="footer-column footer-location">
-            <h4>Location</h4>
+            <h4>Vendndodhja</h4>
             <div className="socials-container">
               <div className="social-row">
               <img src={`${process.env.PUBLIC_URL}/assets/Europe.png`} alt="Europe" />
@@ -22,7 +22,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="footer-column footer-contact">
-            <h4>Contact</h4>
+            <h4>Kontakt</h4>
             <div className="socials-container">
               <div className="social-row">
                 <img src={`${process.env.PUBLIC_URL}/assets/phone-call.png`} alt="Phone Number" />
@@ -35,7 +35,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="footer-column footer-socials">
-            <h4>Socials</h4>
+            <h4>Rrjete Sociale</h4>
             <div className="socials-container">
             <div className="social-row">
                 <img src={`${process.env.PUBLIC_URL}/assets/whatsapp.png`} alt="Whatsapp" />
@@ -58,8 +58,8 @@ const Footer = () => {
         </div>
 
         <div className="footer-copy">
-          <p>Copyright &copy; ADSH. All Rights Reserved</p>
-          <p>Designed by <a href="http://www.synapslimited.eu" className="footer-copy-designed-by-synaps">Synaps</a></p>
+          <p>Copyright &copy; ADSH. Të gjitha të drejtat e rezervuara.</p>
+          <p>Dizenjuar nga <a href="http://www.synapslimited.eu" className="footer-copy-designed-by-synaps">Synaps</a></p>
         </div>
       </div>
     </footer>

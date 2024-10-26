@@ -13,7 +13,7 @@ const SearchBar = ({ query, setQuery, suggestions, onSuggestionClick }) => {
       <input
         type="search"
         className="search-input"
-        placeholder="Search for products..."
+        placeholder="Kërko produkte..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />

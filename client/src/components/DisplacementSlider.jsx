@@ -278,26 +278,29 @@ function DisplacementSlider() {
     <div id="slider" ref={sliderRef} style={{ width: '100%', height: '100vh' }}>
       <div className="slider-inner">
         <div id="slider-content" ref={sliderContentRef}>
-          <div className="meta">Category</div>
+          <div className="meta">Kategoria</div>
           <h2 id="slide-title" ref={slideTitleRef}>
           Dairy
           </h2>
           {/* Hidden titles */}
-          <span className="hidden" data-slide-title="0">Dairy</span>
-          <span className="hidden" data-slide-title="1">Ice Cream</span>
-          <span className="hidden" data-slide-title="2">Pastry</span>
-          <span className="hidden" data-slide-title="3">Bakery</span>
-          <span className="hidden" data-slide-title="4">Packaging</span>
+          <span className="hidden" data-slide-title="0">Bulmetore</span>
+          <span className="hidden" data-slide-title="1">Akullore</span>
+          <span className="hidden" data-slide-title="2">Pastiçeri</span>
+          <span className="hidden" data-slide-title="3">Furra</span>
+          <span className="hidden" data-slide-title="4">Paketime</span>
+          <span className="hidden" data-slide-title="5">Pajisje</span>
           <div className="meta">ADSH</div>
           <div id="slide-status" ref={slideStatusRef}>
-            Products
+          Produkte
           </div>
           {/* Hidden statuses */}
-          <span className="hidden" data-slide-status="0">Products</span>
-          <span className="hidden" data-slide-status="1">Products</span>
-          <span className="hidden" data-slide-status="2">Products</span>
-          <span className="hidden" data-slide-status="3">Products</span>
-          <span className="hidden" data-slide-status="4">Products</span>
+          <span className="hidden" data-slide-status="0">Produkte</span>
+          <span className="hidden" data-slide-status="1">Produkte</span>
+          <span className="hidden" data-slide-status="2">Produkte</span>
+          <span className="hidden" data-slide-status="3">Produkte</span>
+          <span className="hidden" data-slide-status="4">Produkte</span>
+          <span className="hidden" data-slide-status="5">Produkte</span>
+
         </div>
       </div>
       {/* Images */}
@@ -306,6 +309,7 @@ function DisplacementSlider() {
       <img src="/assets/Product - Pastry.jpg" alt="Pastry Products / Produkte Pasticerie" />
       <img src="/assets/Product - Bakery.jpg" alt="Bakery Products / Produkte per Furra" />
       <img src="/assets/Product - Packaging.jpg" alt="Packaging Products / Produkte Paketimi" />
+      <img src="/assets/Product - Equipment.jpg" alt="Equipment Products / Pajisje & Veshje" />
       {/* Pagination */}
       <div id="pagination" ref={paginationRef}>
         <button className="active" data-slide="0"></button>
@@ -313,6 +317,8 @@ function DisplacementSlider() {
         <button data-slide="2"></button>
         <button data-slide="3"></button>
         <button data-slide="4"></button>
+        <button data-slide="5"></button>
+
       </div>
     </div>
   );

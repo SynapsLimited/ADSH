@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './../css/navbar.css';
 import ReactCountryFlag from 'react-country-flag';
 
+
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -93,19 +94,19 @@ const Navbar = () => {
           </div>
           <ul className={`nav no-search ${isMobileMenuOpen ? 'mobile-nav' : ''} ${isScrolled ? 'scrolled' : ''}`}>
             <li className="nav-item">
-              <Link to="/" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>Home</Link>
+              <Link to="/" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>Kryesore</Link>
             </li>
             <li className="nav-item">
-              <Link to="/about" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>About</Link>
+              <Link to="/about" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>Rreth Nesh </Link>
             </li>
             <li className="nav-item">
-              <Link to="/products" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>Products</Link>
+              <Link to="/products" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>Produkte</Link>
             </li>
             <li className="nav-item">
-              <Link to="/blog" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>Blog</Link>
+              <Link to="/blog" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>Artikujt</Link>
             </li>
             <li className="nav-item">
-              <Link to="/contact" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>Contact</Link>
+              <Link to="/contact" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>Kontakt</Link>
             </li>
             <li className="nav-item has-dropdown">
               <a href="/" className={isScrolled ? 'scrolled' : ''} onClick={handleLanguageDropdownToggle}>

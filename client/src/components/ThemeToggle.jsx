@@ -3,9 +3,10 @@ import { Palette, ChevronUp } from 'lucide-react';
 import './../css/themetoggle.css';
 
 const colorOptions = [
-  { name: 'Normal', class: 'normal' },
-  { name: 'Autumn', class: 'yellowish-beige' },
-  { name: 'Winter', class: 'light-blue' },
+  { name: 'Verë', class: 'normal' },
+  { name: 'Vjeshtë', class: 'yellowish-beige' },
+  { name: 'Dimër', class: 'light-blue' },
+  { name: 'Pranverë', class: 'green' },
 
 ];
 
@@ -29,7 +30,7 @@ export default function ThemeToggle({ updateTheme, currentTheme }) {
 
       <div className={`theme-menu ${isOpen ? 'open' : 'closed'}`}>
         <div className="menu-content">
-          <h3 className="menu-title">Change Color Theme</h3>
+          <h3 className="menu-title">Ndrysho stinën!</h3>
           <div className="theme-options">
             {colorOptions.map((color) => (
               <button

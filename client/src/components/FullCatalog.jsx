@@ -15,6 +15,17 @@ const FullCatalog = () => {
   const [searchQuery, setSearchQuery] = useState(''); // Search input value
   const [scrollPosition, setScrollPosition] = useState(0);
 
+  // Mapping from English category names to Albanian translations
+  const categoryTranslationMap = {
+    "Dairy": "Bulmetore",
+    "Ice Cream": "Akullore",
+    "Pastry": "Pastiçeri",
+    "Bakery": "Furra",
+    "Packaging": "Paketime",
+    "Equipment": "Pajisje",
+    "All Products": "Të gjitha produktet"
+  };
+
   // Fetch all products from the backend
   useEffect(() => {
     const fetchProducts = async () => {
@@ -95,16 +106,16 @@ const FullCatalog = () => {
     <div>
       {/* Hero Section */}
       <div
-        className="hero-container hero-container-about"
+        className="hero-container hero-container-products-all"
         style={{ backgroundPositionY: `${scrollPosition * 0}px` }}
       >
         <div className="hero-content">
-          <h1 className="hero-title-h1">All Products</h1>
+          <h1 className="hero-title-h1">Të Gjitha Produktet</h1>
           <p className="hero-description">
-            Explore our full range of products across all categories.
+            Zbuloni gamën tonë të plotë të produkteve në të gjitha kategoritë.
           </p>
           <a href="/contact" className="btn btn-primary">
-            Contact
+            Kontakto
           </a>
         </div>
       </div>
@@ -112,34 +123,37 @@ const FullCatalog = () => {
       {/* Category Navigation Buttons */}
       <div className="category-buttons">
         <Link to="/products/category/Dairy" className="btn btn-primary">
-          Dairy
+          {categoryTranslationMap["Dairy"]}
         </Link>
         <Link to="/products/category/Ice Cream" className="btn btn-primary">
-          Ice Cream
+          {categoryTranslationMap["Ice Cream"]}
         </Link>
         <Link to="/products/category/Pastry" className="btn btn-primary">
-          Pastry
+          {categoryTranslationMap["Pastry"]}
         </Link>
         <Link to="/products/category/Packaging" className="btn btn-primary">
-          Packaging
+          {categoryTranslationMap["Packaging"]}
         </Link>
         <Link to="/products/category/Bakery" className="btn btn-primary">
-          Bakery
+          {categoryTranslationMap["Bakery"]}
+        </Link>
+        <Link to="/products/category/Equipment" className="btn btn-primary">
+          {categoryTranslationMap["Equipment"]}
         </Link>
         <Link to="/full-catalog" className="btn btn-primary">
-          All Products
+          {categoryTranslationMap["All Products"]}
         </Link>
       </div>
 
       {/* Download Catalog Link */}
       <div style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}>
         <Link to={`/download-catalog`} className="btn btn-primary">
-          Download All Products Catalog
+          Shkarko katalogun e plotë
         </Link>
       </div>
 
       <p className="center-p">
-        Browse through our extensive catalog of products, sorted alphabetically for your convenience.
+        Shfletoni katalogun tonë të gjerë të produkteve, të renditur alfabetikisht për komoditetin tuaj.
       </p>
 
       <SearchBar
@@ -176,13 +190,13 @@ const FullCatalog = () => {
                   {/* Truncated Description */}
                   <p>{truncateDescription(product.description, 20)}</p>
                   <Link to={`/products/${product._id}`} className="btn btn-secondary">
-                    View Details
+                    Shiko Detajet
                   </Link>
                 </div>
               </div>
             ))
           ) : (
-            <p>No products found in this category.</p>
+            <p>Nuk u gjetën produkte.</p>
           )}
         </div>
       </section>

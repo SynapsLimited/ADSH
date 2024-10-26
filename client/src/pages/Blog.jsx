@@ -1,3 +1,5 @@
+// src/components/Blog.jsx
+
 import React, { useState, useEffect } from "react";
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -21,20 +23,20 @@ function Blog() {
     };
   }, []);
 
-
   const categories = [
-    { key: 'Dairy', value: 'Dairy' },
-    { key: 'Ice Cream', value: 'Ice Cream' },
-    { key: 'Pastry', value: 'Pastry' },
-    { key: 'Bakery', value: 'Bakery' },
-    { key: 'Packaging', value: 'Packaging' },
-    { key: 'Other', value: 'Other' },
+    { key: 'Dairy', value: 'Bulmetore' },
+    { key: 'Ice Cream', value: 'Akullore' },
+    { key: 'Pastry', value: 'Pastiçeri' },
+    { key: 'Bakery', value: 'Furra' },
+    { key: 'Packaging', value: 'Paketime' },
+    { key: 'Equipment', value: 'Pajisje' },
+    { key: 'Other', value: 'Të tjera' },
   ];
 
   return (
     <div>
       <Helmet>
-        <title>ADSH - Blog</title>
+        <title>ADSH - Artikujt</title>
       </Helmet>
       
       {/* Hero Section */}
@@ -44,26 +46,26 @@ function Blog() {
       >
         <div className="hero-content">
           {/* Text Section */}
-          <h1 className="hero-title-h1">Blog</h1>
+          <h1 className="hero-title-h1">Artikujt</h1>
           <p className="hero-description">
-            Stay updated with the latest trends, tips, and insights in dairy, ice cream, bakery, and more.
+            Qëndroni të informuar me trendet më të fundit, këshillat, dhe njohuritë në bulmetore, akullore, furra dhe më shumë.
           </p>
 
           {/* Contact Button */}
-          <a href="/contact" className="btn btn-primary">Contact</a>
+          <a href="/contact" className="btn btn-primary">Kontakto</a>
         </div>
       </div>
 
       {/* Blog Intro */}
       <div className="blog-title">
-        <h1>Welcome to Our Blog</h1>
-        <p>Explore articles, news, and updates about our products, services, and industry insights.</p>
+        <h1>Mirë se vini në Blogun tonë</h1>
+        <p>Shfletoni artikuj, lajme, dhe përditësime rreth produkteve tona, shërbimeve, dhe njohurive të industrisë.</p>
       </div>
 
       {/* Blog Categories Section */}
       <section data-aos="fade-up" className="container blog-categories-section">
         <div className="blog-title">
-          <h1>Categories</h1>
+          <h1>Kategori</h1>
         </div>
         <ul className="blog-categories">
           {categories.map(({ key, value }) => (
