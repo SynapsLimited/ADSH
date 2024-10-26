@@ -26,7 +26,7 @@ const ProductDetail = () => {
         if (data) {
           setProduct(data);
         } else {
-          setError('No product data found.');
+          setError('Nuk u gjetën të dhëna të produktit.');
         }
       } catch (error) {
         setError(error.message);
@@ -45,7 +45,7 @@ const ProductDetail = () => {
   }
 
   if (!product) {
-    return <p className="error">Product not found.</p>;
+    return <p className="error">Produkti nuk u gjet.</p>;
   }
 
   // Slider settings for react-slick
@@ -71,7 +71,7 @@ const ProductDetail = () => {
             {currentUser?.id === (product.creator._id || product.creator) && (
               <div className="product-detail-buttons">
                 <Link to={`/products/${product._id}/edit`} className="btn btn-primary">
-                  Edit
+                  Ndrysho
                 </Link>
                 <DeleteProduct productId={product._id} />
               </div>
@@ -92,16 +92,16 @@ const ProductDetail = () => {
           </div>
 
           {/* Product details */}
-          <h3>Category: {product.category}</h3>
+          <h3>Kategoria: {product.category}</h3>
           {product.variations.length > 0 && (
-            <h4>Variations: {product.variations.join(', ')}</h4>
+            <h4>Variacionet: {product.variations.join(', ')}</h4>
           )}
           <p>{product.description}</p>
         </div>
 
         {/* Back to products button */}
         <Link to="/full-catalog" className="btn btn-secondary product-detail-btn">
-          Back to Products
+          Kthehu te Produktet
         </Link>
       </section>
     </div>

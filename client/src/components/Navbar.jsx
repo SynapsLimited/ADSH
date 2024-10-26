@@ -1,19 +1,17 @@
-// components/Navbar.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './../css/navbar.css';
 import ReactCountryFlag from 'react-country-flag';
 
-
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
-  const [language, setLanguage] = useState({ label: 'EN', languageCode: 'en' });
+  const [language, setLanguage] = useState({ label: 'AL', languageCode: 'sq' });
 
   const languages = [
-    { label: 'EN', languageCode: 'en', countryCode: 'US' },
     { label: 'AL', languageCode: 'sq', countryCode: 'AL' },
+    { label: 'EN', languageCode: 'en', countryCode: 'US' },
   ];
 
   const handleMenuToggle = () => {
@@ -35,14 +33,11 @@ const Navbar = () => {
     const dropdownMenu = document.querySelector('.dropdown-menu');
 
     if (isLanguageDropdownOpen) {
-      // Add the 'hide' class for closing animation
       dropdownMenu.classList.add('hide');
-
-      // Wait for the animation to finish before actually closing the menu
       setTimeout(() => {
         setIsLanguageDropdownOpen(false);
         dropdownMenu.classList.remove('hide');
-      }, 700); // Adjust the timeout based on the animation duration
+      }, 700);
     } else {
       setIsLanguageDropdownOpen(true);
     }
@@ -50,9 +45,17 @@ const Navbar = () => {
 
   const handleLanguageChange = (langOption) => {
     setLanguage(langOption);
-    localStorage.setItem('preferredLanguage', JSON.stringify(langOption)); // Save to localStorage
+    localStorage.setItem('preferredLanguage', JSON.stringify(langOption));
+
+    // Find the Google Translate dropdown
+    const googleFrame = document.querySelector('.goog-te-combo');
+    if (googleFrame) {
+      googleFrame.value = langOption.languageCode;
+      googleFrame.dispatchEvent(new Event('change'));  // Trigger Google Translate to switch languages
+    }
+
     setIsLanguageDropdownOpen(false);
-    setIsMobileMenuOpen(false); // Close the mobile menu when a language is selected
+    setIsMobileMenuOpen(false);
   };
 
   useEffect(() => {
@@ -62,12 +65,11 @@ const Navbar = () => {
         const langOption = JSON.parse(savedLanguage);
         setLanguage(langOption);
       } catch (error) {
-        // If parsing fails, assume savedLanguage is a string like "EN"
-        setLanguage({ label: savedLanguage, languageCode: savedLanguage.toLowerCase() });
+        setLanguage({ label: 'AL', languageCode: 'sq' });  // Default to AL
       }
     } else {
-      // Default to English
-      setLanguage({ label: 'EN', languageCode: 'en' });
+      // Default to AL (Albanian)
+      setLanguage({ label: 'AL', languageCode: 'sq' });
     }
 
     window.addEventListener('scroll', handleScroll);
@@ -76,9 +78,28 @@ const Navbar = () => {
     };
   }, []);
 
+  // Load Google Translate script
+  useEffect(() => {
+    window.googleTranslateElementInit = () => {
+      new window.google.translate.TranslateElement(
+        { 
+          pageLanguage: 'sq',  // Set default language to Albanian
+          includedLanguages: 'sq,en',  // Include both Albanian and English
+          layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE 
+        },
+        'google_translate_element'
+      );
+    };
+
+    const script = document.createElement('script');
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.crossOrigin = 'anonymous';  // Add crossorigin attribute
+    document.body.appendChild(script);
+  }, []);
+
   return (
-      <div className={`page-wrapper ${isScrolled ? 'scrolled' : ''}`}>
-        <div className={`nav-wrapper ${isScrolled ? 'scrolled' : ''}`}>
+    <div className={`page-wrapper ${isScrolled ? 'scrolled' : ''}`}>
+      <div className={`nav-wrapper ${isScrolled ? 'scrolled' : ''}`}>
         <nav className="navbar">
           <Link to="/" onClick={handleMenuClose}>
             <img src="/assets/Logo-Red.png" alt="ADSH Logo" className={isScrolled ? 'scrolled' : ''} />
@@ -128,8 +149,9 @@ const Navbar = () => {
           </ul>
         </nav>
       </div>
-      </div>
-
+      {/* Hidden Google Translate element */}
+      <div id="google_translate_element" style={{ display: 'none' }}></div>
+    </div>
   );
 };
 
