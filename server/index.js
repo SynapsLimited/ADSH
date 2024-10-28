@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 // CORS configuration
 app.use(cors({
   origin: ["http://localhost:3000", "http://127.0.0.1:3000",
-     "https://adsh-client.vercel.app", "https://www.adsh2014.al"
+     "https://adsh-client.vercel.app", "https://www.adsh2014.al", , "https://adsh2014.al"
   ], // Allow both localhost and 127.0.0.1
   credentials: true // Allow credentials (cookies, authorization headers, etc.)
 }));
