@@ -4,7 +4,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './App.css';
-import TranslatorWidget from 'react-translate-widget';
 
 
 import Navbar from './components/Navbar';
@@ -126,7 +125,6 @@ function App() {
               <BackgroundAnimation />
               <ScrollToTop />
               <Layout>
-              <TranslatorWidget sourceLanguageCode="sq" className="translator"/>
                 <div className="content">
                   <Routes>
 
