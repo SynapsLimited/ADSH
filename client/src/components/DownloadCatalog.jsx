@@ -361,6 +361,7 @@ const DownloadCatalog = () => {
     "Pastry": "Pastiçeri",
     "Bakery": "Furra",
     "Packaging": "Paketime",
+    "Nuts": "Fruta të thata",
     "Equipment": "Pajisje",
     "All Products": "Të gjitha produktet",
     "Other": "Të tjera"

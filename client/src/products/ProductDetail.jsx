@@ -1,5 +1,3 @@
-// src/components/ProductDetail.jsx
-
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import './../css/products.css';
@@ -9,6 +7,18 @@ import { UserContext } from '../context/userContext';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+
+// Mapping from English category names to Albanian translations
+const categoryTranslationMap = {
+  "Dairy": "Bulmetore",
+  "Ice Cream": "Akullore",
+  "Pastry": "Pastiçeri",
+  "Bakery": "Furra",
+  "Packaging": "Paketime",
+  "Nuts": "Fruta të thata",
+  "Equipment": "Pajisje",
+  "All Products": "Të gjitha produktet"
+};
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -92,7 +102,7 @@ const ProductDetail = () => {
           </div>
 
           {/* Product details */}
-          <h3>Kategoria: {product.category}</h3>
+          <h3>Kategoria: {categoryTranslationMap[product.category] || product.category}</h3> {/* Use translated category name */}
           {product.variations.length > 0 && (
             <h4>Variacionet: {product.variations.join(', ')}</h4>
           )}

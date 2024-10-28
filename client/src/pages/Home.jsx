@@ -142,6 +142,12 @@ function Home() {
       link: "/products/category/Packaging",
     },
     {
+      title: "Fruta të thata",
+      image: "/assets/Product - Nuts.jpg", // Updated image source
+      description: "Lloje të ndryshme frutash të thata për klientët tanë.",
+      link: "/products/category/Nuts",
+    },
+    {
       title: "Furra",
       image: "/assets/Product - Bakery.jpg", // Updated image source
       description: "Përbërës të ndryshëm për furra buke.",

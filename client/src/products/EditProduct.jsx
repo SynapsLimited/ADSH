@@ -26,7 +26,7 @@ const EditProduct = () => {
     }
   }, [token, navigate]);
 
-  const PRODUCT_CATEGORIES = ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Other'];
+  const PRODUCT_CATEGORIES = ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', "Nuts", "Equipment", 'Other'];
 
   useEffect(() => {
     const getProduct = async () => {

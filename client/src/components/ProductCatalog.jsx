@@ -23,6 +23,7 @@ const ProductCatalog = () => {
     "Pastry": "hero-container hero-container-products-pastry",
     "Bakery": "hero-container hero-container-products-bakery",
     "Packaging": "hero-container hero-container-products-packaging",
+    "Nuts": "hero-container hero-container-products-nuts",
     "Equipment": "hero-container hero-container-products-equipment",
     "All Products": "hero-container hero-container-products-all"
   };
@@ -34,6 +35,7 @@ const ProductCatalog = () => {
     "Pastry": "Pastiçeri",
     "Bakery": "Furra",
     "Packaging": "Paketime",
+    "Nuts": "Fruta të thata",
     "Equipment": "Pajisje",
     "All Products": "Të gjitha produktet"
   };
@@ -173,6 +175,9 @@ const ProductCatalog = () => {
         </Link>
         <Link to="/products/category/Packaging" className="btn btn-primary">
           Paketime
+        </Link>
+        <Link to="/products/category/Nuts" className="btn btn-primary">
+          Fruta të thata
         </Link>
         <Link to="/products/category/Bakery" className="btn btn-primary">
           Furra

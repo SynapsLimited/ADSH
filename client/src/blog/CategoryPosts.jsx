@@ -21,6 +21,7 @@ const CategoryPosts = () => {
     "Pastry": "Pastiçeri",
     "Bakery": "Furra",
     "Packaging": "Paketime",
+    "Nuts": "Fruta të thata",
     "Equipment": "Pajisje",
     "Other": "Të tjera"
   };
@@ -90,9 +91,6 @@ const CategoryPosts = () => {
             </li>
           ))}
           {/* Nëse keni kategori të tjera, shtoni ato këtu */}
-          <li className="btn btn-secondary">
-            <Link to={`/posts/categories/Other`}>Të tjera</Link>
-          </li>
         </ul>
       </section>
     </section>

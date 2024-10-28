@@ -165,6 +165,7 @@ img:hover {
   font-family: 'Nunito Sans', sans-serif;
   transition: var(--transition);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Adjust shadow to match the design */
+  text-align: center;
 }
 
 .btn:hover {
@@ -372,9 +373,22 @@ img:hover {
   text-align: center;
   padding: 20px;
 }
+.hero-container-products-packaging {
+  background-image: url('../public/assets/Product - Packaging.jpg'); /* Packaging */
+  background-size: cover;
+  background-attachment: fixed; /* Fix the background to create parallax effect */
+  background-position: center;
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
 
-.hero-container-products-equipment {
-  background-image: url('../public/assets/Product - Equipment.jpg'); /* Packaging */
+.hero-container-products-nuts {
+  background-image: url('../public/assets/Product - Nuts.jpg'); /* Packaging */
   background-size: cover;
   background-attachment: fixed; /* Fix the background to create parallax effect */
   background-position: center;

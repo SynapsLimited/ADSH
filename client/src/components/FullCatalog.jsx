@@ -22,6 +22,7 @@ const FullCatalog = () => {
     "Pastry": "Pastiçeri",
     "Bakery": "Furra",
     "Packaging": "Paketime",
+    "Nuts": "Fruta të thata",
     "Equipment": "Pajisje",
     "All Products": "Të gjitha produktet"
   };

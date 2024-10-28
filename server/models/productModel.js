@@ -7,7 +7,7 @@ const productSchema = new Schema(
     name: { type: String, required: true },
     category: {
       type: String,
-      enum: ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Other'],
+      enum: ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging','Nuts', 'Equipment', 'Other'],
       required: true,
       message: '{VALUE} is not supported',
     },

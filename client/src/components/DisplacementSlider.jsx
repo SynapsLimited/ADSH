@@ -288,7 +288,8 @@ function DisplacementSlider() {
           <span className="hidden" data-slide-title="2">Pastiçeri</span>
           <span className="hidden" data-slide-title="3">Furra</span>
           <span className="hidden" data-slide-title="4">Paketime</span>
-          <span className="hidden" data-slide-title="5">Pajisje</span>
+          <span className="hidden" data-slide-title="5">Fruta të thata</span>
+          <span className="hidden" data-slide-title="6">Pajisje</span>
           <div className="meta">ADSH</div>
           <div id="slide-status" ref={slideStatusRef}>
           Produkte
@@ -300,6 +301,7 @@ function DisplacementSlider() {
           <span className="hidden" data-slide-status="3">Produkte</span>
           <span className="hidden" data-slide-status="4">Produkte</span>
           <span className="hidden" data-slide-status="5">Produkte</span>
+          <span className="hidden" data-slide-status="5">Produkte</span>
 
         </div>
       </div>
@@ -309,6 +311,7 @@ function DisplacementSlider() {
       <img src="/assets/Product - Pastry.jpg" alt="Pastry Products / Produkte Pasticerie" />
       <img src="/assets/Product - Bakery.jpg" alt="Bakery Products / Produkte per Furra" />
       <img src="/assets/Product - Packaging.jpg" alt="Packaging Products / Produkte Paketimi" />
+      <img src="/assets/Product - Nuts.jpg" alt="Nuts / Fruta të thata" />
       <img src="/assets/Product - Equipment.jpg" alt="Equipment Products / Pajisje & Veshje" />
       {/* Pagination */}
       <div id="pagination" ref={paginationRef}>
@@ -318,6 +321,7 @@ function DisplacementSlider() {
         <button data-slide="3"></button>
         <button data-slide="4"></button>
         <button data-slide="5"></button>
+        <button data-slide="6"></button>
 
       </div>
     </div>

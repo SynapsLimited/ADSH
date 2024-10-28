@@ -48,6 +48,11 @@ function Products() {
       link: '/products/category/Packaging',
     },
     {
+      name: 'Fruta të thata',
+      imageUrl: '/assets/Product - Nuts.jpg', // Updated image source
+      link: '/products/category/Nuts',
+    },
+    {
       name: 'Pajisje',
       imageUrl: '/assets/Product - Equipment.jpg', // Updated image source
       link: '/products/category/Equipment',
