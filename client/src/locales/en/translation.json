@@ -1,0 +1,13 @@
+{
+    "navbar": {
+      "home": "Home",
+      "about": "About Us",
+      "products": "Products",
+      "blog": "Blog",
+      "contact": "Contact"
+    },
+    "footer": {
+      "rights": "All rights reserved."
+    }
+  }
+  

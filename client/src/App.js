@@ -4,6 +4,11 @@ import { HelmetProvider } from 'react-helmet-async';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './App.css';
+import './i18n/i18n'; // Import i18n configuration
+
+
+import CookieConsent from './components/CookieConsent';
+import PrivacyPolicy from './pages/PrivacyPolicy'; // Ensure this page exists
 
 
 import Navbar from './components/Navbar';
@@ -120,6 +125,7 @@ function App() {
             {/* Themed Content */}
             <div className={`theme-container ${currentTheme}`}>
 
+            <CookieConsent />
 
               {/* Technical Routes */}
               <BackgroundAnimation />
@@ -163,6 +169,10 @@ function App() {
                     <Route path="/delete-product/:id" element={<DeleteProduct />} />
                     <Route path="/products/:id/edit" element={<EditProduct />} />
                     <Route path="/products/:id" element={<ProductDetail />} />
+
+
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
                   </Routes>
                 </div>
                 <Footer />

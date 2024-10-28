@@ -105,12 +105,16 @@
   }
   
 
-  .blog-log-in-btn {
+  .privacy-policy {
     transition: var(--transition);
-    font-family: "Inter-ExtraLight";
+    color: var(--color-white);
     opacity: 50%;
-    font-size: 13px;
+    font-size: 15px;
     margin-top: 40px;
+  }
+
+  .privacy-policy:hover {
+    color: var(--color-secondary);
   }
   
 

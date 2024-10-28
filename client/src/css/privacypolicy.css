@@ -1,0 +1,41 @@
+/* src/css/privacyPolicy.css */
+
+.privacy-policy-container {
+    /* Existing styles */
+    padding: 100px;
+  }
+
+  .privacy-policy-container h1 {
+    font-size: 2em;
+    padding: 30px;
+  }
+
+  .privacy-policy-container h2 {
+    font-size: 1.5em;
+    padding: 30px;
+  }
+
+  .privacy-policy-container p,
+  .privacy-policy-container ul {
+    padding: 30px;
+  }
+  
+  @media (max-width: 768px) {
+    .privacy-policy-container {
+      padding: 100px;
+    }
+  
+    .privacy-policy-container h1 {
+      font-size: 2em;
+    }
+  
+    .privacy-policy-container h2 {
+      font-size: 1.5em;
+    }
+  
+    .privacy-policy-container p,
+    .privacy-policy-container ul {
+      font-size: 1.3em;
+    }
+  }
+  

@@ -1,5 +1,6 @@
 import React from 'react';
 import './../css/footer.css'
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -61,6 +62,8 @@ const Footer = () => {
           <p>Copyright &copy; ADSH. Të gjitha të drejtat e rezervuara.</p>
           <p>Dizenjuar nga <a href="http://www.synapslimited.eu" className="footer-copy-designed-by-synaps">Synaps</a></p>
         </div>
+        <Link to="/privacy-policy" className="privacy-policy">Privacy Policy</Link>
+
       </div>
     </footer>
   );

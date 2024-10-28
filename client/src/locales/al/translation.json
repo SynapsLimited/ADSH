@@ -1,0 +1,13 @@
+{
+    "navbar": {
+      "home": "Kryesore",
+      "about": "Rreth Nesh",
+      "products": "Produkte",
+      "blog": "Artikujt",
+      "contact": "Kontakt"
+    },
+    "footer": {
+      "rights": "Të drejtat e rezervuara."
+    }
+  }
+  

@@ -1,16 +1,19 @@
+// src/components/Navbar.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './../css/navbar.css';
 import ReactCountryFlag from 'react-country-flag';
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
+  const { t, i18n } = useTranslation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
-  const [language, setLanguage] = useState({ label: 'AL', languageCode: 'sq' });
+  const [language, setLanguage] = useState({ label: 'AL', languageCode: 'al', countryCode: 'AL' });
 
   const languages = [
-    { label: 'AL', languageCode: 'sq', countryCode: 'AL' },
+    { label: 'AL', languageCode: 'al', countryCode: 'AL' },
     { label: 'EN', languageCode: 'en', countryCode: 'US' },
   ];
 
@@ -37,72 +40,62 @@ const Navbar = () => {
       setTimeout(() => {
         setIsLanguageDropdownOpen(false);
         dropdownMenu.classList.remove('hide');
-      }, 700);
+      }, 700); // Adjust the timeout based on the animation duration
     } else {
       setIsLanguageDropdownOpen(true);
     }
   };
 
-  const handleLanguageChange = (langOption) => {
-    setLanguage(langOption);
-    localStorage.setItem('preferredLanguage', JSON.stringify(langOption));
-
-    // Find the Google Translate dropdown
-    const googleFrame = document.querySelector('.goog-te-combo');
-    if (googleFrame) {
-      googleFrame.value = langOption.languageCode;
-      googleFrame.dispatchEvent(new Event('change'));  // Trigger Google Translate to switch languages
-    }
-
+  const handleLanguageChange = (lang) => {
+    setLanguage(lang);
+    localStorage.setItem('preferredLanguage', JSON.stringify(lang)); // Save language as JSON
     setIsLanguageDropdownOpen(false);
-    setIsMobileMenuOpen(false);
+    setIsMobileMenuOpen(false); // Close the mobile menu when a language is selected
   };
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem('preferredLanguage');
     if (savedLanguage) {
       try {
-        const langOption = JSON.parse(savedLanguage);
-        setLanguage(langOption);
+        const lang = JSON.parse(savedLanguage);
+        setLanguage(lang);
       } catch (error) {
-        setLanguage({ label: 'AL', languageCode: 'sq' });  // Default to AL
+        console.error('Failed to parse saved language:', error);
+        // If parsing fails, set to default AL
+        const defaultLang = languages.find((lang) => lang.languageCode === 'al');
+        if (defaultLang) {
+          setLanguage(defaultLang);
+          i18n.changeLanguage(defaultLang.languageCode);
+          localStorage.setItem('preferredLanguage', JSON.stringify(defaultLang));
+        }
       }
     } else {
-      // Default to AL (Albanian)
-      setLanguage({ label: 'AL', languageCode: 'sq' });
+      // If no language is saved, set 'AL' as default
+      const defaultLang = languages.find((lang) => lang.languageCode === 'al');
+      if (defaultLang) {
+        setLanguage(defaultLang);
+        i18n.changeLanguage(defaultLang.languageCode);
+        localStorage.setItem('preferredLanguage', JSON.stringify(defaultLang));
+      }
     }
 
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [i18n]);
 
-  // Load Google Translate script
-  useEffect(() => {
-    window.googleTranslateElementInit = () => {
-      new window.google.translate.TranslateElement(
-        { 
-          pageLanguage: 'sq',  // Set default language to Albanian
-          includedLanguages: 'sq,en',  // Include both Albanian and English
-          layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE 
-        },
-        'google_translate_element'
-      );
-    };
-
-    const script = document.createElement('script');
-    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-    script.crossOrigin = 'anonymous';  // Add crossorigin attribute
-    document.body.appendChild(script);
-  }, []);
 
   return (
     <div className={`page-wrapper ${isScrolled ? 'scrolled' : ''}`}>
       <div className={`nav-wrapper ${isScrolled ? 'scrolled' : ''}`}>
         <nav className="navbar">
           <Link to="/" onClick={handleMenuClose}>
-            <img src="/assets/Logo-Red.png" alt="ADSH Logo" className={isScrolled ? 'scrolled' : ''} />
+            <img
+              src="/assets/Logo-Red.png"
+              alt="ADSH Logo"
+              className={isScrolled ? 'scrolled' : ''}
+            />
           </Link>
           <div
             className={`menu-toggle ${isMobileMenuOpen ? 'is-active' : ''} ${isScrolled ? 'scrolled' : ''}`}
@@ -115,19 +108,29 @@ const Navbar = () => {
           </div>
           <ul className={`nav no-search ${isMobileMenuOpen ? 'mobile-nav' : ''} ${isScrolled ? 'scrolled' : ''}`}>
             <li className="nav-item">
-              <Link to="/" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>Kryesore</Link>
+              <Link to="/" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>
+                {t('navbar.home')}
+              </Link>
             </li>
             <li className="nav-item">
-              <Link to="/about" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>Rreth Nesh </Link>
+              <Link to="/about" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>
+                {t('navbar.about')}
+              </Link>
             </li>
             <li className="nav-item">
-              <Link to="/products" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>Produkte</Link>
+              <Link to="/products" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>
+                {t('navbar.products')}
+              </Link>
             </li>
             <li className="nav-item">
-              <Link to="/blog" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>Artikujt</Link>
+              <Link to="/blog" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>
+                {t('navbar.blog')}
+              </Link>
             </li>
             <li className="nav-item">
-              <Link to="/contact" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>Kontakt</Link>
+              <Link to="/contact" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>
+                {t('navbar.contact')}
+              </Link>
             </li>
             <li className="nav-item has-dropdown">
               <a href="/" className={isScrolled ? 'scrolled' : ''} onClick={handleLanguageDropdownToggle}>
@@ -150,7 +153,6 @@ const Navbar = () => {
         </nav>
       </div>
       {/* Hidden Google Translate element */}
-      <div id="google_translate_element" style={{ display: 'none' }}></div>
     </div>
   );
 };
