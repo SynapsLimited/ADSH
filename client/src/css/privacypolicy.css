@@ -22,7 +22,8 @@
   
   @media (max-width: 768px) {
     .privacy-policy-container {
-      padding: 100px;
+      padding: 0px;
+      padding-top: 150px;
     }
   
     .privacy-policy-container h1 {

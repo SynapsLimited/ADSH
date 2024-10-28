@@ -373,8 +373,8 @@ img:hover {
   text-align: center;
   padding: 20px;
 }
-.hero-container-products-packaging {
-  background-image: url('../public/assets/Product - Packaging.jpg'); /* Packaging */
+.hero-container-products-equipment {
+  background-image: url('../public/assets/Product - Equipment.jpg'); /* Packaging */
   background-size: cover;
   background-attachment: fixed; /* Fix the background to create parallax effect */
   background-position: center;

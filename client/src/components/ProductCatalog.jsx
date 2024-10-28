@@ -151,7 +151,7 @@ const ProductCatalog = () => {
       >
         <div className="hero-content">
           <h1 className="hero-title-h1">
-            Produkte për {categoryDisplayName}
+            Katalog për {categoryDisplayName}
           </h1>
           <p className="hero-description">
             Zbuloni dhe shfletoni produktet tona për {categoryDisplayName.toLowerCase()}.
