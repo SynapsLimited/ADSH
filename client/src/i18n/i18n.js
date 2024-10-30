@@ -4,12 +4,12 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 // Import translation files
-import translationAL from './../locales/al/translation.json';
+import translationAL from './../locales/sq/translation.json';
 import translationEN from './../locales/en/translation.json';
 
 // Define the resources
 const resources = {
-  al: {
+  sq: {
     translation: translationAL,
   },
   en: {
@@ -23,7 +23,7 @@ i18n
   .use(initReactI18next) // Passes i18n down to react-i18next
   .init({
     resources,
-    fallbackLng: 'al', // Set Albanian as fallback language
+    fallbackLng: 'sq', // Set Albanian as fallback language
     debug: false, // Set to false in production
 
     interpolation: {
