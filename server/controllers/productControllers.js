@@ -57,7 +57,7 @@ const deleteFromVercelBlob = async (fileUrl) => {
 // PROTECTED
 const createProduct = async (req, res, next) => {
   try {
-    const { name, category, description, variations } = req.body;
+    const { name, name_en, category, description, description_en, variations, variations_en } = req.body;
 
     if (!name || !category || !description || !req.files || req.files.length === 0) {
       return next(new HttpError('Fill in all fields and upload at least one image.', 422));
@@ -65,8 +65,9 @@ const createProduct = async (req, res, next) => {
 
     // Handle variations, if provided
     const variationsArray = variations ? variations.split(',').map((v) => v.trim()) : [];
+    const variationsEnArray = variations_en ? variations_en.split(',').map((v) => v.trim()) : [];
 
-    // req.files is an array of files
+    // Upload images
     const imageUrls = [];
     for (const file of req.files) {
       const fileBuffer = file.buffer;
@@ -78,10 +79,13 @@ const createProduct = async (req, res, next) => {
     // Save the product with the image URLs
     const newProduct = await Product.create({
       name,
+      name_en,
       category,
       description,
+      description_en,
       variations: variationsArray,
-      images: imageUrls, // Array of image URLs
+      variations_en: variationsEnArray,
+      images: imageUrls,
       creator: req.user.id,
     });
 
@@ -138,7 +142,7 @@ const getCategoryProducts = async (req, res, next) => {
 const editProduct = async (req, res, next) => {
   try {
     const productId = req.params.id;
-    const { name, category, description, variations } = req.body;
+    const { name, name_en, category, description, description_en, variations, variations_en } = req.body;
 
     if (!name || !category || !description) {
       return next(new HttpError('Fill in all fields.', 422));
@@ -149,12 +153,13 @@ const editProduct = async (req, res, next) => {
       return next(new HttpError('Product not found.', 404));
     }
 
-    // Handle variations, if provided
-    const variationsArray = variations
-      ? variations.split(',').map((v) => v.trim())
-      : oldProduct.variations;
+    // Handle variations
+    const variationsArray = variations ? variations.split(',').map((v) => v.trim()) : oldProduct.variations;
+    const variationsEnArray = variations_en
+      ? variations_en.split(',').map((v) => v.trim())
+      : oldProduct.variations_en;
 
-    let newImageUrls = oldProduct.images; // Default to old images
+    let newImageUrls = oldProduct.images;
 
     // Check if new images were uploaded
     if (req.files && req.files.length > 0) {
@@ -178,9 +183,12 @@ const editProduct = async (req, res, next) => {
       productId,
       {
         name,
+        name_en,
         category,
         description,
+        description_en,
         variations: variationsArray,
+        variations_en: variationsEnArray,
         images: newImageUrls,
       },
       { new: true }

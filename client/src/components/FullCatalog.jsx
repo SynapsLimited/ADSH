@@ -6,25 +6,29 @@ import './../css/products.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import SearchBar from './SearchBar'; // Import the SearchBar component
+import SearchBar from './SearchBar';
+import { useTranslation } from 'react-i18next';
 
 const FullCatalog = () => {
-  const navigate = useNavigate(); // For navigation after clicking a suggestion
+  const navigate = useNavigate();
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]); // Products to display
-  const [searchQuery, setSearchQuery] = useState(''); // Search input value
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [scrollPosition, setScrollPosition] = useState(0);
 
-  // Mapping from English category names to Albanian translations
+  // Mapping from English category names to translations
   const categoryTranslationMap = {
-    "Dairy": "Bulmetore",
-    "Ice Cream": "Akullore",
-    "Pastry": "Pastiçeri",
-    "Bakery": "Furra",
-    "Packaging": "Paketime",
-    "Nuts": "Fruta të thata",
-    "Equipment": "Pajisje",
-    "All Products": "Të gjitha produktet"
+    Dairy: { sq: 'Bulmetore', en: 'Dairy' },
+    'Ice Cream': { sq: 'Akullore', en: 'Ice Cream' },
+    Pastry: { sq: 'Pastiçeri', en: 'Pastry' },
+    Bakery: { sq: 'Furra', en: 'Bakery' },
+    Packaging: { sq: 'Paketime', en: 'Packaging' },
+    Nuts: { sq: 'Fruta të thata', en: 'Nuts' },
+    Equipment: { sq: 'Pajisje', en: 'Equipment' },
+    'All Products': { sq: 'Të gjitha produktet', en: 'All Products' },
   };
 
   // Fetch all products from the backend
@@ -33,10 +37,9 @@ const FullCatalog = () => {
       try {
         const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products`);
         const data = await response.json();
-        // Sort products alphabetically by name
         const sortedProducts = data.sort((a, b) => a.name.localeCompare(b.name));
         setProducts(sortedProducts);
-        setFilteredProducts(sortedProducts); // Initialize with all products
+        setFilteredProducts(sortedProducts);
       } catch (error) {
         console.log(error);
       }
@@ -56,7 +59,7 @@ const FullCatalog = () => {
     }
   }, [searchQuery, products]);
 
-  // Track scroll position to apply parallax effect
+  // Track scroll position for parallax effect
   useEffect(() => {
     const handleScroll = () => {
       const position = window.pageYOffset;
@@ -94,7 +97,7 @@ const FullCatalog = () => {
     navigate(`/products/${product._id}`);
   };
 
-  // Helper function to truncate description after 16 words
+  // Helper function to truncate description
   const truncateDescription = (text, wordLimit) => {
     const words = text.split(' ');
     if (words.length > wordLimit) {
@@ -111,50 +114,45 @@ const FullCatalog = () => {
         style={{ backgroundPositionY: `${scrollPosition * 0}px` }}
       >
         <div className="hero-content">
-          <h1 className="hero-title-h1">Të Gjitha Produktet</h1>
+          <h1 className="hero-title-h1">
+            {currentLanguage === 'en' ? 'All Products' : 'Të Gjitha Produktet'}
+          </h1>
           <p className="hero-description">
-            Zbuloni gamën tonë të plotë të produkteve në të gjitha kategoritë.
+            {currentLanguage === 'en'
+              ? 'Discover our full range of products in all categories.'
+              : 'Zbuloni gamën tonë të plotë të produkteve në të gjitha kategoritë.'}
           </p>
           <a href="/contact" className="btn btn-primary">
-            Kontakto
+            {currentLanguage === 'en' ? 'Contact' : 'Kontakto'}
           </a>
         </div>
       </div>
 
       {/* Category Navigation Buttons */}
       <div className="category-buttons">
-        <Link to="/products/category/Dairy" className="btn btn-primary">
-          {categoryTranslationMap["Dairy"]}
-        </Link>
-        <Link to="/products/category/Ice Cream" className="btn btn-primary">
-          {categoryTranslationMap["Ice Cream"]}
-        </Link>
-        <Link to="/products/category/Pastry" className="btn btn-primary">
-          {categoryTranslationMap["Pastry"]}
-        </Link>
-        <Link to="/products/category/Packaging" className="btn btn-primary">
-          {categoryTranslationMap["Packaging"]}
-        </Link>
-        <Link to="/products/category/Bakery" className="btn btn-primary">
-          {categoryTranslationMap["Bakery"]}
-        </Link>
-        <Link to="/products/category/Equipment" className="btn btn-primary">
-          {categoryTranslationMap["Equipment"]}
-        </Link>
+        {Object.keys(categoryTranslationMap).map((key) => (
+          key !== 'All Products' && (
+            <Link key={key} to={`/products/category/${key}`} className="btn btn-primary">
+              {categoryTranslationMap[key][currentLanguage]}
+            </Link>
+          )
+        ))}
         <Link to="/full-catalog" className="btn btn-primary">
-          {categoryTranslationMap["All Products"]}
+          {categoryTranslationMap['All Products'][currentLanguage]}
         </Link>
       </div>
 
       {/* Download Catalog Link */}
       <div style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}>
         <Link to={`/download-catalog`} className="btn btn-primary">
-          Shkarko katalogun e plotë
+          {currentLanguage === 'en' ? 'Download Full Catalog' : 'Shkarko katalogun e plotë'}
         </Link>
       </div>
 
       <p className="center-p">
-        Shfletoni katalogun tonë të gjerë të produkteve, të renditur alfabetikisht për komoditetin tuaj.
+        {currentLanguage === 'en'
+          ? 'Browse our extensive catalog of products, sorted alphabetically for your convenience.'
+          : 'Shfletoni katalogun tonë të gjerë të produkteve, të renditur alfabetikisht për komoditetin tuaj.'}
       </p>
 
       <SearchBar
@@ -168,36 +166,49 @@ const FullCatalog = () => {
       <section className="container product-catalog-section">
         <div className="product-catalog-cards">
           {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
-              <div className="product-catalog-card" key={product._id}>
-                {/* Image Container */}
-                <div className="product-image-container">
-                  {product.images.length > 1 ? (
-                    <Slider {...sliderSettings}>
-                      {product.images.map((image, index) => (
-                        <img key={index} src={image} alt={product.name} />
-                      ))}
-                    </Slider>
-                  ) : (
-                    <img src={product.images[0]} alt={product.name} />
-                  )}
+            filteredProducts.map((product) => {
+              const name =
+                currentLanguage === 'en' ? product.name_en || product.name : product.name;
+              const description =
+                currentLanguage === 'en'
+                  ? product.description_en || product.description
+                  : product.description;
+              const variations =
+                currentLanguage === 'en'
+                  ? product.variations_en || product.variations
+                  : product.variations;
+
+              return (
+                <div className="product-catalog-card" key={product._id}>
+                  {/* Image Container */}
+                  <div className="product-image-container">
+                    {product.images.length > 1 ? (
+                      <Slider {...sliderSettings}>
+                        {product.images.map((image, index) => (
+                          <img key={index} src={image} alt={name} />
+                        ))}
+                      </Slider>
+                    ) : (
+                      <img src={product.images[0]} alt={name} />
+                    )}
+                  </div>
+                  <div className="product-catalog-card-content">
+                    <h3>{name}</h3>
+                    {/* Variations */}
+                    {variations.length > 0 && (
+                      <h4>{variations.join(', ')}</h4>
+                    )}
+                    {/* Truncated Description */}
+                    <p>{truncateDescription(description, 20)}</p>
+                    <Link to={`/products/${product._id}`} className="btn btn-secondary">
+                      {currentLanguage === 'en' ? 'View Details' : 'Shiko Detajet'}
+                    </Link>
+                  </div>
                 </div>
-                <div className="product-catalog-card-content">
-                  <h3>{product.name}</h3>
-                  {/* Variations */}
-                  {product.variations.length > 0 && (
-                    <h4>{product.variations.join(', ')}</h4>
-                  )}
-                  {/* Truncated Description */}
-                  <p>{truncateDescription(product.description, 20)}</p>
-                  <Link to={`/products/${product._id}`} className="btn btn-secondary">
-                    Shiko Detajet
-                  </Link>
-                </div>
-              </div>
-            ))
+              );
+            })
           ) : (
-            <p>Nuk u gjetën produkte.</p>
+            <p>{currentLanguage === 'en' ? 'No products found.' : 'Nuk u gjetën produkte.'}</p>
           )}
         </div>
       </section>

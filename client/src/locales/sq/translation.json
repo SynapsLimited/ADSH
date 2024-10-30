@@ -8,6 +8,28 @@
     },
     "footer": {
       "rights": "Të drejtat e rezervuara."
-    }
+    },
+
+      "downloadCatalog": {
+        "page": "Faqja",
+        "of": "nga",
+        "catalogFor": "Katalog për",
+        "fullCatalog": "Katalog i Plotë",
+        "missionTextCategory": "Mirë se vini në Katalogun e {{category}} të Albanian Dairy & Supply Hub (ADSH). Zbuloni gamën tonë të produkteve të larta të cilësisë së {{category}} të dizajnuara për të plotësuar nevojat tuaja.",
+        "missionTextFull": "Mirë se vini në Katalogun e Plotë të Albanian Dairy & Supply Hub (ADSH). Shfletoni gamën tonë të gjerë të produkteve në të gjitha kategoritë, të krijuara me cilësi dhe kujdes për t'ju shërbyer më mirë.",
+        "aboutUsTitle": "Rreth Nesh",
+        "aboutUsText": "ADSH-2014 është një kompani që është krijuar në vitin 2014. Stafi ka operuar që në vitin 1995 nën kompaninë D&A. Kompania zotëron mbi 26 vite eksperiencë në fushën e lëndëve të para për bulmetore dhe pastiçeri.",
+        "productsTitle": "Produktet Tona",
+        "productsText": "Cilësi e lartë dhe çmime konkuruse në treg. Kemi rreth 200 produkte në dispozim. Disa prej tyre mund ti gjeni më poshtë.",
+        "valuesTitle": "Vlerat e Kompanisë",
+        "valuesText": "Shërbim gjatë 24 orëve në çdo ditë të javës për klientët tanë. Produkte me cilësi dhe çmime konkuruese. Të përbushim kërkesat e konsumatorëve në Shqipëri.",
+        "catalog": "Katalog",
+        "noProductsInCategory": "Nuk ka produkte në këtë kategori.",
+        "errorGeneratingCatalog": "Ka pasur një gabim gjatë krijimit të katalogut",
+        "pleaseTryAgain": "Ju lutem provoni përsëri.",
+        "downloadCompleted": "Shkarkimi u krye."
+      }
   }
+
+  
   

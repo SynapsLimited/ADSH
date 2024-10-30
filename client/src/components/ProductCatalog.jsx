@@ -6,41 +6,45 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './../css/products.css';
-import SearchBar from './SearchBar'; // Import the SearchBar component
+import SearchBar from './SearchBar';
+import { useTranslation } from 'react-i18next';
 
 const ProductCatalog = () => {
-  const { category } = useParams(); // Get the category from the URL
-  const navigate = useNavigate(); // For navigation after clicking a suggestion
+  const { category } = useParams();
+  const navigate = useNavigate();
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]); // Products to display
-  const [searchQuery, setSearchQuery] = useState(''); // Search input value
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [scrollPosition, setScrollPosition] = useState(0);
 
   // Mapping from category to CSS class name
   const categoryClassMap = {
-    "Dairy": "hero-container hero-container-products-dairy",
-    "Ice Cream": "hero-container hero-container-products-ice-cream",
-    "Pastry": "hero-container hero-container-products-pastry",
-    "Bakery": "hero-container hero-container-products-bakery",
-    "Packaging": "hero-container hero-container-products-packaging",
-    "Nuts": "hero-container hero-container-products-nuts",
-    "Equipment": "hero-container hero-container-products-equipment",
-    "All Products": "hero-container hero-container-products-all"
+    Dairy: 'hero-container hero-container-products-dairy',
+    'Ice Cream': 'hero-container hero-container-products-ice-cream',
+    Pastry: 'hero-container hero-container-products-pastry',
+    Bakery: 'hero-container hero-container-products-bakery',
+    Packaging: 'hero-container hero-container-products-packaging',
+    Nuts: 'hero-container hero-container-products-nuts',
+    Equipment: 'hero-container hero-container-products-equipment',
+    'All Products': 'hero-container hero-container-products-all',
   };
 
-  // Mapping from English category names to Albanian translations
+  // Mapping from English category names to translations
   const categoryTranslationMap = {
-    "Dairy": "Bulmetore",
-    "Ice Cream": "Akullore",
-    "Pastry": "Pastiçeri",
-    "Bakery": "Furra",
-    "Packaging": "Paketime",
-    "Nuts": "Fruta të thata",
-    "Equipment": "Pajisje",
-    "All Products": "Të gjitha produktet"
+    Dairy: { sq: 'Bulmetore', en: 'Dairy' },
+    'Ice Cream': { sq: 'Akullore', en: 'Ice Cream' },
+    Pastry: { sq: 'Pastiçeri', en: 'Pastry' },
+    Bakery: { sq: 'Furra', en: 'Bakery' },
+    Packaging: { sq: 'Paketime', en: 'Packaging' },
+    Nuts: { sq: 'Fruta të thata', en: 'Nuts' },
+    Equipment: { sq: 'Pajisje', en: 'Equipment' },
+    'All Products': { sq: 'Të gjitha produktet', en: 'All Products' },
   };
 
-  // Normalize the category name to match the keys in the mapping
+  // Normalize the category name
   const normalizedCategory = category
     .replace('-', ' ')
     .replace(/\b\w/g, (l) => l.toUpperCase());
@@ -48,9 +52,9 @@ const ProductCatalog = () => {
   const heroClassName =
     categoryClassMap[normalizedCategory] || 'hero-container-products';
 
-  // Get the display name in Albanian
+  // Get the display name in the current language
   const categoryDisplayName =
-    categoryTranslationMap[normalizedCategory] || normalizedCategory;
+    categoryTranslationMap[normalizedCategory][currentLanguage] || normalizedCategory;
 
   // Fetch products by category from the backend
   useEffect(() => {
@@ -60,16 +64,14 @@ const ProductCatalog = () => {
           `${process.env.REACT_APP_BASE_URL}/products`
         );
         const data = await response.json();
-        // Filter products by category using English category name
         const filtered = data.filter(
           (product) => product.category === normalizedCategory
         );
-        // Sort products alphabetically by name
         const sortedProducts = filtered.sort((a, b) =>
           a.name.localeCompare(b.name)
         );
         setProducts(sortedProducts);
-        setFilteredProducts(sortedProducts); // Initialize with all products
+        setFilteredProducts(sortedProducts);
       } catch (error) {
         console.log(error);
       }
@@ -89,7 +91,7 @@ const ProductCatalog = () => {
     }
   }, [searchQuery, products]);
 
-  // Track scroll position to apply parallax effect
+  // Track scroll position for parallax effect
   useEffect(() => {
     const handleScroll = () => {
       const position = window.pageYOffset;
@@ -127,13 +129,7 @@ const ProductCatalog = () => {
     navigate(`/products/${product._id}`);
   };
 
-  // Helper function to capitalize the first letter
-  const capitalizeFirstLetter = (string) => {
-    if (!string) return '';
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
-
-  // Helper function to truncate description after 16 words
+  // Helper function to truncate description
   const truncateDescription = (text, wordLimit) => {
     const words = text.split(' ');
     if (words.length > wordLimit) {
@@ -151,42 +147,30 @@ const ProductCatalog = () => {
       >
         <div className="hero-content">
           <h1 className="hero-title-h1">
-            Katalog për {categoryDisplayName}
+            {currentLanguage === 'en' ? 'Catalog for' : 'Katalog për'} {categoryDisplayName}
           </h1>
           <p className="hero-description">
-            Zbuloni dhe shfletoni produktet tona për {categoryDisplayName.toLowerCase()}.
+            {currentLanguage === 'en'
+              ? `Discover and browse our products for ${categoryDisplayName.toLowerCase()}.`
+              : `Zbuloni dhe shfletoni produktet tona për ${categoryDisplayName.toLowerCase()}.`}
           </p>
           <a href="/contact" className="btn btn-primary">
-            Kontakto
+            {currentLanguage === 'en' ? 'Contact' : 'Kontakto'}
           </a>
         </div>
       </div>
 
       {/* Category Navigation Buttons */}
       <div className="category-buttons">
-        <Link to="/products/category/Dairy" className="btn btn-primary">
-          Bulmetore
-        </Link>
-        <Link to="/products/category/Ice Cream" className="btn btn-primary">
-          Akullore
-        </Link>
-        <Link to="/products/category/Pastry" className="btn btn-primary">
-          Pastiçeri
-        </Link>
-        <Link to="/products/category/Packaging" className="btn btn-primary">
-          Paketime
-        </Link>
-        <Link to="/products/category/Nuts" className="btn btn-primary">
-          Fruta të thata
-        </Link>
-        <Link to="/products/category/Bakery" className="btn btn-primary">
-          Furra
-        </Link>
-        <Link to="/products/category/Equipment" className="btn btn-primary">
-          Pajisje
-        </Link>
+        {Object.keys(categoryTranslationMap).map((key) => (
+          key !== 'All Products' && (
+            <Link key={key} to={`/products/category/${key}`} className="btn btn-primary">
+              {categoryTranslationMap[key][currentLanguage]}
+            </Link>
+          )
+        ))}
         <Link to="/full-catalog" className="btn btn-primary">
-          Të gjitha produktet
+          {categoryTranslationMap['All Products'][currentLanguage]}
         </Link>
       </div>
 
@@ -195,12 +179,16 @@ const ProductCatalog = () => {
         style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}
       >
         <Link to={`/download-catalog/${category}`} className="btn btn-primary">
-          Shkarko katalog për {categoryDisplayName}
+          {currentLanguage === 'en'
+            ? `Download catalog for ${categoryDisplayName}`
+            : `Shkarko katalog për ${categoryDisplayName}`}
         </Link>
       </div>
 
       <p className="center-p">
-        Shfletoni produktet tona për {categoryDisplayName.toLowerCase()}, të renditura alfabetikisht për komoditetin tuaj.
+        {currentLanguage === 'en'
+          ? `Browse our products for ${categoryDisplayName.toLowerCase()}, sorted alphabetically for your convenience.`
+          : `Shfletoni produktet tona për ${categoryDisplayName.toLowerCase()}, të renditura alfabetikisht për komoditetin tuaj.`}
       </p>
 
       <SearchBar
@@ -214,39 +202,52 @@ const ProductCatalog = () => {
       <section className="container product-catalog-section">
         <div className="product-catalog-cards">
           {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
-              <div className="product-catalog-card" key={product._id}>
-                {/* Image Container */}
-                <div className="product-image-container">
-                  {product.images.length > 1 ? (
-                    <Slider {...sliderSettings}>
-                      {product.images.map((image, index) => (
-                        <img key={index} src={image} alt={product.name} />
-                      ))}
-                    </Slider>
-                  ) : (
-                    <img src={product.images[0]} alt={product.name} />
-                  )}
+            filteredProducts.map((product) => {
+              const name =
+                currentLanguage === 'en' ? product.name_en || product.name : product.name;
+              const description =
+                currentLanguage === 'en'
+                  ? product.description_en || product.description
+                  : product.description;
+              const variations =
+                currentLanguage === 'en'
+                  ? product.variations_en || product.variations
+                  : product.variations;
+
+              return (
+                <div className="product-catalog-card" key={product._id}>
+                  {/* Image Container */}
+                  <div className="product-image-container">
+                    {product.images.length > 1 ? (
+                      <Slider {...sliderSettings}>
+                        {product.images.map((image, index) => (
+                          <img key={index} src={image} alt={name} />
+                        ))}
+                      </Slider>
+                    ) : (
+                      <img src={product.images[0]} alt={name} />
+                    )}
+                  </div>
+                  <div className="product-catalog-card-content">
+                    <h3>{name}</h3>
+                    {/* Variations */}
+                    {variations.length > 0 && (
+                      <h4>{variations.join(', ')}</h4>
+                    )}
+                    {/* Truncated Description */}
+                    <p>{truncateDescription(description, 20)}</p>
+                    <Link
+                      to={`/products/${product._id}`}
+                      className="btn btn-secondary"
+                    >
+                      {currentLanguage === 'en' ? 'View Details' : 'Shiko Detajet'}
+                    </Link>
+                  </div>
                 </div>
-                <div className="product-catalog-card-content">
-                  <h3>{product.name}</h3>
-                  {/* Variations */}
-                  {product.variations.length > 0 && (
-                    <h4>{product.variations.join(', ')}</h4>
-                  )}
-                  {/* Truncated Description */}
-                  <p>{truncateDescription(product.description, 20)}</p>
-                  <Link
-                    to={`/products/${product._id}`}
-                    className="btn btn-secondary"
-                  >
-                    Shiko Detajet
-                  </Link>
-                </div>
-              </div>
-            ))
+              );
+            })
           ) : (
-            <p>Nuk u gjetën produkte në këtë kategori.</p>
+            <p>{currentLanguage === 'en' ? 'No products found in this category.' : 'Nuk u gjetën produkte në këtë kategori.'}</p>
           )}
         </div>
       </section>

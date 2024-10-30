@@ -7,11 +7,15 @@ import axios from 'axios';
 
 const CreateProduct = () => {
   const [name, setName] = useState('');
+  const [nameEn, setNameEn] = useState('');
   const [category, setCategory] = useState('Dairy');
   const [description, setDescription] = useState('');
+  const [descriptionEn, setDescriptionEn] = useState('');
   const [variations, setVariations] = useState('');
+  const [variationsEn, setVariationsEn] = useState('');
   const [images, setImages] = useState([]);
   const [error, setError] = useState('');
+  const [addTranslation, setAddTranslation] = useState(false);
 
   const navigate = useNavigate();
 
@@ -25,7 +29,7 @@ const CreateProduct = () => {
     }
   }, [token, navigate]);
 
-  const PRODUCT_CATEGORIES = ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', "Nuts", "Equipment", 'Other'];
+  const PRODUCT_CATEGORIES = ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Nuts', 'Equipment', 'Other'];
 
   const createProduct = async (e) => {
     e.preventDefault();
@@ -39,7 +43,13 @@ const CreateProduct = () => {
     productData.set('name', name);
     productData.set('category', category);
     productData.set('description', description);
-    productData.set('variations', variations); // Variations as a comma-separated string
+    productData.set('variations', variations);
+
+    if (addTranslation) {
+      productData.set('name_en', nameEn);
+      productData.set('description_en', descriptionEn);
+      productData.set('variations_en', variationsEn);
+    }
 
     // Append images to FormData
     images.forEach((image) => {
@@ -93,6 +103,39 @@ const CreateProduct = () => {
             value={variations}
             onChange={(e) => setVariations(e.target.value)}
           />
+
+          <label>
+            <input
+              type="checkbox"
+              checked={addTranslation}
+              onChange={() => setAddTranslation(!addTranslation)}
+            />
+            Add translation in English
+          </label>
+
+          {addTranslation && (
+            <>
+              <input
+                type="text"
+                placeholder="Name in English"
+                value={nameEn}
+                onChange={(e) => setNameEn(e.target.value)}
+              />
+              <textarea
+                placeholder="Description in English"
+                value={descriptionEn}
+                onChange={(e) => setDescriptionEn(e.target.value)}
+                rows={5}
+              />
+              <input
+                type="text"
+                placeholder="Variations in English (comma-separated)"
+                value={variationsEn}
+                onChange={(e) => setVariationsEn(e.target.value)}
+              />
+            </>
+          )}
+
           <div className="custom-file-input-container">
             <input
               className="custom-file-input"

@@ -8,6 +8,29 @@
     },
     "footer": {
       "rights": "All rights reserved."
-    }
+    },
+
+    
+      "downloadCatalog": {
+        "page": "Page",
+        "of": "of",
+        "catalogFor": "Catalog for",
+        "fullCatalog": "Full Catalog",
+        "missionTextCategory": "Welcome to the {{category}} Catalog of Albanian Dairy & Supply Hub (ADSH). Discover our range of high-quality {{category}} products designed to meet your needs.",
+        "missionTextFull": "Welcome to the Full Catalog of Albanian Dairy & Supply Hub (ADSH). Browse our extensive range of products in all categories, crafted with quality and care to serve you better.",
+        "aboutUsTitle": "About Us",
+        "aboutUsText": "ADSH-2014 is a company established in 2014. The staff has been operating since 1995 under the company D&A. The company has over 26 years of experience in the field of raw materials for dairy and pastry shops.",
+        "productsTitle": "Our Products",
+        "productsText": "High quality and competitive prices in the market. We have around 200 products available. Some of them can be found below.",
+        "valuesTitle": "Company Values",
+        "valuesText": "24-hour service every day of the week for our clients. Quality products and competitive prices. To fulfill the demands of consumers in Albania.",
+        "catalog": "Catalog",
+        "noProductsInCategory": "There are no products in this category.",
+        "errorGeneratingCatalog": "An error occurred while generating the catalog",
+        "pleaseTryAgain": "Please try again.",
+        "downloadCompleted": "Download completed."
+      }
+  
+    
   }
   

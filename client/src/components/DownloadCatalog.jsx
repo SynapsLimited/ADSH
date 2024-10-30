@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
 import Loader from './Loader'; // Import the Loader component
+import { useTranslation } from 'react-i18next';
 
 // Helper function to convert array buffer to Base64
 const arrayBufferToBase64 = (buffer) => {
@@ -17,7 +18,7 @@ const arrayBufferToBase64 = (buffer) => {
 };
 
 // Helper function to add footers with page numbers aligned to the left
-const addFooter = (doc) => {
+const addFooter = (doc, t) => {
   const pageCount = doc.getNumberOfPages();
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
@@ -28,7 +29,7 @@ const addFooter = (doc) => {
     doc.setFont('ManjariThin', 'normal'); // Use 'ManjariThin' font
     doc.setFontSize(10);
     // Align footer to the left using the fixed left margin
-    doc.text(`Faqja ${i} nga ${pageCount}`, leftMargin, pageHeight - 10);
+    doc.text(`${t('downloadCatalog.page')} ${i} ${t('downloadCatalog.of')} ${pageCount}`, leftMargin, pageHeight - 10);
   }
 };
 
@@ -155,13 +156,13 @@ const capitalizeFirstLetter = (string) => {
 };
 
 // Helper function to estimate the height required for a product
-const estimateProductHeight = (doc, product, containerWidth, imageHeightMM) => {
+const estimateProductHeight = (doc, product, containerWidth, imageHeightMM, currentLanguage) => {
   let height = 0;
 
   // Product Name
   doc.setFont('NunitoSansBold', 'normal');
   doc.setFontSize(16);
-  const nameText = product.name;
+  const nameText = currentLanguage === 'en' ? product.name_en || product.name : product.name;
   const splitName = doc.splitTextToSize(nameText, containerWidth);
   height += splitName.length * 7 + 10; // 7mm per line + spacing
 
@@ -171,10 +172,11 @@ const estimateProductHeight = (doc, product, containerWidth, imageHeightMM) => {
   }
 
   // Variations
-  if (product.variations && product.variations.length > 0) {
+  const variations = currentLanguage === 'en' ? product.variations_en : product.variations;
+  if (variations && variations.length > 0) {
     doc.setFont('NunitoSansSemiBold', 'normal');
     doc.setFontSize(14);
-    const variationsText = `Variantet: ${product.variations.join(', ')}`;
+    const variationsText = `${variations.join(', ')}`;
     const splitVariations = doc.splitTextToSize(variationsText, containerWidth);
     height += splitVariations.length * 7 + 7; // 7mm per line + spacing
   }
@@ -182,7 +184,8 @@ const estimateProductHeight = (doc, product, containerWidth, imageHeightMM) => {
   // Description
   doc.setFont('ManjariThin', 'normal');
   doc.setFontSize(12);
-  const splitDescription = doc.splitTextToSize(product.description, containerWidth);
+  const descriptionText = currentLanguage === 'en' ? product.description_en || product.description : product.description;
+  const splitDescription = doc.splitTextToSize(descriptionText, containerWidth);
   height += splitDescription.length * 7 + 10; // 7mm per line + spacing
 
   // Additional padding at the bottom
@@ -192,7 +195,7 @@ const estimateProductHeight = (doc, product, containerWidth, imageHeightMM) => {
 };
 
 // Helper function to add a cover page with additional sections
-const addCoverPage = async (doc, category, bgDataURL, categoryTranslationMap) => {
+const addCoverPage = async (doc, category, bgDataURL, categoryTranslationMap, currentLanguage, t) => {
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
   const margin = 20; // Fixed margin in mm
@@ -231,8 +234,8 @@ const addCoverPage = async (doc, category, bgDataURL, categoryTranslationMap) =>
     doc.setFont('NunitoSansBold', 'normal'); // Use NunitoSansBold
     doc.setFontSize(24);
     const titleText = category
-      ? `Katalog për ${capitalizeFirstLetter(categoryTranslationMap[category])}`
-      : 'Katalog i Plotë';
+      ? `${t('downloadCatalog.catalogFor')} ${capitalizeFirstLetter(categoryTranslationMap[category])}`
+      : t('downloadCatalog.fullCatalog');
     doc.text(titleText, centerX, currentY, { align: 'center' });
 
     currentY += 15; // Reduced spacing after title from 20 to 15
@@ -241,9 +244,10 @@ const addCoverPage = async (doc, category, bgDataURL, categoryTranslationMap) =>
     doc.setFont('ManjariThin', 'normal'); // Use the thin variant
     doc.setFontSize(12);
     const missionText = category
-      ? `Mirë se vini në Katalogun e ${capitalizeFirstLetter(categoryTranslationMap[category])} të Albanian Dairy & Supply Hub (ADSH). Zbuloni gamën tonë të produkteve të larta të cilësisë së ${category.toLowerCase()} të dizajnuara për të plotësuar nevojat tuaja.`
-      : `Mirë se vini në Katalogun e Plotë të Albanian Dairy & Supply Hub (ADSH). Shfletoni gamën tonë të gjerë të produkteve në të gjitha kategoritë, të krijuara me cilësi dhe kujdes për t'ju shërbyer më mirë.`;
-
+      ? t('downloadCatalog.missionTextCategory', {
+          category: capitalizeFirstLetter(categoryTranslationMap[category]),
+        })
+      : t('downloadCatalog.missionTextFull');
     const splitMission = doc.splitTextToSize(missionText, containerWidth);
     doc.text(splitMission, centerX, currentY, { align: 'center' });
 
@@ -267,20 +271,14 @@ const addCoverPage = async (doc, category, bgDataURL, categoryTranslationMap) =>
       currentY += splitText.length * 7 + 15; // Reduced spacing after section from 20 to 15
     };
 
-    // Add "Rreth Nesh" Section
-    const aboutUsTitle = 'Rreth Nesh';
-    const aboutUsText = `ADSH-2014 është një kompani që është krijuar në vitin 2014. Stafi ka operuar që në vitin 1995 nën kompaninë D&A. Kompania zotëron mbi 26 vite eksperiencë në fushën e lëndëve të para për bulmetore dhe pastiçeri.`;
-    addSection(aboutUsTitle, aboutUsText);
+    // Add "About Us" Section
+    addSection(t('downloadCatalog.aboutUsTitle'), t('downloadCatalog.aboutUsText'));
 
-    // Add "Produktet Tona" Section
-    const productsTitle = 'Produktet Tona';
-    const productsText = `Cilësi e lartë dhe çmime konkuruse në treg. Kemi rreth 200 produkte në dispozim. Disa prej tyre mund ti gjeni më poshtë.`;
-    addSection(productsTitle, productsText);
+    // Add "Our Products" Section
+    addSection(t('downloadCatalog.productsTitle'), t('downloadCatalog.productsText'));
 
-    // Add "Vlerat e Kompanisë" Section
-    const valuesTitle = 'Vlerat e Kompanisë';
-    const valuesText = `Shërbim gjatë 24 orëve në çdo ditë të javës për klientët tanë. Produkte me cilësi dhe çmime konkuruese. Të përbushim kërkesat e konsumatorëve në Shqipëri.`;
-    addSection(valuesTitle, valuesText);
+    // Add "Company Values" Section
+    addSection(t('downloadCatalog.valuesTitle'), t('downloadCatalog.valuesText'));
   } catch (error) {
     console.error('Error loading logo image:', error);
     // Proceed without the logo
@@ -292,8 +290,8 @@ const addCoverPage = async (doc, category, bgDataURL, categoryTranslationMap) =>
     doc.setFont('NunitoSansBold', 'normal'); // Use NunitoSansBold
     doc.setFontSize(24);
     const titleText = category
-      ? `${categoryTranslationMap[category]} Katalog`
-      : 'Katalog i Plotë';
+      ? `${capitalizeFirstLetter(categoryTranslationMap[category])} ${t('downloadCatalog.catalog')}`
+      : t('downloadCatalog.fullCatalog');
     doc.text(titleText, centerX, currentY, { align: 'center' });
 
     currentY += 15; // Increased spacing after title
@@ -302,8 +300,10 @@ const addCoverPage = async (doc, category, bgDataURL, categoryTranslationMap) =>
     doc.setFont('ManjariThin', 'normal');
     doc.setFontSize(12);
     const missionText = category
-      ? `Mirë se vini në Katalogun e ${capitalizeFirstLetter(categoryTranslationMap[category])} të Albanian Dairy & Supply Hub (ADSH). Zbuloni gamën tonë të produkteve të larta të cilësisë së ${category.toLowerCase()} të dizajnuara për të plotësuar nevojat tuaja.`
-      : `Mirë se vini në Katalogun e Plotë të Albanian Dairy & Supply Hub (ADSH). Shfletoni gamën tonë të gjerë të produkteve në të gjitha kategoritë, të krijuara me cilësi dhe kujdes për t'ju shërbyer më mirë.`;
+      ? t('downloadCatalog.missionTextCategory', {
+          category: capitalizeFirstLetter(categoryTranslationMap[category]),
+        })
+      : t('downloadCatalog.missionTextFull');
 
     const splitMission = doc.splitTextToSize(missionText, containerWidth);
     doc.text(splitMission, centerX, currentY, { align: 'center' });
@@ -328,20 +328,14 @@ const addCoverPage = async (doc, category, bgDataURL, categoryTranslationMap) =>
       currentY += splitText.length * 7 + 15; // Reduced spacing after section from 20 to 15
     };
 
-    // Add "Rreth Nesh" Section
-    const aboutUsTitle = 'Rreth Nesh';
-    const aboutUsText = `ADSH-2014 është një kompani që është krijuar në vitin 2014. Stafi ka operuar që në vitin 1995 nën kompaninë D&A. Kompania zotëron mbi 26 vite eksperiencë në fushën e lëndëve të para për bulmetore dhe pastiçeri.`;
-    addSection(aboutUsTitle, aboutUsText);
+    // Add "About Us" Section
+    addSection(t('downloadCatalog.aboutUsTitle'), t('downloadCatalog.aboutUsText'));
 
-    // Add "Produktet Tona" Section
-    const productsTitle = 'Produktet Tona';
-    const productsText = `Cilësi e lartë dhe çmime konkuruse në treg. Kemi rreth 200 produkte në dispozim. Disa prej tyre mund ti gjeni më poshtë.`;
-    addSection(productsTitle, productsText);
+    // Add "Our Products" Section
+    addSection(t('downloadCatalog.productsTitle'), t('downloadCatalog.productsText'));
 
-    // Add "Vlerat e Kompanisë" Section
-    const valuesTitle = 'Vlerat e Kompanisë';
-    const valuesText = `Shërbim gjatë 24 orëve në çdo ditë të javës për klientët tanë. Produkte me cilësi dhe çmime konkuruese. Të përbushim kërkesat e konsumatorëve në Shqipëri.`;
-    addSection(valuesTitle, valuesText);
+    // Add "Company Values" Section
+    addSection(t('downloadCatalog.valuesTitle'), t('downloadCatalog.valuesText'));
 
     // Add a new page after the cover
     doc.addPage();
@@ -354,17 +348,20 @@ const DownloadCatalog = () => {
   const [isLoading, setIsLoading] = useState(true); // State for loading indicator
   const downloadInitiated = useRef(false); // Ref to prevent multiple downloads
 
-  // Mapping from English category names to Albanian translations
+  const { i18n, t } = useTranslation();
+  const currentLanguage = i18n.language;
+
+  // Mapping from English category names to translations
   const categoryTranslationMap = {
-    "Dairy": "Bulmetore",
-    "Ice Cream": "Akullore",
-    "Pastry": "Pastiçeri",
-    "Bakery": "Furra",
-    "Packaging": "Paketime",
-    "Nuts": "Fruta të thata",
-    "Equipment": "Pajisje",
-    "All Products": "Të gjitha produktet",
-    "Other": "Të tjera"
+    Dairy: currentLanguage === 'en' ? 'Dairy' : 'Bulmetore',
+    'Ice Cream': currentLanguage === 'en' ? 'Ice Cream' : 'Akullore',
+    Pastry: currentLanguage === 'en' ? 'Pastry' : 'Pastiçeri',
+    Bakery: currentLanguage === 'en' ? 'Bakery' : 'Furra',
+    Packaging: currentLanguage === 'en' ? 'Packaging' : 'Paketime',
+    Nuts: currentLanguage === 'en' ? 'Nuts' : 'Fruta të thata',
+    Equipment: currentLanguage === 'en' ? 'Equipment' : 'Pajisje',
+    'All Products': currentLanguage === 'en' ? 'All Products' : 'Të gjitha produktet',
+    Other: currentLanguage === 'en' ? 'Other' : 'Të tjera',
   };
 
   useEffect(() => {
@@ -391,15 +388,19 @@ const DownloadCatalog = () => {
           : data;
 
         if (filteredProducts.length === 0) {
-          alert('Nuk ka produkte në këtë kategori.');
+          alert(t('downloadCatalog.noProductsInCategory'));
           navigate('/'); // Redirect to Home.jsx
           return;
         }
 
-        // Sort products alphabetically by name
-        const sortedProducts = filteredProducts.sort((a, b) =>
-          a.name.localeCompare(b.name)
-        );
+        // Sort products alphabetically by name in the current language
+        const sortedProducts = filteredProducts.sort((a, b) => {
+          const nameA =
+            currentLanguage === 'en' ? a.name_en || a.name : a.name;
+          const nameB =
+            currentLanguage === 'en' ? b.name_en || b.name : b.name;
+          return nameA.localeCompare(nameB);
+        });
 
         // Initialize jsPDF with higher resolution (use 'mm' units)
         const doc = new jsPDF('p', 'mm', 'a4');
@@ -422,7 +423,7 @@ const DownloadCatalog = () => {
         const bgDataURL = bgDataObj.dataURL;
 
         // Add Cover Page with additional sections and background
-        await addCoverPage(doc, category, bgDataURL, categoryTranslationMap);
+        await addCoverPage(doc, category, bgDataURL, categoryTranslationMap, currentLanguage, t);
 
         // Initialize coordinates after the cover page
         const pageWidth = doc.internal.pageSize.getWidth();
@@ -466,7 +467,13 @@ const DownloadCatalog = () => {
           }
 
           // Estimate required height for the product
-          const requiredHeight = estimateProductHeight(doc, product, containerWidth, finalHeightMM);
+          const requiredHeight = estimateProductHeight(
+            doc,
+            product,
+            containerWidth,
+            finalHeightMM,
+            currentLanguage
+          );
 
           // Calculate starting Y position to center content vertically
           const yStart = (pageHeight - requiredHeight) / 2;
@@ -475,7 +482,8 @@ const DownloadCatalog = () => {
           // Add Product Name (h3)
           doc.setFont('NunitoSansBold', 'normal'); // Use NunitoSansBold
           doc.setFontSize(16);
-          const nameText = product.name;
+          const nameText =
+            currentLanguage === 'en' ? product.name_en || product.name : product.name;
           const splitName = doc.splitTextToSize(nameText, containerWidth);
           doc.text(splitName, centerX, y, { align: 'center' });
           y += splitName.length * 7 + 10; // Spacing after name with increased padding
@@ -508,11 +516,13 @@ const DownloadCatalog = () => {
           }
 
           // Add Variations (h4) in primary color
-          if (product.variations && product.variations.length > 0) {
+          const variations =
+            currentLanguage === 'en' ? product.variations_en : product.variations;
+          if (variations && variations.length > 0) {
             doc.setFont('NunitoSansSemiBold', 'normal'); // Use NunitoSansSemiBold
             doc.setFontSize(14);
             doc.setTextColor(237, 32, 90); // --color-primary: #ED205A
-            const variationsText = `Variations: ${product.variations.join(', ')}`;
+            const variationsText = `${variations.join(', ')}`;
             const splitVariations = doc.splitTextToSize(variationsText, containerWidth);
             doc.text(splitVariations, centerX, y, { align: 'center' });
             y += splitVariations.length * 7 + 5; // Spacing after variations
@@ -522,7 +532,10 @@ const DownloadCatalog = () => {
           // Add Description (p) with centered alignment
           doc.setFont('ManjariThin', 'normal'); // Use ManjariThin for paragraphs
           doc.setFontSize(12);
-          const descriptionText = product.description || '';
+          const descriptionText =
+            currentLanguage === 'en'
+              ? product.description_en || product.description
+              : product.description;
           const splitDescription = doc.splitTextToSize(descriptionText, containerWidth);
           splitDescription.forEach((line) => {
             if (y + 7 > pageHeight - margin) {
@@ -543,12 +556,12 @@ const DownloadCatalog = () => {
         }
 
         // Add footers with page numbers aligned to the left
-        addFooter(doc);
+        addFooter(doc, t);
 
         // Save the PDF
         const fileName = category
-          ? `${capitalizeFirstLetter(categoryTranslationMap[category])}_Katalog.pdf`
-          : 'Katalog_i_Plotë.pdf';
+          ? `${capitalizeFirstLetter(categoryTranslationMap[category])}_${t('downloadCatalog.catalog')}.pdf`
+          : `${t('downloadCatalog.fullCatalog')}.pdf`;
         doc.save(fileName);
 
         // Update loading state and redirect to Home.jsx
@@ -556,13 +569,17 @@ const DownloadCatalog = () => {
         navigate('/'); // Redirect to Home.jsx
       } catch (error) {
         console.error('Error generating catalog PDF:', error);
-        alert(`Ka pasur një gabim gjatë krijimit të katalogut: ${error.message}. Ju lutem provoni përsëri.`);
-        navigate('/products'); // Redirect to Products.jsx (Removed extra space)
+        alert(
+          `${t('downloadCatalog.errorGeneratingCatalog')}: ${error.message}. ${t(
+            'downloadCatalog.pleaseTryAgain'
+          )}`
+        );
+        navigate('/products'); // Redirect to Products.jsx
       }
     };
 
     fetchAndDownload();
-  }, [category, navigate]);
+  }, [category, navigate, currentLanguage, t]);
 
   return (
     <div>
@@ -570,7 +587,7 @@ const DownloadCatalog = () => {
         <Loader /> // Display Loader while generating PDF
       ) : (
         <div style={{ textAlign: 'center', marginTop: '50px' }}>
-          <p>Shkarkimi u krye.</p>
+          <p>{t('downloadCatalog.downloadCompleted')}</p>
         </div>
       )}
     </div>
