@@ -1,102 +1,105 @@
+// src/pages/PostDetail.jsx
+
 import React, { useContext, useEffect, useState } from 'react';
 import PostAuthor from '../components/PostAuthor';
 import { Link, useParams } from 'react-router-dom';
-import './../css/blog.css'; // Assuming you have a corresponding CSS file for styling
+import './../css/blog.css';
 import Loader from '../components/Loader';
 import DeletePost from './DeletePost';
 import { UserContext } from '../context/userContext';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const PostDetail = () => {
-  const { id } = useParams(); // Get the post ID from URL params
-  const [post, setPost] = useState(null); // State to hold post data
-  const [error, setError] = useState(null); // State to hold errors
-  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const { id } = useParams();
+  const [post, setPost] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { currentUser } = useContext(UserContext);
+  const { i18n, t } = useTranslation();
+  const currentLanguage = i18n.language;
 
-  const { currentUser } = useContext(UserContext); // Get the current user from context
-
-  // Fetch post details on component mount
   useEffect(() => {
     const getPost = async () => {
-      setIsLoading(true); // Start loading
+      setIsLoading(true);
       try {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/posts/${id}`);
         if (response.data) {
-          setPost(response.data); // Set post data if available
+          setPost(response.data);
         } else {
           setError('No post data found.');
         }
       } catch (error) {
-        setError(error.message); // Handle errors
+        setError(error.message);
       }
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     };
 
     getPost();
   }, [id]);
 
-  // Log post creator and current user for debugging
-  useEffect(() => {
-    if (post && currentUser) {
-
-    }
-  }, [post, currentUser]);
-
-  // Show loader if the post is still loading
   if (isLoading) {
     return <Loader />;
   }
 
-  // Show error message if there is an error
   if (error) {
-    return <p  className='error'>{error}</p>;
+    return (
+      <p className="error">
+        {currentLanguage === 'en' ? 'Post not found.' : 'Postimi nuk u gjet.'}
+      </p>
+    );
   }
 
-  // Show error if no post data is available
   if (!post) {
-    return <p  className='error'>Postimi nuk u gjet.</p>;
+    return (
+      <p className="error">
+        {currentLanguage === 'en' ? 'Post not found.' : 'Postimi nuk u gjet.'}
+      </p>
+    );
   }
 
-  // Default thumbnail if no custom thumbnail is available for the post
   const defaultThumbnail = `${process.env.PUBLIC_URL}/assets/Blog-default.webp`;
 
+  const title =
+    currentLanguage === 'en' ? post.title_en || post.title : post.title;
+  const description =
+    currentLanguage === 'en' ? post.description_en || post.description : post.description;
+
   return (
-    <div  className='post-detail-section'>
-      <section data-aos="fade-up"   className="container post-detail">
+    <div className="post-detail-section">
+      <section data-aos="fade-up" className="container post-detail">
         {post && post.creator ? (
-          <div  className="post-detail-container">
-            <div  className="post-detail-header">
-              {/* Pass the creator's ID (authorID) and post createdAt date */}
+          <div className="post-detail-container">
+            <div className="post-detail-header">
               <PostAuthor authorID={post.creator._id || post.creator} createdAt={post.createdAt} />
-              
-              {/* Only show edit and delete buttons if the current user is the post creator */}
+
               {currentUser?.id === (post.creator._id || post.creator) && (
-                <div  className="post-detail-buttons">
+                <div className="post-detail-buttons">
                   <Link to={`/posts/${post?._id}/edit`} className="btn btn-primary">
                     Edit
                   </Link>
-                  <DeletePost postId={post._id} /> {/* Pass the postId to the DeletePost component */}
+                  <DeletePost postId={post._id} />
                 </div>
               )}
             </div>
 
-            {/* Post title */}
-            <h1>{post.title}</h1>
+            <h1>{title}</h1>
 
-            {/* Post thumbnail */}
-            <div  className="post-detail-thumbnail">
-              <img src={post.thumbnail || defaultThumbnail} alt={post.title} />
+            <div className="post-detail-thumbnail">
+              <img src={post.thumbnail || defaultThumbnail} alt={title} />
             </div>
 
-            {/* Post description */}
-            <p dangerouslySetInnerHTML={{ __html: post.description }}></p>
+            <p dangerouslySetInnerHTML={{ __html: description }}></p>
           </div>
         ) : (
-          <p  className='error'>Author nuk u gjet.</p>
+          <p className="error">
+            {currentLanguage === 'en' ? 'Author not found.' : 'Autori nuk u gjet.'}
+          </p>
         )}
 
-        {/* Back to blog button */}
-        <a href="/blog" className="btn btn-secondary post-detail-btn">Kthehu te Artikujt</a>
+        <a href="/blog" className="btn btn-secondary post-detail-btn">
+          {currentLanguage === 'en' ? 'Back to Articles' : 'Kthehu te Artikujt'}
+        </a>
       </section>
     </div>
   );

@@ -34,14 +34,9 @@ const CategoryPosts = () => {
     const fetchAuthorAndPosts = async () => {
       setIsLoading(true);
       try {
-        // Merrni postimet për kategorinë aktuale
+        // Fetch posts for the current category
         const postsResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}/posts/categories/${category}`);
         setPosts(postsResponse.data);
-        
-        // Nëse keni nevojë të merrni emrin e autorit, mund të bëni një kërkesë tjetër
-        // Për shembull:
-        // const authorResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}/authors/${authorId}`);
-        // setAuthorName(authorResponse.data.name);
       } catch (err) {
         console.log(err);
       }
@@ -62,17 +57,8 @@ const CategoryPosts = () => {
 
       {posts.length > 0 ? (
         <div className="container posts-container">
-          {posts.map(({ _id: postId, thumbnail, category, title, description, creator, createdAt }) => (
-            <PostItem
-              key={postId}
-              postID={postId}
-              thumbnail={thumbnail}
-              category={category}
-              title={title}
-              description={description}
-              authorID={creator}
-              createdAt={createdAt}
-            />
+          {posts.map((post) => (
+            <PostItem key={post._id} post={post} />
           ))}
         </div>
       ) : (
@@ -90,7 +76,6 @@ const CategoryPosts = () => {
               <Link to={`/posts/categories/${key}`}>{categoryTranslationMap[key]}</Link>
             </li>
           ))}
-          {/* Nëse keni kategori të tjera, shtoni ato këtu */}
         </ul>
       </section>
     </section>

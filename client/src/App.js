@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  matchPath,
+  useLocation,
+} from 'react-router-dom';
+
 import { HelmetProvider } from 'react-helmet-async';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -17,6 +24,7 @@ import FixedMenu from './components/FixedMenu';
 import ThemeToggle from './components/ThemeToggle'; // Import ThemeToggle
 import UserProvider, { UserContext } from './context/userContext';
 import LoadingScreen from './components/LoadingScreen';
+
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -122,6 +130,8 @@ function App() {
             <Navbar currentTheme={currentTheme} /> {/* Navbar outside theme-container */}
             <ThemeToggle updateTheme={updateTheme} currentTheme={currentTheme} />
             <FixedMenu currentTheme={currentTheme} /> {/* FixedMenu outside theme-container */}
+
+            
             {/* Themed Content */}
             <div className={`theme-container ${currentTheme}`}>
 
@@ -184,6 +194,7 @@ function App() {
     </HelmetProvider>
   );
 }
+
 
 export default function AppWrapper() {
   return (

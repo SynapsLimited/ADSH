@@ -63,40 +63,39 @@ const deleteFromVercelBlob = async (fileUrl) => {
 // ======================== Create a post
 // POST : api/posts
 // PROTECTED
+// Create a post
 const createPost = async (req, res, next) => {
     try {
-        const { title, category, description } = req.body;
-
-        if (!title || !category || !description || !req.file) {
-            return next(new HttpError("Fill in all fields and choose a thumbnail.", 422));
-        }
-
-        const thumbnail = req.file.buffer; // Assuming you're using multer to store files in memory
-        const fileName = `thumbnails/${Date.now()}-${req.file.originalname}`; // Generate a unique file name
-
-        // Upload thumbnail to Vercel Blob storage
-        const thumbnailUrl = await uploadToVercelBlob(thumbnail, fileName);
-
-        // Save the post with the thumbnail URL
-        const newPost = await Post.create({
-            title,
-            category,
-            description,
-            thumbnail: thumbnailUrl, // Save the URL of the uploaded file
-            creator: req.user.id,
-        });
-
-        // Update user's post count
-        const currentUser = await User.findById(req.user.id);
-        currentUser.posts += 1;
-        await currentUser.save();
-
-        res.status(201).json(newPost);
+      const { title, title_en, category, description, description_en } = req.body;
+  
+      if (!title || !category || !description || !req.file) {
+        return next(new HttpError('Fill in all fields and choose a thumbnail.', 422));
+      }
+  
+      const thumbnail = req.file.buffer;
+      const fileName = `thumbnails/${Date.now()}-${req.file.originalname}`;
+  
+      const thumbnailUrl = await uploadToVercelBlob(thumbnail, fileName);
+  
+      const newPost = await Post.create({
+        title,
+        title_en,
+        category,
+        description,
+        description_en,
+        thumbnail: thumbnailUrl,
+        creator: req.user.id,
+      });
+  
+      const currentUser = await User.findById(req.user.id);
+      currentUser.posts += 1;
+      await currentUser.save();
+  
+      res.status(201).json(newPost);
     } catch (error) {
-        return next(new HttpError(error.message || 'Something went wrong', 500));
+      return next(new HttpError(error.message || 'Something went wrong', 500));
     }
-};
-
+  };
 
 
 
@@ -167,46 +166,48 @@ const getUserPosts = async (req, res, next) => {
 // PROTECTED
 const editPost = async (req, res, next) => {
     try {
-        const postId = req.params.id;
-        const { title, category, description } = req.body;
-
-        if (!title || !category || !description) {
-            return next(new HttpError("Fill in all fields.", 422));
+      const postId = req.params.id;
+      const { title, title_en, category, description, description_en } = req.body;
+  
+      if (!title || !category || !description) {
+        return next(new HttpError('Fill in all fields.', 422));
+      }
+  
+      const oldPost = await Post.findById(postId);
+      if (!oldPost) {
+        return next(new HttpError('Post not found.', 404));
+      }
+  
+      let newThumbnailUrl = oldPost.thumbnail;
+  
+      if (req.file) {
+        const thumbnail = req.file.buffer;
+        const fileName = `thumbnails/${Date.now()}-${req.file.originalname}`;
+        newThumbnailUrl = await uploadToVercelBlob(thumbnail, fileName);
+  
+        if (oldPost.thumbnail) {
+          await deleteFromVercelBlob(oldPost.thumbnail);
         }
-
-        const oldPost = await Post.findById(postId);
-        if (!oldPost) {
-            return next(new HttpError("Post not found.", 404));
-        }
-
-        let newThumbnailUrl = oldPost.thumbnail; // Default to the old thumbnail
-
-        // Check if a new thumbnail was uploaded
-        if (req.file) {
-            const thumbnail = req.file.buffer; // Get the uploaded file buffer
-            const fileName = `thumbnails/${Date.now()}-${req.file.originalname}`; // Generate a unique file name
-
-            // Upload the new thumbnail to Vercel Blob storage
-            newThumbnailUrl = await uploadToVercelBlob(thumbnail, fileName);
-
-            // Optionally delete the old thumbnail from Vercel Blob storage
-            if (oldPost.thumbnail) {
-                await deleteFromVercelBlob(oldPost.thumbnail);
-            }
-        }
-
-        // Update the post with the new data
-        const updatedPost = await Post.findByIdAndUpdate(
-            postId,
-            { title, category, description, thumbnail: newThumbnailUrl },
-            { new: true }
-        );
-
-        res.status(200).json(updatedPost);
+      }
+  
+      const updatedPost = await Post.findByIdAndUpdate(
+        postId,
+        {
+          title,
+          title_en,
+          category,
+          description,
+          description_en,
+          thumbnail: newThumbnailUrl,
+        },
+        { new: true }
+      );
+  
+      res.status(200).json(updatedPost);
     } catch (error) {
-        return next(new HttpError(error.message || "Couldn't update post", 500));
+      return next(new HttpError(error.message || "Couldn't update post", 500));
     }
-};
+  };
 
 
 

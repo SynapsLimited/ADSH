@@ -304,40 +304,33 @@ function Home() {
 
 
  {/* Blog Section */}
- <section data-aos="fade-up" className="blog-section">
-      <div className="container">
-        <div className="blog-container">
-        {isLoading ? (
-            <p>Duke ngarkuar postimin...</p>
-          ) : error ? (
-            <p>{error}</p>
-          ) : latestPost ? (
-            <div className="blog-card">
-              <PostItem
-                postID={latestPost._id}
-                category={latestPost.category}
-                title={latestPost.title}
-                description={latestPost.description}
-                authorID={latestPost.creator}
-                thumbnail={latestPost.thumbnail}
-                createdAt={latestPost.createdAt}
-              />
-            </div>
-          ) : (
-            <p>Nuk ka postime.</p>
-          )}
-
-          <div className="blog-content container">
-            <h2>Artikuj</h2>
-            <p>
-            Shfletoni artikujt tanë për të mësuar më shumë rreth produkteve tona dhe përdorimit të tyre në krijimet tuaja kulinare. Ne mbulojmë të gjitha kategoritë e produkteve, duke ju ofruar këshilla, receta, dhe trendet më të fundit në industri. Qëndroni të informuar dhe të frymëzuar me përmbajtjen tonë të përditësuar rregullisht.            </p>
-            <Link to="/blog" className="btn btn-primary blog-button">
-              Artikujt
-            </Link>
-          </div>
+<section data-aos="fade-up" className="blog-section">
+  <div className="container">
+    <div className="blog-container">
+      {isLoading ? (
+        <p>Duke ngarkuar postimin...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : latestPost ? (
+        <div className="blog-card">
+          <PostItem post={latestPost} />
         </div>
+      ) : (
+        <p>Nuk ka postime.</p>
+      )}
+
+      <div className="blog-content container">
+        <h2>Artikuj</h2>
+        <p>
+          Shfletoni artikujt tanë për të mësuar më shumë rreth produkteve tona dhe përdorimit të tyre në krijimet tuaja kulinare. Ne mbulojmë të gjitha kategoritë e produkteve, duke ju ofruar këshilla, receta, dhe trendet më të fundit në industri. Qëndroni të informuar dhe të frymëzuar me përmbajtjen tonë të përditësuar rregullisht.
+        </p>
+        <Link to="/blog" className="btn btn-primary blog-button">
+          Artikujt
+        </Link>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
 
             

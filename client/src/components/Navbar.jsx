@@ -1,4 +1,5 @@
 // src/components/Navbar.jsx
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './../css/navbar.css';
@@ -10,10 +11,10 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
-  const [language, setLanguage] = useState({ label: 'AL', languageCode: 'al', countryCode: 'AL' });
+  const [language, setLanguage] = useState({ label: 'AL', languageCode: 'sq', countryCode: 'AL' });
 
   const languages = [
-    { label: 'AL', languageCode: 'al', countryCode: 'AL' },
+    { label: 'AL', languageCode: 'sq', countryCode: 'AL' },
     { label: 'EN', languageCode: 'en', countryCode: 'US' },
   ];
 
@@ -40,7 +41,7 @@ const Navbar = () => {
       setTimeout(() => {
         setIsLanguageDropdownOpen(false);
         dropdownMenu.classList.remove('hide');
-      }, 700); // Adjust the timeout based on the animation duration
+      }, 700);
     } else {
       setIsLanguageDropdownOpen(true);
     }
@@ -48,9 +49,10 @@ const Navbar = () => {
 
   const handleLanguageChange = (lang) => {
     setLanguage(lang);
-    localStorage.setItem('preferredLanguage', JSON.stringify(lang)); // Save language as JSON
+    localStorage.setItem('preferredLanguage', JSON.stringify(lang));
+    i18n.changeLanguage(lang.languageCode); // Update the language
     setIsLanguageDropdownOpen(false);
-    setIsMobileMenuOpen(false); // Close the mobile menu when a language is selected
+    setIsMobileMenuOpen(false);
   };
 
   useEffect(() => {
@@ -59,10 +61,10 @@ const Navbar = () => {
       try {
         const lang = JSON.parse(savedLanguage);
         setLanguage(lang);
+        i18n.changeLanguage(lang.languageCode); // Update the language
       } catch (error) {
         console.error('Failed to parse saved language:', error);
-        // If parsing fails, set to default AL
-        const defaultLang = languages.find((lang) => lang.languageCode === 'al');
+        const defaultLang = languages.find((lang) => lang.languageCode === 'sq');
         if (defaultLang) {
           setLanguage(defaultLang);
           i18n.changeLanguage(defaultLang.languageCode);
@@ -70,8 +72,7 @@ const Navbar = () => {
         }
       }
     } else {
-      // If no language is saved, set 'AL' as default
-      const defaultLang = languages.find((lang) => lang.languageCode === 'al');
+      const defaultLang = languages.find((lang) => lang.languageCode === 'sq');
       if (defaultLang) {
         setLanguage(defaultLang);
         i18n.changeLanguage(defaultLang.languageCode);
@@ -85,7 +86,6 @@ const Navbar = () => {
     };
   }, [i18n]);
 
-
   return (
     <div className={`page-wrapper ${isScrolled ? 'scrolled' : ''}`}>
       <div className={`nav-wrapper ${isScrolled ? 'scrolled' : ''}`}>
@@ -98,7 +98,9 @@ const Navbar = () => {
             />
           </Link>
           <div
-            className={`menu-toggle ${isMobileMenuOpen ? 'is-active' : ''} ${isScrolled ? 'scrolled' : ''}`}
+            className={`menu-toggle ${isMobileMenuOpen ? 'is-active' : ''} ${
+              isScrolled ? 'scrolled' : ''
+            }`}
             id="mobile-menu"
             onClick={handleMenuToggle}
           >
@@ -106,7 +108,11 @@ const Navbar = () => {
             <span className={`bar ${isScrolled ? 'scrolled' : ''}`}></span>
             <span className={`bar ${isScrolled ? 'scrolled' : ''}`}></span>
           </div>
-          <ul className={`nav no-search ${isMobileMenuOpen ? 'mobile-nav' : ''} ${isScrolled ? 'scrolled' : ''}`}>
+          <ul
+            className={`nav no-search ${isMobileMenuOpen ? 'mobile-nav' : ''} ${
+              isScrolled ? 'scrolled' : ''
+            }`}
+          >
             <li className="nav-item">
               <Link to="/" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>
                 {t('navbar.home')}
@@ -118,7 +124,11 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/products" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>
+              <Link
+                to="/products"
+                className={isScrolled ? 'scrolled' : ''}
+                onClick={handleMenuClose}
+              >
                 {t('navbar.products')}
               </Link>
             </li>
@@ -128,22 +138,40 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/contact" className={isScrolled ? 'scrolled' : ''} onClick={handleMenuClose}>
+              <Link
+                to="/contact"
+                className={isScrolled ? 'scrolled' : ''}
+                onClick={handleMenuClose}
+              >
                 {t('navbar.contact')}
               </Link>
             </li>
             <li className="nav-item has-dropdown">
-              <a href="/" className={isScrolled ? 'scrolled' : ''} onClick={handleLanguageDropdownToggle}>
+              <a
+                href="/"
+                className={isScrolled ? 'scrolled' : ''}
+                onClick={handleLanguageDropdownToggle}
+              >
                 {language.label}
               </a>
-              <ul className={`dropdown-menu ${isLanguageDropdownOpen ? 'show' : ''} ${isScrolled ? 'scrolled' : ''}`}>
+              <ul
+                className={`dropdown-menu ${isLanguageDropdownOpen ? 'show' : ''} ${
+                  isScrolled ? 'scrolled' : ''
+                }`}
+              >
                 {languages.map((langOption, index) => (
                   <li
                     key={langOption.label}
-                    className={`${isScrolled ? 'scrolled' : ''} ${index === languages.length - 1 ? 'last-link' : ''}`}
+                    className={`${isScrolled ? 'scrolled' : ''} ${
+                      index === languages.length - 1 ? 'last-link' : ''
+                    }`}
                     onClick={() => handleLanguageChange(langOption)}
                   >
-                    <ReactCountryFlag countryCode={langOption.countryCode} svg className="country-flags" />{' '}
+                    <ReactCountryFlag
+                      countryCode={langOption.countryCode}
+                      svg
+                      className="country-flags"
+                    />{' '}
                     {langOption.label}
                   </li>
                 ))}
@@ -152,7 +180,6 @@ const Navbar = () => {
           </ul>
         </nav>
       </div>
-      {/* Hidden Google Translate element */}
     </div>
   );
 };
