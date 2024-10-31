@@ -57,6 +57,14 @@ const ProductCatalog = () => {
     categoryTranslationMap[normalizedCategory][currentLanguage] ||
     normalizedCategory;
 
+  // Helper function to normalize text
+  const normalizeText = (text) => {
+    return text
+      .toLowerCase()
+      .replace(/ç/g, 'c')
+      .replace(/ë/g, 'e');
+  };
+
   // Fetch products by category from the backend
   useEffect(() => {
     const fetchProducts = async () => {
@@ -109,6 +117,8 @@ const ProductCatalog = () => {
     if (searchQuery.trim() === '') {
       setFilteredProducts(products);
     } else {
+      const normalizedSearchQuery = normalizeText(searchQuery);
+
       const filtered = products.filter((product) => {
         const name =
           currentLanguage === 'en' ? product.name_en || product.name : product.name;
@@ -119,13 +129,13 @@ const ProductCatalog = () => {
 
         // Combine name and variations into a single array
         const searchFields = [
-          name.toLowerCase(),
-          ...variations.map((v) => v.toLowerCase()),
+          normalizeText(name),
+          ...variations.map((v) => normalizeText(v)),
         ];
 
-        // Check if any field includes the search query
+        // Check if any field includes the normalized search query
         return searchFields.some((field) =>
-          field.includes(searchQuery.toLowerCase())
+          field.includes(normalizedSearchQuery)
         );
       });
       setFilteredProducts(filtered);
@@ -162,6 +172,8 @@ const ProductCatalog = () => {
   const suggestions = [];
 
   if (searchQuery.trim()) {
+    const normalizedSearchQuery = normalizeText(searchQuery);
+
     products.forEach((product) => {
       const name =
         currentLanguage === 'en' ? product.name_en || product.name : product.name;
@@ -170,11 +182,12 @@ const ProductCatalog = () => {
           ? product.variations_en || product.variations
           : product.variations;
 
-      const nameMatches = name
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase());
-      const matchingVariations = variations.filter((variation) =>
-        variation.toLowerCase().includes(searchQuery.toLowerCase())
+      const normalizedName = normalizeText(name);
+      const normalizedVariations = variations.map((v) => normalizeText(v));
+
+      const nameMatches = normalizedName.includes(normalizedSearchQuery);
+      const matchingVariations = variations.filter((variation, index) =>
+        normalizedVariations[index].includes(normalizedSearchQuery)
       );
 
       if (nameMatches && matchingVariations.length > 0) {
