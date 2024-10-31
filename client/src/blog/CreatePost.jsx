@@ -126,6 +126,7 @@ const CreatePost = () => {
             />
           </div>
 
+      <div className='custom-checkbox-container'>
           <label>
             <input
               type="checkbox"
@@ -134,6 +135,7 @@ const CreatePost = () => {
             />
             Add translation in English
           </label>
+          </div>
 
           {addTranslation && (
             <>

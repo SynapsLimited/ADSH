@@ -444,6 +444,55 @@ img:hover {
 }
 
 
+/* Hide the default checkbox appearance */
+.custom-checkbox-container input[type="checkbox"] {
+  -webkit-appearance: none; /* Safari and Chrome */
+  -moz-appearance: none;    /* Firefox */
+  appearance: none;
+  width: 20px;
+  height: 35px;
+  margin: 0;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  border: 1.5px solid var(--color-primary); /* Use your primary color */
+  border-radius: 50%; /* Make it round */
+  background-color: #fff;
+  transition: var(--transition);
+}
+
+/* Style the checked state */
+.custom-checkbox-container input[type="checkbox"]:checked {
+  background-color: var(--color-primary); /* Fill background when checked */
+}
+
+/* Optional: Add a checkmark or dot inside the checkbox when checked */
+.custom-checkbox-container input[type="checkbox"]:checked::after {
+  content: '✔';
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  width: 1px;
+  height: 12px;
+  color: #fff; /* Color of the inner dot */
+  border-radius: 50%;
+
+  transition: var(--transition);
+}
+
+/* Adjust the label */
+.custom-checkbox-container label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #000;
+  cursor: pointer;
+}
+
+/* Ensure the checkbox and label text are properly spaced */
+.custom-checkbox-container label > input[type="checkbox"] {
+  margin-right: 10px;
+}
 
 /* ====================== Responsive Tablets =============================== */
 

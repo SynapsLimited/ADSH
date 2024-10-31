@@ -129,6 +129,7 @@ const EditProduct = () => {
             onChange={(e) => setVariations(e.target.value)}
           />
 
+      <div className='custom-checkbox-container'>
           <label>
             <input
               type="checkbox"
@@ -137,6 +138,7 @@ const EditProduct = () => {
             />
             Add translation in English
           </label>
+          </div>
 
           {addTranslation && (
             <>
