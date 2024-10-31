@@ -35,9 +35,37 @@ const FullCatalog = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products`);
+        const response = await fetch(
+          `${process.env.REACT_APP_BASE_URL}/products`
+        );
         const data = await response.json();
-        const sortedProducts = data.sort((a, b) => a.name.localeCompare(b.name));
+
+        const sortedProducts = data.sort((a, b) => {
+          const nameA =
+            currentLanguage === 'en' ? a.name_en || a.name : a.name;
+          const nameB =
+            currentLanguage === 'en' ? b.name_en || b.name : b.name;
+
+          const nameCompare = nameA.localeCompare(nameB);
+          if (nameCompare !== 0) {
+            return nameCompare;
+          } else {
+            const variationsA =
+              currentLanguage === 'en'
+                ? a.variations_en || a.variations
+                : a.variations;
+            const variationsB =
+              currentLanguage === 'en'
+                ? b.variations_en || b.variations
+                : b.variations;
+
+            const variationA = variationsA[0] || '';
+            const variationB = variationsB[0] || '';
+
+            return variationA.localeCompare(variationB);
+          }
+        });
+
         setProducts(sortedProducts);
         setFilteredProducts(sortedProducts);
       } catch (error) {
@@ -45,19 +73,35 @@ const FullCatalog = () => {
       }
     };
     fetchProducts();
-  }, []);
+  }, [currentLanguage]);
 
   // Update filtered products based on search query
   useEffect(() => {
     if (searchQuery.trim() === '') {
       setFilteredProducts(products);
     } else {
-      const filtered = products.filter((product) =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      const filtered = products.filter((product) => {
+        const name =
+          currentLanguage === 'en' ? product.name_en || product.name : product.name;
+        const variations =
+          currentLanguage === 'en'
+            ? product.variations_en || product.variations
+            : product.variations;
+
+        // Combine name and variations into a single array
+        const searchFields = [
+          name.toLowerCase(),
+          ...variations.map((v) => v.toLowerCase()),
+        ];
+
+        // Check if any field includes the search query
+        return searchFields.some((field) =>
+          field.includes(searchQuery.toLowerCase())
+        );
+      });
       setFilteredProducts(filtered);
     }
-  }, [searchQuery, products]);
+  }, [searchQuery, products, currentLanguage]);
 
   // Track scroll position for parallax effect
   useEffect(() => {
@@ -86,15 +130,50 @@ const FullCatalog = () => {
   };
 
   // Generate suggestions based on search query
-  const suggestions = searchQuery.trim()
-    ? products.filter((product) =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : [];
+  const suggestions = [];
+
+  if (searchQuery.trim()) {
+    products.forEach((product) => {
+      const name =
+        currentLanguage === 'en' ? product.name_en || product.name : product.name;
+      const variations =
+        currentLanguage === 'en'
+          ? product.variations_en || product.variations
+          : product.variations;
+
+      const nameMatches = name
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      const matchingVariations = variations.filter((variation) =>
+        variation.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      if (nameMatches && matchingVariations.length > 0) {
+        matchingVariations.forEach((variation) => {
+          suggestions.push({
+            product,
+            displayText: `${name} - ${variation}`,
+          });
+        });
+      } else if (nameMatches) {
+        suggestions.push({
+          product,
+          displayText: name,
+        });
+      } else if (matchingVariations.length > 0) {
+        matchingVariations.forEach((variation) => {
+          suggestions.push({
+            product,
+            displayText: `${name} - ${variation}`,
+          });
+        });
+      }
+    });
+  }
 
   // Handle suggestion click
-  const handleSuggestionClick = (product) => {
-    navigate(`/products/${product._id}`);
+  const handleSuggestionClick = (suggestion) => {
+    navigate(`/products/${suggestion.product._id}`);
   };
 
   // Helper function to truncate description
@@ -130,22 +209,31 @@ const FullCatalog = () => {
 
       {/* Category Navigation Buttons */}
       <div className="category-buttons">
-        {Object.keys(categoryTranslationMap).map((key) => (
-          key !== 'All Products' && (
-            <Link key={key} to={`/products/category/${key}`} className="btn btn-primary">
-              {categoryTranslationMap[key][currentLanguage]}
-            </Link>
-          )
-        ))}
+        {Object.keys(categoryTranslationMap).map(
+          (key) =>
+            key !== 'All Products' && (
+              <Link
+                key={key}
+                to={`/products/category/${key}`}
+                className="btn btn-primary"
+              >
+                {categoryTranslationMap[key][currentLanguage]}
+              </Link>
+            )
+        )}
         <Link to="/full-catalog" className="btn btn-primary">
           {categoryTranslationMap['All Products'][currentLanguage]}
         </Link>
       </div>
 
       {/* Download Catalog Link */}
-      <div style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}>
+      <div
+        style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}
+      >
         <Link to={`/download-catalog`} className="btn btn-primary">
-          {currentLanguage === 'en' ? 'Download Full Catalog' : 'Shkarko katalogun e plotë'}
+          {currentLanguage === 'en'
+            ? 'Download Full Catalog'
+            : 'Shkarko katalogun e plotë'}
         </Link>
       </div>
 
@@ -168,7 +256,9 @@ const FullCatalog = () => {
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => {
               const name =
-                currentLanguage === 'en' ? product.name_en || product.name : product.name;
+                currentLanguage === 'en'
+                  ? product.name_en || product.name
+                  : product.name;
               const description =
                 currentLanguage === 'en'
                   ? product.description_en || product.description
@@ -200,15 +290,24 @@ const FullCatalog = () => {
                     )}
                     {/* Truncated Description */}
                     <p>{truncateDescription(description, 20)}</p>
-                    <Link to={`/products/${product._id}`} className="btn btn-secondary">
-                      {currentLanguage === 'en' ? 'View Details' : 'Shiko Detajet'}
+                    <Link
+                      to={`/products/${product._id}`}
+                      className="btn btn-secondary"
+                    >
+                      {currentLanguage === 'en'
+                        ? 'View Details'
+                        : 'Shiko Detajet'}
                     </Link>
                   </div>
                 </div>
               );
             })
           ) : (
-            <p>{currentLanguage === 'en' ? 'No products found.' : 'Nuk u gjetën produkte.'}</p>
+            <p>
+              {currentLanguage === 'en'
+                ? 'No products found.'
+                : 'Nuk u gjetën produkte.'}
+            </p>
           )}
         </div>
       </section>

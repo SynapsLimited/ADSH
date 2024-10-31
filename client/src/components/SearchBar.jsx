@@ -1,10 +1,39 @@
 // src/components/SearchBar.jsx
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import './../css/searchbar.css'; // Import the corresponding CSS
+import { useTranslation } from 'react-i18next';
 
 const SearchBar = ({ query, setQuery, suggestions, onSuggestionClick }) => {
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+
+  const handleInputChange = (e) => {
+    setQuery(e.target.value);
+    setShowSuggestions(true);
+  };
+
+  const handleFocus = () => {
+    setShowSuggestions(true);
+  };
+
+  const handleBlur = () => {
+    // Delay hiding suggestions to allow click on suggestions
+    setTimeout(() => {
+      setShowSuggestions(false);
+    }, 100);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      setShowSuggestions(false);
+      // Optionally prevent form submission or page refresh
+      e.preventDefault();
+    }
+  };
+
   return (
     <div className="search-bar-container">
       <div className="search-icon">
@@ -13,17 +42,25 @@ const SearchBar = ({ query, setQuery, suggestions, onSuggestionClick }) => {
       <input
         type="search"
         className="search-input"
-        placeholder="Kërko produkte..."
+        placeholder={
+          currentLanguage === 'en' ? 'Search products...' : 'Kërko produkte...'
+        }
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={handleInputChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
       />
-      {suggestions.length > 0 && (
+      {showSuggestions && suggestions.length > 0 && (
         <div className="search-dropdown">
           <ul>
-            {suggestions.map((suggestion) => (
-              <li key={suggestion._id} onClick={() => onSuggestionClick(suggestion)}>
+            {suggestions.map((suggestion, index) => (
+              <li
+                key={`${suggestion.product._id}-${index}`}
+                onClick={() => onSuggestionClick(suggestion)}
+              >
                 <Search className="dropdown-icon" />
-                <span>{suggestion.name}</span>
+                <span>{suggestion.displayText}</span>
               </li>
             ))}
           </ul>
