@@ -27,7 +27,7 @@ const ProductCatalog = () => {
     Pastry: 'hero-container hero-container-products-pastry',
     Bakery: 'hero-container hero-container-products-bakery',
     Packaging: 'hero-container hero-container-products-packaging',
-    DriedFruits: 'hero-container hero-container-products-nuts',
+    'Dried Fruits': 'hero-container hero-container-products-nuts',
     Equipment: 'hero-container hero-container-products-equipment',
     'All Products': 'hero-container hero-container-products-all',
   };
@@ -39,7 +39,7 @@ const ProductCatalog = () => {
     Pastry: { sq: 'Pastiçeri', en: 'Pastry' },
     Bakery: { sq: 'Furra', en: 'Bakery' },
     Packaging: { sq: 'Paketime', en: 'Packaging' },
-    DriedFruits: { sq: 'Fruta të thata', en: 'Dried Fruits' },
+    'Dried Fruits': { sq: 'Fruta të thata', en: 'Dried Fruits' },
     Equipment: { sq: 'Pajisje', en: 'Equipment' },
     'All Products': { sq: 'Të gjitha produktet', en: 'All Products' },
   };

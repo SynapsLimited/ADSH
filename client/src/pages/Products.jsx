@@ -50,7 +50,7 @@ function Products() {
     {
       name: 'Fruta të thata',
       imageUrl: '/assets/Product - Nuts.jpg', // Updated image source
-      link: '/products/category/DriedFruits',
+      link: '/products/category/'Dried Fruits'',
     },
     {
       name: 'Pajisje',
