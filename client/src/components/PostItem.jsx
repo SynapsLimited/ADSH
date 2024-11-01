@@ -12,7 +12,7 @@ const categoryTranslationMap = {
   Pastry: { sq: 'Pastiçeri', en: 'Pastry' },
   Bakery: { sq: 'Furra', en: 'Bakery' },
   Packaging: { sq: 'Paketime', en: 'Packaging' },
-  Dried Fruits: { sq: 'Fruta të thata', en: 'Dried Fruits' },
+  DriedFruits: { sq: 'Fruta të thata', en: 'Dried Fruits' },
   Equipment: { sq: 'Pajisje', en: 'Equipment' },
   'All Products': { sq: 'Të gjitha produktet', en: 'All Products' },
 };

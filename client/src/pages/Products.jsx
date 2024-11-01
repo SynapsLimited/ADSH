@@ -49,8 +49,8 @@ function Products() {
     },
     {
       name: 'Fruta të thata',
-      imageUrl: '/assets/Product - Dried Fruits.jpg', // Updated image source
-      link: '/products/category/Dried Fruits',
+      imageUrl: '/assets/Product - Nuts.jpg', // Updated image source
+      link: '/products/category/DriedFruits',
     },
     {
       name: 'Pajisje',

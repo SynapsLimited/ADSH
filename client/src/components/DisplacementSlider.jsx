@@ -311,7 +311,7 @@ function DisplacementSlider() {
       <img src="/assets/Product - Pastry.jpg" alt="Pastry Products / Produkte Pasticerie" />
       <img src="/assets/Product - Bakery.jpg" alt="Bakery Products / Produkte per Furra" />
       <img src="/assets/Product - Packaging.jpg" alt="Packaging Products / Produkte Paketimi" />
-      <img src="/assets/Product - Dried Fruits.jpg" alt="Dried Fruits / Fruta të thata" />
+      <img src="/assets/Product - Nuts.jpg" alt="Dried Fruits / Fruta të thata" />
       <img src="/assets/Product - Equipment.jpg" alt="Equipment Products / Pajisje & Veshje" />
       {/* Pagination */}
       <div id="pagination" ref={paginationRef}>
