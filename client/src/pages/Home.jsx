@@ -143,9 +143,9 @@ function Home() {
     },
     {
       title: "Fruta të thata",
-      image: "/assets/Product - Nuts.jpg", // Updated image source
+      image: "/assets/Product - Dried Fruits.jpg", // Updated image source
       description: "Lloje të ndryshme frutash të thata për klientët tanë.",
-      link: "/products/category/Nuts",
+      link: "/products/category/Dried Fruits",
     },
     {
       title: "Furra",

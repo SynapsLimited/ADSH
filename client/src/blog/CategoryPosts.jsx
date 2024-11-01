@@ -21,7 +21,7 @@ const CategoryPosts = () => {
     "Pastry": "Pastiçeri",
     "Bakery": "Furra",
     "Packaging": "Paketime",
-    "Nuts": "Fruta të thata",
+    "Dried Fruits": "Fruta të thata",
     "Equipment": "Pajisje",
     "Other": "Të tjera"
   };

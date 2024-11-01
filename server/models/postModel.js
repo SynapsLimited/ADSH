@@ -8,7 +8,7 @@ const postSchema = new Schema(
     title_en: { type: String },
     category: {
       type: String,
-      enum: ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Nuts', 'Equipment', 'Other'],
+      enum: ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Dried Fruits', 'Equipment', 'Other'],
       message: '{VALUE} is not supported',
     },
     description: { type: String, required: true },

@@ -29,7 +29,7 @@ function Blog() {
     { key: 'Pastry', value: 'Pastiçeri' },
     { key: 'Bakery', value: 'Furra' },
     { key: 'Packaging', value: 'Paketime' },
-    { key: 'Nuts', value: 'Fruta të thata' },
+    { key: 'Dried Fruits', value: 'Fruta të thata' },
     { key: 'Equipment', value: 'Pajisje' },
     { key: 'Other', value: 'Të tjera' },
   ];

@@ -29,7 +29,7 @@ const CreateProduct = () => {
     }
   }, [token, navigate]);
 
-  const PRODUCT_CATEGORIES = ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Nuts', 'Equipment', 'Other'];
+  const PRODUCT_CATEGORIES = ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Dried Fruits', 'Equipment', 'Other'];
 
   const createProduct = async (e) => {
     e.preventDefault();
