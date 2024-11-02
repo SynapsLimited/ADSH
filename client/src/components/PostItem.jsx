@@ -14,6 +14,7 @@ const categoryTranslationMap = {
   Packaging: { sq: 'Paketime', en: 'Packaging' },
   'Dried Fruits': { sq: 'Fruta të thata', en: 'Dried Fruits' },
   Equipment: { sq: 'Pajisje', en: 'Equipment' },
+  Other: { sq: 'Të tjera', en: 'Other' },
   'All Products': { sq: 'Të gjitha produktet', en: 'All Products' },
 };
 
