@@ -60,6 +60,7 @@ const EditPost = () => {
     'Bakery',
     'Pastry',
     'Packaging',
+    'Dried Fruits',
     'Equipment',
     'Other',
   ];
