@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 
 const FullCatalog = () => {
   const navigate = useNavigate();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
   const [products, setProducts] = useState([]);
@@ -207,15 +207,13 @@ const FullCatalog = () => {
       >
         <div className="hero-content">
           <h1 className="hero-title-h1">
-            {currentLanguage === 'en' ? 'All Products' : 'Të Gjitha Produktet'}
+            {t('fullCatalog.heroTitle')}
           </h1>
           <p className="hero-description">
-            {currentLanguage === 'en'
-              ? 'Discover our full range of products in all categories.'
-              : 'Zbuloni gamën tonë të plotë të produkteve në të gjitha kategoritë.'}
+            {t('fullCatalog.heroDescription')}
           </p>
           <a href="/contact" className="btn btn-primary">
-            {currentLanguage === 'en' ? 'Contact' : 'Kontakto'}
+            {t('fullCatalog.contact')}
           </a>
         </div>
       </div>
@@ -244,9 +242,7 @@ const FullCatalog = () => {
         style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}
       >
         <Link to={`/download-catalog`} className="btn btn-primary">
-          {currentLanguage === 'en'
-            ? 'Download Full Catalog'
-            : 'Shkarko katalogun e plotë'}
+          {t('fullCatalog.downloadCatalog')}
         </Link>
       </div>
 
@@ -307,20 +303,14 @@ const FullCatalog = () => {
                       to={`/products/${product._id}`}
                       className="btn btn-secondary"
                     >
-                      {currentLanguage === 'en'
-                        ? 'View Details'
-                        : 'Shiko Detajet'}
+                      {t('common.viewDetails')}
                     </Link>
                   </div>
                 </div>
               );
             })
           ) : (
-            <p>
-              {currentLanguage === 'en'
-                ? 'No products found.'
-                : 'Nuk u gjetën produkte.'}
-            </p>
+            <p>{t('fullCatalog.noProductsFound')}</p>
           )}
         </div>
       </section>

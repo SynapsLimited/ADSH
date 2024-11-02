@@ -3,10 +3,12 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Posts from './../components/Posts';
 import Authors from './../blog/Authors';
 
 function Blog() {
+  const { t } = useTranslation();
   const [scrollPosition, setScrollPosition] = useState(0);
 
   // Track scroll position to apply parallax effect
@@ -24,20 +26,20 @@ function Blog() {
   }, []);
 
   const categories = [
-    { key: 'Dairy', value: 'Bulmetore' },
-    { key: 'Ice Cream', value: 'Akullore' },
-    { key: 'Pastry', value: 'Pastiçeri' },
-    { key: 'Bakery', value: 'Furra' },
-    { key: 'Packaging', value: 'Paketime' },
-    { key: 'Dried Fruits', value: 'Fruta të thata' },
-    { key: 'Equipment', value: 'Pajisje' },
-    { key: 'Other', value: 'Të tjera' },
+    { key: 'Dairy', value: t('blog.categories.items.Dairy') },
+    { key: 'IceCream', value: t('blog.categories.items.IceCream') },
+    { key: 'Pastry', value: t('blog.categories.items.Pastry') },
+    { key: 'Bakery', value: t('blog.categories.items.Bakery') },
+    { key: 'Packaging', value: t('blog.categories.items.Packaging') },
+    { key: 'DriedFruits', value: t('blog.categories.items.DriedFruits') },
+    { key: 'Equipment', value: t('blog.categories.items.Equipment') },
+    { key: 'Other', value: t('blog.categories.items.Other') },
   ];
 
   return (
     <div>
       <Helmet>
-        <title>ADSH - Artikujt</title>
+        <title>{t('blog.helmetTitle')}</title>
       </Helmet>
       
       {/* Hero Section */}
@@ -47,26 +49,26 @@ function Blog() {
       >
         <div className="hero-content">
           {/* Text Section */}
-          <h1 className="hero-title-h1">Artikujt</h1>
+          <h1 className="hero-title-h1">{t('blog.hero.heading')}</h1>
           <p className="hero-description">
-            Qëndroni të informuar me trendet më të fundit, këshillat, dhe njohuritë në bulmetore, akullore, furra dhe më shumë.
+            {t('blog.hero.description')}
           </p>
 
           {/* Contact Button */}
-          <a href="/contact" className="btn btn-primary">Kontakto</a>
+          <a href="/contact" className="btn btn-primary">{t('blog.hero.contactButton')}</a>
         </div>
       </div>
 
       {/* Blog Intro */}
       <div className="blog-title">
-        <h1>Mirë se vini në Blogun tonë</h1>
-        <p>Shfletoni artikuj, lajme, dhe përditësime rreth produkteve tona, shërbimeve, dhe njohurive të industrisë.</p>
+        <h1>{t('blog.intro.heading')}</h1>
+        <p>{t('blog.intro.description')}</p>
       </div>
 
       {/* Blog Categories Section */}
       <section data-aos="fade-up" className="container blog-categories-section">
         <div className="blog-title">
-          <h1>Kategori</h1>
+          <h1>{t('blog.categories.heading')}</h1>
         </div>
         <ul className="blog-categories">
           {categories.map(({ key, value }) => (

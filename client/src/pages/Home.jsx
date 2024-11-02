@@ -1,8 +1,11 @@
+// src/components/Home.jsx
+
 import React, { useState, useEffect } from "react";
+import { Helmet } from 'react-helmet-async';
 import { motion } from "framer-motion";
+import { useTranslation } from 'react-i18next';
 import DisplacementSlider from './../components/DisplacementSlider';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import PostItem from './../components/PostItem';
 
@@ -19,13 +22,14 @@ import 'swiper/css/pagination';
 import './../css/home.css'; // Import the CSS file
 
 const stats = [
-  { title: "Produkte", value: 100 },
-  { title: "Partnerët", value: 30 },
-  { title: "Eksperiencë", value: 30 },
-  { title: "Klientë të kënaqur", value: 350 },
+  { title: "products", value: 100 },
+  { title: "partners", value: 30 },
+  { title: "experience", value: 30 },
+  { title: "satisfiedCustomers", value: 350 },
 ];
 
 function Home() {
+  const { t } = useTranslation();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [latestPost, setLatestPost] = useState(null); // State for latest post
@@ -78,85 +82,84 @@ function Home() {
         if (posts.length > 0) {
           setLatestPost(posts[0]);
         } else {
-          setError('Nuk ka postime.');
+          setError(t('blog.posts.noPosts'));
         }
       } catch (err) {
         console.error('Error fetching latest post:', err);
-        setError('Error fetching latest post');
+        setError(t('blog.posts.error'));
       }
       setIsLoading(false);
     };
     fetchLatestPost();
-  }, []);
+  }, [t]);
   
-
 
 
   // Array of images for the slider
   const slideImages = [
     {
       src: '/assets/Slideshow 1.png',
-      alt: 'Bulmet / Dairy',
+      alt: t('home.whoWeAre.swiperAlt1') // Add corresponding keys in translation.json
     },
     {
       src: '/assets/Slideshow 2.png',
-      alt: 'Akullore / Ice Cream',
+      alt: t('home.whoWeAre.swiperAlt2')
     },
     {
       src: '/assets/Slideshow 3.png',
-      alt: 'Pasticeri / Pastry',
+      alt: t('home.whoWeAre.swiperAlt3')
     },
     {
       src: '/assets/Slideshow 4.png',
-      alt: 'Paketime / Packaging',
+      alt: t('home.whoWeAre.swiperAlt4')
     },
     {
       src: '/assets/Slideshow 5.png',
-      alt: 'ADSH / ADSH',
+      alt: t('home.whoWeAre.swiperAlt5')
     },
   ];
 
   const categories = [
     {
-      title: "Bulmetore",
-      image: "/assets/Homepage - Hero.jpg", // Updated image source
-      description: "Lëndë e parë për bulmetore për të asistuar klinetët tanë ne prodhimin e një produkti me kualitet sa më të lartë!",
+      title: t('home.productCategories.categories.Dairy'),
+      image: "/assets/Homepage - Hero.jpg",
+      description: t('home.productCategories.categories.DairyDescription'),
       link: "/products/category/Dairy",
     },
     {
-      title: "Akullore",
-      image: "/assets/Product - Ice Cream.jpg", // Updated image source
-      description: "Lëndë përbërëse për prodhimin e akullores për ti dhënë një freski jetës në muajt e nxehtë të verës!",
+      title: t('home.productCategories.categories.IceCream'),
+      image: "/assets/Product - Ice Cream.jpg",
+      description: t('home.productCategories.categories.IceCreamDescription'),
       link: "/products/category/Ice Cream",
     },
     {
-      title: "Pastiçeri",
-      image: "/assets/Product - Pastry.jpg", // Updated image source
-      description: "Produkte për pastiçeri, torta, kruasant, dhe më shumë!",
+      title: t('home.productCategories.categories.Pastry'),
+      image: "/assets/Product - Pastry.jpg",
+      description: t('home.productCategories.categories.PastryDescription'),
       link: "/products/category/Pastry",
     },
     {
-      title: "Paketime",
-      image: "/assets/Product - Packaging.jpg", // Updated image source
-      description: "Paketime plastike për bulmet, akullore, ose pastiçeri.",
+      title: t('home.productCategories.categories.Packaging'),
+      image: "/assets/Product - Packaging.jpg",
+      description: t('home.productCategories.categories.PackagingDescription'),
       link: "/products/category/Packaging",
     },
     {
-      title: "Fruta të thata",
-      image: "/assets/Product - Nuts.jpg", // Updated image source
-      description: "Lloje të ndryshme frutash të thata për klientët tanë.",
+      title: t('home.productCategories.categories.DriedFruits'),
+      image: "/assets/Product - Nuts.jpg",
+      description: t('home.productCategories.categories.DriedFruitsDescription'),
       link: "/products/category/Dried Fruits",
     },
     {
-      title: "Furra",
-      image: "/assets/Product - Bakery.jpg", // Updated image source
-      description: "Përbërës të ndryshëm për furra buke.",
+      title: t('home.productCategories.categories.Bakery'),
+      image: "/assets/Product - Bakery.jpg",
+      description: t('home.productCategories.categories.BakeryDescription'),
       link: "/products/category/Bakery",
     },
     {
-      title: "Pajisje",
-      image: "/assets/Product - Equipment.jpg", // Updated image source
-      description: "Pajisje dhe veshje pune për ushqimoret.",
+      title: t('home.productCategories.categories.Equipment'),
+      image: "/assets/Product - Equipment.jpg",
+      description: t('home.productCategories.categories.EquipmentDescription'),
       link: "/products/category/Equipment",
     },
   ];
@@ -164,8 +167,8 @@ function Home() {
   return (
     <div>
       <Helmet>
-                <title>ADSH - Kryesore</title>
-            </Helmet>
+        <title>{t('home.helmetTitle')}</title>
+      </Helmet>
       {/* Hero Section */}
       <div
         className="hero-container hero-container-home"
@@ -173,22 +176,22 @@ function Home() {
       >
         <div className="hero-content">
           {/* Logo Image */}
-          <img src="/assets/Logo-White.png" alt="ADSH Logo" className="hero-logo" />
+          <img src="/assets/Logo-White.png" alt={t('home.hero.logoAlt')} className="hero-logo" />
 
           {/* Text Section */}
-          <h3 className="hero-title">Albanian Dairy & Supply Hub</h3>
+          <h3 className="hero-title">{t('home.hero.subheading')}</h3>
           <p className="hero-description">
-          Fuqizojmë krijimet tuaja kulinare me përbërës dhe furnizime cilësore. Nga kënaqësitë e bulmetit deri te përsosmëria e pastiçerisë, ne jemi partneri juaj i besueshëm në ekselencën kulinare.
+            {t('home.hero.description')}
           </p>
 
           {/* Contact Button */}
-          <a href="/contact" className="btn btn-primary">Kontakto</a>
+          <a href="/contact" className="btn btn-primary">{t('home.hero.contactButton')}</a>
         </div>
       </div>
 
       {/* Stats Section */}
       <div id="stats-section" className="stats-section-container">
-        <h2 className="stats-title">Përse duhet të zgjidhni ADSH-n?</h2>
+        <h2 className="stats-title">{t('home.stats.sectionTitle')}</h2>
         <div className="stats-blobs">
           {stats.map((stat, index) => (
             <motion.div
@@ -199,7 +202,7 @@ function Home() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <div className="stat-title-container">
-                <h3 className="stat-title">{stat.title}</h3>
+                <h3 className="stat-title">{t(`home.stats.stats.${stat.title.toLowerCase()}`)}</h3>
                 <div className="stat-underline"></div>
               </div>
               <motion.span
@@ -208,14 +211,14 @@ function Home() {
                 animate={isVisible ? { opacity: 1 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.1 + 0.5 }}
               >
-                {isVisible ? <Counter from={0} to={stat.value} /> : "0"}
+                {isVisible ? <Counter from={0} to={stat.value} /> : "0+"}
               </motion.span>
             </motion.div>
           ))}
         </div>
         <p className="stats-paragraph">
-          Këto janë disa prej statistikave që ADSH ka arritur gjatë viteve që ka qënë ne treg. 
-         </p>
+          {t('home.stats.paragraph')}
+        </p>
       </div>
 
       {/* "Who are we?" Section */}
@@ -224,11 +227,11 @@ function Home() {
           <div className="who-we-are-content">
             {/* Text Section */}
             <div className="who-we-are-text">
-              <h2 className="who-we-are-title">Kush jemi ne?</h2>
+              <h2 className="who-we-are-title">{t('home.whoWeAre.sectionTitle')}</h2>
               <p className="who-we-are-description">
-              ADSH-2014 është një kompani që është krijuar në vitin 2014. Kompania zotëron mbi 26 vite eksperiencë në fushën e lëndëve të para për bulmetore dhe pastiçeri.
+                {t('home.whoWeAre.description')}
               </p>
-              <a href="/about" className="btn btn-primary" >Rreth Nesh</a>
+              <a href="/about" className="btn btn-primary" >{t('home.whoWeAre.button')}</a>
             </div>
             {/* Swiper Section */}
             <div className="who-we-are-swiper">
@@ -265,21 +268,20 @@ function Home() {
       {/* Product Categories Section */}
       <section data-aos="fade-up"  className="product-categories">
         <div className="container">
-          <h2>Kategoritë e produkteve</h2>
+          <h2>{t('home.productCategories.sectionTitle')}</h2>
           <div className="category-grid">
             {categories.map((category, index) => (
               <div key={index} className="category-card">
                 <img
                   src={category.image}
                   alt={category.title}
-                  width={200}
-                  height={200}
+                  loading="lazy"
                 />
                 <div className="category-content">
                   <h3>{category.title}</h3>
                   <p>{category.description}</p>
                   <a href={category.link} className="btn btn-primary">
-                    {category.title}
+                  {category.title}
                   </a>
                 </div>
               </div>
@@ -288,15 +290,15 @@ function Home() {
           {/* Added Paragraph and Button */}
           <div className="catalog-download container">
             <p>
-            Shfletoni kataloget tanë digjital në website-n tonë në bazë të kategorisë. Nuk jeni të sigurt ç'farë produkti po kërkoni? Shfletoni katalogun e plotë ose shkarkoni katalogun e plotë për një eksperiencë me të rehatshme. Katalogët e çdo kategorie mund të shkarkohen gjithashtu për thjeshtimin e eksperiencës tuaj!
+              {t('home.productCategories.downloadCatalogParagraph')}
             </p>
             <div className="category-buttons">
-            <Link to="/full-catalog" className="btn btn-primary">
-              Shfleto Katalogun e plotë
-            </Link>
-            <Link to="/download-catalog" className="btn btn-primary">
-            Shkarko Katalogun e plotë
-          </Link>
+              <Link to="/full-catalog" className="btn btn-primary">
+                {t('home.productCategories.buttons.viewFullCatalog')}
+              </Link>
+              <Link to="/download-catalog" className="btn btn-primary">
+                {t('home.productCategories.buttons.downloadFullCatalog')}
+              </Link>
             </div>
           </div>
         </div>
@@ -308,7 +310,7 @@ function Home() {
   <div className="container">
     <div className="blog-container">
       {isLoading ? (
-        <p>Duke ngarkuar postimin...</p>
+        <p>{t('blog.posts.loading')}</p>
       ) : error ? (
         <p>{error}</p>
       ) : latestPost ? (
@@ -316,16 +318,16 @@ function Home() {
           <PostItem post={latestPost} />
         </div>
       ) : (
-        <p>Nuk ka postime.</p>
+        <p>{t('blog.posts.noPosts')}</p>
       )}
 
       <div className="blog-content container">
-        <h2>Artikuj</h2>
+        <h2>{t('home.blogSection.heading')}</h2>
         <p>
-          Shfletoni artikujt tanë për të mësuar më shumë rreth produkteve tona dhe përdorimit të tyre në krijimet tuaja kulinare. Ne mbulojmë të gjitha kategoritë e produkteve, duke ju ofruar këshilla, receta, dhe trendet më të fundit në industri. Qëndroni të informuar dhe të frymëzuar me përmbajtjen tonë të përditësuar rregullisht.
+          {t('home.blogSection.description')}
         </p>
         <Link to="/blog" className="btn btn-primary blog-button">
-          Artikujt
+          {t('home.blogSection.button')}
         </Link>
       </div>
     </div>
@@ -352,6 +354,5 @@ function Counter({ from, to }) {
 
   return <>{count}+</>;
 }
-
 
 export default Home;

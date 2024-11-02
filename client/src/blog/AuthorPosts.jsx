@@ -7,8 +7,10 @@ import './../css/blog.css';
 import Authors from '../blog/Authors';
 import Loader from './../components/Loader';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const AuthorPosts = () => {
+  const { t } = useTranslation();
   const [posts, setPosts] = useState([]);
   const [authorName, setAuthorName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -54,7 +56,7 @@ const AuthorPosts = () => {
   return (
     <section data-aos="fade-up" className="posts">
       <div className="blog-title-filtered">
-        <h1>Postime nga {authorName}</h1>
+        <h1>{t('authorPosts.title', { authorName })}</h1>
       </div>
 
       {posts.length > 0 ? (
@@ -64,7 +66,7 @@ const AuthorPosts = () => {
           ))}
         </div>
       ) : (
-        <h1 className="error-blog-not-found">Nuk ka postime!</h1>
+        <h1 className="error-blog-not-found">{t('authorPosts.noPosts')}</h1>
       )}
 
       <Authors />

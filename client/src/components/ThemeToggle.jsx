@@ -1,17 +1,21 @@
+// src/components/ThemeToggle.jsx
+
 import React, { useState } from 'react';
 import { Palette, ChevronUp } from 'lucide-react';
 import './../css/themetoggle.css';
-
-const colorOptions = [
-  { name: 'Verë', class: 'normal' },
-  { name: 'Vjeshtë', class: 'yellowish-beige' },
-  { name: 'Dimër', class: 'light-blue' },
-  { name: 'Pranverë', class: 'green' },
-
-];
+import { useTranslation } from 'react-i18next';
 
 export default function ThemeToggle({ updateTheme, currentTheme }) {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Define colorOptions inside the component to access 't'
+  const colorOptions = [
+    { name: t('colors.summer'), class: 'normal' },
+    { name: t('colors.autumn'), class: 'yellowish-beige' },
+    { name: t('colors.winter'), class: 'light-blue' },
+    { name: t('colors.spring'), class: 'green' },
+  ];
 
   const handleThemeChange = (themeClass) => {
     updateTheme(themeClass);
@@ -23,21 +27,21 @@ export default function ThemeToggle({ updateTheme, currentTheme }) {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="toggle-button"
-        aria-label="Open color changer menu"
+        aria-label={t('themeToggle.changeTheme')}
       >
         {isOpen ? <ChevronUp className="icon" /> : <Palette className="icon" />}
       </button>
 
       <div className={`theme-menu ${isOpen ? 'open' : 'closed'}`}>
         <div className="menu-content">
-          <h3 className="menu-title">Ndrysho stinën!</h3>
+          <h3 className="menu-title">{t('themeToggle.changeTheme')}</h3>
           <div className="theme-options">
             {colorOptions.map((color) => (
               <button
-                key={color.name}
+                key={color.class}
                 className={`theme-button ${color.class} ${currentTheme === color.class ? 'active' : ''}`}
                 onClick={() => handleThemeChange(color.class)}
-                aria-label={`Set ${color.name} theme`}
+                aria-label={t('themeToggle.setTheme', { theme: color.name })}
               >
                 {color.name}
               </button>

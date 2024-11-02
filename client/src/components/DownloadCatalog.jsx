@@ -26,7 +26,7 @@ const addFooter = (doc, t) => {
 
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
-    doc.setFont('ManjariThin', 'normal'); // Use 'ManjariThin' font
+    doc.setFont('ManjariBold', 'bold'); // Use ManjariBold for footers
     doc.setFontSize(10);
     // Align footer to the left using the fixed left margin
     doc.text(`${t('downloadCatalog.page')} ${i} ${t('downloadCatalog.of')} ${pageCount}`, leftMargin, pageHeight - 10);
@@ -38,25 +38,9 @@ const loadFonts = async (doc) => {
   const fontBaseUrl = '/fonts/'; // Path to fonts in public folder
   const fonts = [
     // Manjari Fonts
-    { name: 'Manjari-Bold.ttf', fontName: 'ManjariBold', fontStyle: 'bold' },
     { name: 'Manjari-Regular.ttf', fontName: 'ManjariRegular', fontStyle: 'normal' },
     { name: 'Manjari-Thin.ttf', fontName: 'ManjariThin', fontStyle: 'normal' },
-
-    // Nunito Sans Fonts
-    { name: 'NunitoSans-Black.ttf', fontName: 'NunitoSansBlack', fontStyle: 'normal' },
-    { name: 'NunitoSans-BlackItalic.ttf', fontName: 'NunitoSansBlackItalic', fontStyle: 'italic' },
-    { name: 'NunitoSans-Bold.ttf', fontName: 'NunitoSansBold', fontStyle: 'normal' },
-    { name: 'NunitoSans-BoldItalic.ttf', fontName: 'NunitoSansBoldItalic', fontStyle: 'italic' },
-    { name: 'NunitoSans-ExtraBold.ttf', fontName: 'NunitoSansExtraBold', fontStyle: 'normal' },
-    { name: 'NunitoSans-ExtraBoldItalic.ttf', fontName: 'NunitoSansExtraBoldItalic', fontStyle: 'italic' },
-    { name: 'NunitoSans-ExtraLight.ttf', fontName: 'NunitoSansExtraLight', fontStyle: 'normal' },
-    { name: 'NunitoSans-ExtraLightItalic.ttf', fontName: 'NunitoSansExtraLightItalic', fontStyle: 'italic' },
-    { name: 'NunitoSans-Italic.ttf', fontName: 'NunitoSansItalic', fontStyle: 'italic' },
-    { name: 'NunitoSans-Light.ttf', fontName: 'NunitoSansLight', fontStyle: 'normal' },
-    { name: 'NunitoSans-LightItalic.ttf', fontName: 'NunitoSansLightItalic', fontStyle: 'italic' },
-    { name: 'NunitoSans-Regular.ttf', fontName: 'NunitoSansRegular', fontStyle: 'normal' },
-    { name: 'NunitoSans-SemiBold.ttf', fontName: 'NunitoSansSemiBold', fontStyle: 'normal' },
-    { name: 'NunitoSans-SemiBoldItalic.ttf', fontName: 'NunitoSansSemiBoldItalic', fontStyle: 'italic' },
+    { name: 'Manjari-Bold.ttf', fontName: 'ManjariBold', fontStyle: 'bold' },
   ];
 
   for (const font of fonts) {
@@ -75,14 +59,15 @@ const loadFonts = async (doc) => {
   }
 };
 
-// Helper function to convert image URL to data URL with high quality based on desired physical size in mm
+// Helper function to convert image URL to data URL with optimized settings
 const getImageDataUrl = async (
   url,
   desiredWidthMM,
   desiredHeightMM,
-  dpi = 300,
-  outputFormat = 'PNG',
-  borderRadius = 0
+  dpi = 150, // Reduced DPI from 300 to 150
+  outputFormat = 'JPEG', // Changed default to 'JPEG'
+  quality = 0.85, // Increased JPEG quality to 0.85 for better clarity
+  borderRadius = 0 // Default border radius
 ) => {
   try {
     const img = new Image();
@@ -137,11 +122,17 @@ const getImageDataUrl = async (
       ctx.clip();
     }
 
+    // Fill background with white if outputFormat is JPEG to avoid black corners
+    if (outputFormat.toUpperCase() === 'JPEG') {
+      ctx.fillStyle = '#FFFFFF'; // White background
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
     // Draw the image onto the canvas with the new dimensions
     ctx.drawImage(img, 0, 0, targetWidthPx, targetHeightPx);
 
-    // Use the specified format for quality
-    const dataURL = canvas.toDataURL(`image/${outputFormat}`, 1.0);
+    // Use the specified format and quality for compression
+    const dataURL = canvas.toDataURL(`image/${outputFormat}`, quality);
     return { dataURL, width: targetWidthPx, height: targetHeightPx };
   } catch (error) {
     console.error('Error loading image for PDF:', error);
@@ -160,7 +151,7 @@ const estimateProductHeight = (doc, product, containerWidth, imageHeightMM, curr
   let height = 0;
 
   // Product Name
-  doc.setFont('NunitoSansBold', 'normal');
+  doc.setFont('ManjariBold', 'bold');
   doc.setFontSize(16);
   const nameText = currentLanguage === 'en' ? product.name_en || product.name : product.name;
   const splitName = doc.splitTextToSize(nameText, containerWidth);
@@ -174,7 +165,7 @@ const estimateProductHeight = (doc, product, containerWidth, imageHeightMM, curr
   // Variations
   const variations = currentLanguage === 'en' ? product.variations_en : product.variations;
   if (variations && variations.length > 0) {
-    doc.setFont('NunitoSansSemiBold', 'normal');
+    doc.setFont('ManjariRegular', 'normal');
     doc.setFontSize(14);
     const variationsText = `${variations.join(', ')}`;
     const splitVariations = doc.splitTextToSize(variationsText, containerWidth);
@@ -204,44 +195,43 @@ const addCoverPage = async (doc, category, bgDataURL, categoryTranslationMap, cu
 
   try {
     // Add background image
-    doc.addImage(bgDataURL, 'PNG', 0, 0, pageWidth, pageHeight); // Full-page background
+    doc.addImage(bgDataURL, 'JPEG', 0, 0, pageWidth, pageHeight); // Full-page background in JPEG
 
-    // Add logo with decreased size by 2x
-    // Original Dimensions: 1890px width x 1417px height
-    // Desired Dimensions: 80mm width x 60mm height
+    // Add logo with border radius 22px
     const logoUrl = '/assets/Logo-Red.png'; // Ensure this path is correct and points to the red logo
-    const desiredLogoWidthMM = 80; // 80mm width as calculated
-    const desiredLogoHeightMM = 60; // 60mm height as calculated
+    const desiredLogoWidthMM = 80; // Optimized width to 80mm
+    const desiredLogoHeightMM = 60; // Optimized height to 60mm
 
     const imgDataObj = await getImageDataUrl(
       logoUrl,
       desiredLogoWidthMM,
       desiredLogoHeightMM,
-      300,
-      'PNG',
-      80 // Border radius in pixels
-    ); // Use 'PNG' for product images with rounded corners
+      150, // Reduced DPI
+      'PNG', // Changed to 'PNG' for the logo to maintain transparency and border radius
+      0.85, // Increased JPEG quality (irrelevant for PNG but kept for consistency)
+      0 // Border radius set to 22px
+    );
     const { dataURL } = imgDataObj;
 
     // Calculate centered position
     const imgX = (pageWidth - desiredLogoWidthMM) / 2;
-    const imgY = pageHeight * 0.05; // Reduced from 10% to 5% to decrease top padding
-    doc.addImage(dataURL, 'PNG', imgX, imgY, desiredLogoWidthMM, desiredLogoHeightMM); // Use 'PNG' format
+    const imgY = pageHeight * 0.05; // Reduced top padding to 5%
+    doc.addImage(dataURL, 'PNG', imgX, imgY, desiredLogoWidthMM, desiredLogoHeightMM); // Use 'PNG' format for logo
 
-    let currentY = imgY + desiredLogoHeightMM + 10; // Reduced spacing after logo from 20 to 10
+    let currentY = imgY + desiredLogoHeightMM + 10; // Reduced spacing after logo to 10mm
 
     // Add Catalog Title (h1)
-    doc.setFont('NunitoSansBold', 'normal'); // Use NunitoSansBold
+    doc.setFont('ManjariBold', 'bold');
     doc.setFontSize(24);
     const titleText = category
       ? `${t('downloadCatalog.catalogFor')} ${capitalizeFirstLetter(categoryTranslationMap[category])}`
       : t('downloadCatalog.fullCatalog');
     doc.text(titleText, centerX, currentY, { align: 'center' });
 
-    currentY += 15; // Reduced spacing after title from 20 to 15
+    currentY += 15; // Reduced spacing after title to 15mm
 
     // Add Mission Statement (p)
-    doc.setFont('ManjariThin', 'normal'); // Use the thin variant
+    doc.setFont('ManjariThin', 'normal');
     doc.setFontSize(12);
     const missionText = category
       ? t('downloadCatalog.missionTextCategory', {
@@ -251,24 +241,24 @@ const addCoverPage = async (doc, category, bgDataURL, categoryTranslationMap, cu
     const splitMission = doc.splitTextToSize(missionText, containerWidth);
     doc.text(splitMission, centerX, currentY, { align: 'center' });
 
-    currentY += splitMission.length * 7 + 15; // Reduced spacing after mission statement from 25 to 15
+    currentY += splitMission.length * 7 + 15; // Reduced spacing after mission statement to 15mm
 
     // Function to add a section with centered title and paragraph
     const addSection = (title, text) => {
       // Add Section Title
-      doc.setFont('NunitoSansBold', 'normal'); // Use NunitoSansBold for section titles
+      doc.setFont('ManjariBold', 'bold');
       doc.setFontSize(16);
       doc.text(title, centerX, currentY, { align: 'center' });
 
-      currentY += 7; // Reduced spacing after section title from 10 to 7
+      currentY += 7; // Reduced spacing after section title to 7mm
 
       // Add Section Paragraph
-      doc.setFont('ManjariThin', 'normal'); // Use ManjariThin for paragraph text
+      doc.setFont('ManjariThin', 'normal');
       doc.setFontSize(12);
       const splitText = doc.splitTextToSize(text, containerWidth);
       doc.text(splitText, centerX, currentY, { align: 'center' });
 
-      currentY += splitText.length * 7 + 15; // Reduced spacing after section from 20 to 15
+      currentY += splitText.length * 7 + 15; // Reduced spacing after section to 15mm
     };
 
     // Add "About Us" Section
@@ -287,7 +277,7 @@ const addCoverPage = async (doc, category, bgDataURL, categoryTranslationMap, cu
     let currentY = margin + 30; // Increased starting Y position
 
     // Add Catalog Title (h1)
-    doc.setFont('NunitoSansBold', 'normal'); // Use NunitoSansBold
+    doc.setFont('ManjariBold', 'bold');
     doc.setFontSize(24);
     const titleText = category
       ? `${capitalizeFirstLetter(categoryTranslationMap[category])} ${t('downloadCatalog.catalog')}`
@@ -313,19 +303,19 @@ const addCoverPage = async (doc, category, bgDataURL, categoryTranslationMap, cu
     // Function to add a section with centered title and paragraph
     const addSection = (title, text) => {
       // Add Section Title
-      doc.setFont('NunitoSansBold', 'normal'); // Use NunitoSansBold for section titles
+      doc.setFont('ManjariBold', 'bold');
       doc.setFontSize(16);
       doc.text(title, centerX, currentY, { align: 'center' });
 
-      currentY += 7; // Reduced spacing after section title from 10 to 7
+      currentY += 7; // Reduced spacing after section title to 7mm
 
       // Add Section Paragraph
-      doc.setFont('ManjariThin', 'normal'); // Use ManjariThin for paragraph text
+      doc.setFont('ManjariThin', 'normal');
       doc.setFontSize(12);
       const splitText = doc.splitTextToSize(text, containerWidth);
       doc.text(splitText, centerX, currentY, { align: 'center' });
 
-      currentY += splitText.length * 7 + 15; // Reduced spacing after section from 20 to 15
+      currentY += splitText.length * 7 + 15; // Reduced spacing after section to 15mm
     };
 
     // Add "About Us" Section
@@ -402,24 +392,26 @@ const DownloadCatalog = () => {
           return nameA.localeCompare(nameB);
         });
 
-        // Initialize jsPDF with higher resolution (use 'mm' units)
+        // Initialize jsPDF with optimized settings
         const doc = new jsPDF('p', 'mm', 'a4');
 
         // Load custom fonts
         await loadFonts(doc);
 
-        // Set default font to NunitoSansRegular
-        doc.setFont('NunitoSansRegular', 'normal');
+        // Set default font to ManjariRegular
+        doc.setFont('ManjariRegular', 'normal');
 
         // **Load the high-resolution background image once**
         const bgUrl = '/assets/ADSH PDF BG.jpg'; // Path to the high-res background image
         const bgDataObj = await getImageDataUrl(
           bgUrl,
-          210,
-          297,
-          300,
-          'PNG'
-        ); // A4 size: 210mm x 297mm at 300 DPI
+          210, // A4 width in mm
+          297, // A4 height in mm
+          150, // Reduced DPI
+          'JPEG', // Changed to 'JPEG' for compression
+          0.85, // Set JPEG quality to 0.85
+          0 // No border radius for background
+        ); // Use 'JPEG' if possible
         const bgDataURL = bgDataObj.dataURL;
 
         // Add Cover Page with additional sections and background
@@ -437,13 +429,13 @@ const DownloadCatalog = () => {
           doc.addPage();
 
           // **Add background image to the new page**
-          doc.addImage(bgDataURL, 'PNG', 0, 0, pageWidth, pageHeight); // Full-page background
+          doc.addImage(bgDataURL, 'JPEG', 0, 0, pageWidth, pageHeight); // Use 'JPEG' for compression
 
-          // Desired physical size for product image (1.4x original)
-          const originalWidthMM = (1920 / 300) * 25.4; // 162.56mm
-          const originalHeightMM = (1080 / 300) * 25.4; // 91.44mm
-          const scaledWidthMM = originalWidthMM * 1.4; // 227.58mm
-          const scaledHeightMM = originalHeightMM * 1.4; // 128.02mm
+          // Desired physical size for product image (optimized)
+          const originalWidthMM = (1920 / 150) * 25.4; // Adjusted for lower DPI
+          const originalHeightMM = (1080 / 150) * 25.4; // Adjusted for lower DPI
+          const scaledWidthMM = originalWidthMM * 1.4; // 227.58mm -> Adjusted scaling
+          const scaledHeightMM = originalHeightMM * 1.4; // 128.02mm -> Adjusted scaling
 
           // Adjust scaled size to fit within page margins
           const maxWidthMM = containerWidth; // 170mm
@@ -480,7 +472,7 @@ const DownloadCatalog = () => {
           let y = yStart;
 
           // Add Product Name (h3)
-          doc.setFont('NunitoSansBold', 'normal'); // Use NunitoSansBold
+          doc.setFont('ManjariBold', 'bold'); // Use ManjariBold
           doc.setFontSize(16);
           const nameText =
             currentLanguage === 'en' ? product.name_en || product.name : product.name;
@@ -488,24 +480,25 @@ const DownloadCatalog = () => {
           doc.text(splitName, centerX, y, { align: 'center' });
           y += splitName.length * 7 + 10; // Spacing after name with increased padding
 
-          // Add Product Image (centered) with improved quality and rounded corners
+          // Add Product Image (centered) with improved quality and border radius
           if (product.images && product.images.length > 0) {
             try {
-              // Product images are to be scaled up by 1.4x without quality drop
+              // Product images are to be scaled up by 1.4x with border radius
               const imgDataObj = await getImageDataUrl(
                 product.images[0],
                 finalWidthMM,
                 finalHeightMM,
-                300,
-                'PNG',
-                80 // Border radius in pixels
-              ); // Use 'PNG' for product images with rounded corners
+                150, // Reduced DPI
+                'JPEG', // Changed to 'JPEG' for compression
+                0.85, // Increased JPEG quality to 0.85
+                0 // Border radius set to 22px for product images
+              );
               const { dataURL } = imgDataObj;
 
               // Calculate centered position
               const imgX = (pageWidth - finalWidthMM) / 2;
 
-              doc.addImage(dataURL, 'PNG', imgX, y, finalWidthMM, finalHeightMM); // Use 'PNG' format
+              doc.addImage(dataURL, 'JPEG', imgX, y, finalWidthMM, finalHeightMM); // Use 'JPEG' format
               y += finalHeightMM + 10; // Increased spacing after image
             } catch (error) {
               console.error(`Error loading image for product ${product.name}:`, error);
@@ -515,11 +508,11 @@ const DownloadCatalog = () => {
             y += 10; // Add space if no image
           }
 
-          // Add Variations (h4) in primary color
+          // Add Variations (in reddish color)
           const variations =
             currentLanguage === 'en' ? product.variations_en : product.variations;
           if (variations && variations.length > 0) {
-            doc.setFont('NunitoSansSemiBold', 'normal'); // Use NunitoSansSemiBold
+            doc.setFont('ManjariRegular', 'normal'); // Use ManjariRegular for variations
             doc.setFontSize(14);
             doc.setTextColor(237, 32, 90); // --color-primary: #ED205A
             const variationsText = `${variations.join(', ')}`;
@@ -533,9 +526,7 @@ const DownloadCatalog = () => {
           doc.setFont('ManjariThin', 'normal'); // Use ManjariThin for paragraphs
           doc.setFontSize(12);
           const descriptionText =
-            currentLanguage === 'en'
-              ? product.description_en || product.description
-              : product.description;
+            currentLanguage === 'en' ? product.description_en || product.description : product.description;
           const splitDescription = doc.splitTextToSize(descriptionText, containerWidth);
           splitDescription.forEach((line) => {
             if (y + 7 > pageHeight - margin) {
@@ -543,9 +534,9 @@ const DownloadCatalog = () => {
               doc.addPage();
 
               // Add background image to the new page
-              doc.addImage(bgDataURL, 'PNG', 0, 0, pageWidth, pageHeight); // Full-page background
+              doc.addImage(bgDataURL, 'JPEG', 0, 0, pageWidth, pageHeight); // Use 'JPEG' for compression
 
-              y = (pageHeight - requiredHeight) / 2; // Reset y position with top padding on new page
+              y = margin + 10; // Reset y position with top padding on new page
             }
             doc.text(line, centerX, y, { align: 'center' });
             y += 7;

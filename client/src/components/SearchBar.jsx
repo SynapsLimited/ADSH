@@ -2,13 +2,12 @@
 
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
-import './../css/searchbar.css'; // Import the corresponding CSS
+import './../css/searchbar.css';
 import { useTranslation } from 'react-i18next';
 
 const SearchBar = ({ query, setQuery, suggestions, onSuggestionClick }) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language;
+  const { t } = useTranslation();
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
@@ -42,9 +41,7 @@ const SearchBar = ({ query, setQuery, suggestions, onSuggestionClick }) => {
       <input
         type="search"
         className="search-input"
-        placeholder={
-          currentLanguage === 'en' ? 'Search products...' : 'Kërko produkte...'
-        }
+        placeholder={t('searchBar.placeholder')}
         value={query}
         onChange={handleInputChange}
         onFocus={handleFocus}

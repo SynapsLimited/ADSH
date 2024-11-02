@@ -21,12 +21,12 @@ const categoryTranslationMap = {
   'Dried Fruits': { sq: 'Fruta të thata', en: 'Dried Fruits' },
   Equipment: { sq: 'Pajisje', en: 'Equipment' },
   Other: { sq: 'Të tjera', en: 'Other' },
-  'All Products': { sq: 'Të gjitha produktet', en: 'All Products' },
+  'All Products': { sq: 'Të gjitha produktet', en: 'All Products' }
 };
 
 const ProductDetail = () => {
+  const { t, i18n } = useTranslation();
   const { id } = useParams();
-  const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
   const [product, setProduct] = useState(null);
@@ -43,7 +43,7 @@ const ProductDetail = () => {
         if (data) {
           setProduct(data);
         } else {
-          setError('Nuk u gjetën të dhëna të produktit.');
+          setError(t('productNotFound'));
         }
       } catch (error) {
         setError(error.message);
@@ -51,7 +51,7 @@ const ProductDetail = () => {
       setIsLoading(false);
     };
     getProduct();
-  }, [id]);
+  }, [id, t]);
 
   if (isLoading) {
     return <Loader />;
@@ -62,7 +62,7 @@ const ProductDetail = () => {
   }
 
   if (!product) {
-    return <p className="error">{currentLanguage === 'en' ? 'Product not found.' : 'Produkti nuk u gjet.'}</p>;
+    return <p className="error">{t('productNotFound')}</p>;
   }
 
   // Slider settings for react-slick
@@ -97,7 +97,7 @@ const ProductDetail = () => {
             {currentUser?.id === (product.creator._id || product.creator) && (
               <div className="product-detail-buttons">
                 <Link to={`/products/${product._id}/edit`} className="btn btn-primary">
-                  {currentLanguage === 'en' ? 'Edit' : 'Ndrysho'}
+                  {t('edit')}
                 </Link>
                 <DeleteProduct productId={product._id} />
               </div>
@@ -119,11 +119,11 @@ const ProductDetail = () => {
 
           {/* Product details */}
           <h3>
-            {currentLanguage === 'en' ? 'Category' : 'Kategoria'}: {categoryName}
+            {t('categoryLabel')}: {categoryName}
           </h3>
           {variations.length > 0 && (
             <h4>
-              {currentLanguage === 'en' ? 'Variations' : 'Variacionet'}: {variations.join(', ')}
+              {t('variationsLabel')}: {variations}
             </h4>
           )}
           <p>{description}</p>
@@ -131,7 +131,7 @@ const ProductDetail = () => {
 
         {/* Back to products button */}
         <Link to="/full-catalog" className="btn btn-secondary product-detail-btn">
-          {currentLanguage === 'en' ? 'Back to Products' : 'Kthehu te Produktet'}
+          {t('backToProducts')}
         </Link>
       </section>
     </div>

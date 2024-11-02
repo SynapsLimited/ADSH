@@ -4,8 +4,10 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/userContext';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const DeleteProduct = ({ productId: id }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { currentUser } = useContext(UserContext);
   const token = currentUser?.token;
@@ -17,11 +19,11 @@ const DeleteProduct = ({ productId: id }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (response.status === 200) {
-        console.log('Product deleted successfully.');
+        console.log(t('Product deleted successfully.'));
         navigate('/products-dashboard');
       }
     } catch (error) {
-      console.log("Couldn't delete product.", error);
+      console.log(t("Couldn't delete product."), error);
     }
   };
 
@@ -31,7 +33,7 @@ const DeleteProduct = ({ productId: id }) => {
       style={{ fontFamily: 'Righteous, sans-serif' }}
       onClick={removeProduct}
     >
-      Delete
+      {t('delete')}
     </button>
   );
 };

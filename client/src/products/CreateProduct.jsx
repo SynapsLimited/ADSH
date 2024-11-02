@@ -4,8 +4,11 @@ import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../context/userContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const CreateProduct = () => {
+  const { t } = useTranslation();
+
   const [name, setName] = useState('');
   const [nameEn, setNameEn] = useState('');
   const [category, setCategory] = useState('Dairy');
@@ -35,7 +38,7 @@ const CreateProduct = () => {
     e.preventDefault();
 
     if (images.length === 0) {
-      setError('Please upload at least one image.');
+      setError(t('uploadAtLeastOneImage'));
       return;
     }
 
@@ -65,7 +68,7 @@ const CreateProduct = () => {
         navigate('/products-dashboard');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'An error occurred');
+      setError(err.response?.data?.message || t('An error occurred'));
     }
   };
 
@@ -76,63 +79,61 @@ const CreateProduct = () => {
   return (
     <section data-aos="fade-up" className="create-product">
       <div className="container">
-        <h2>Create Product</h2>
+        <h2>{t('createProduct')}</h2>
         {error && <p className="form-error-message">{error}</p>}
         <form className="form create-product-form" onSubmit={createProduct}>
           <input
             type="text"
-            placeholder="Name"
+            placeholder={t('name')}
             value={name}
             onChange={(e) => setName(e.target.value)}
             autoFocus
           />
           <select name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
             {PRODUCT_CATEGORIES.map((cat) => (
-              <option key={cat}>{cat}</option>
+              <option key={cat}>{t(cat)}</option>
             ))}
           </select>
           <textarea
-            placeholder="Description"
+            placeholder={t('description')}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={5}
           />
           <input
             type="text"
-            placeholder="Variations (comma-separated)"
+            placeholder={t('variations')}
             value={variations}
             onChange={(e) => setVariations(e.target.value)}
           />
-      <div className='custom-checkbox-container'>
-      <div className='custom-checkbox-container'>
-          <label>
-            <input
-              type="checkbox"
-              checked={addTranslation}
-              onChange={() => setAddTranslation(!addTranslation)}
-            />
-            Add translation in English
-          </label>
-          </div>
+          <div className='custom-checkbox-container'>
+            <label>
+              <input
+                type="checkbox"
+                checked={addTranslation}
+                onChange={() => setAddTranslation(!addTranslation)}
+              />
+              {t('addTranslationInEnglish')}
+            </label>
           </div>
 
           {addTranslation && (
             <>
               <input
                 type="text"
-                placeholder="Name in English"
+                placeholder={t('nameInEnglish')}
                 value={nameEn}
                 onChange={(e) => setNameEn(e.target.value)}
               />
               <textarea
-                placeholder="Description in English"
+                placeholder={t('descriptionInEnglish')}
                 value={descriptionEn}
                 onChange={(e) => setDescriptionEn(e.target.value)}
                 rows={5}
               />
               <input
                 type="text"
-                placeholder="Variations in English (comma-separated)"
+                placeholder={t('variationsInEnglish')}
                 value={variationsEn}
                 onChange={(e) => setVariationsEn(e.target.value)}
               />
@@ -149,7 +150,7 @@ const CreateProduct = () => {
             />
           </div>
           <button type="submit" className="btn btn-primary btn-submit">
-            Create
+            {t('create')}
           </button>
         </form>
       </div>

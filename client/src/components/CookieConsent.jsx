@@ -1,9 +1,12 @@
 // src/components/CookieConsent.jsx
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './../css/cookieconsent.css';
+import { useTranslation } from 'react-i18next';
 
 const CookieConsent = () => {
+  const { t } = useTranslation();
   const [showConsent, setShowConsent] = useState(false);
 
   useEffect(() => {
@@ -23,24 +26,23 @@ const CookieConsent = () => {
     setShowConsent(false);
   };
 
-      if (!showConsent) {
+  if (!showConsent) {
     return null;
   }
-
 
   return (
     <div className="cookie-consent">
       <div className="cookie-consent__content">
         <p>
-          Ne përdorim cookies për të përmirësuar përvojën tuaj në faqen tonë. Duke vazhduar të shfletoni këtë faqe, ju pranoni përdorimin e cookies.
-          <Link to="/privacy-policy" className="cookie-consent__link">Mëso më shumë</Link>
+          {t('cookieConsent.text')}
+          <Link to="/privacy-policy" className="cookie-consent__link">{t('cookieConsent.learnMore')}</Link>
         </p>
         <div className="cookie-consent__buttons">
           <a className="cookie-consent__button accept" onClick={acceptCookies}>
-            Pranoni
+            {t('cookieConsent.accept')}
           </a>
           <a className="cookie-consent__button decline" onClick={declineCookies}>
-            Refuzo
+            {t('cookieConsent.decline')}
           </a>
         </div>
       </div>

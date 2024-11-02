@@ -1,9 +1,13 @@
+// src/components/DisplacementSlider.jsx
+
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { TweenLite, Expo } from 'gsap';
 import imagesLoaded from 'imagesloaded';
+import { useTranslation } from 'react-i18next';
 
 function DisplacementSlider() {
+  const { t } = useTranslation();
   const sliderRef = useRef(null);
   const sliderContentRef = useRef(null);
   const slideTitleRef = useRef(null);
@@ -272,47 +276,46 @@ function DisplacementSlider() {
         renderer.dispose();
       }
     };
-  }, []);
+  }, [t]);
 
   return (
     <div id="slider" ref={sliderRef} style={{ width: '100%', height: '100vh' }}>
       <div className="slider-inner">
         <div id="slider-content" ref={sliderContentRef}>
-          <div className="meta">Kategoria</div>
+          <div className="meta">{t('displacementSlider.meta.category')}</div>
           <h2 id="slide-title" ref={slideTitleRef}>
-          Dairy
+            {t('displacementSlider.slideTitles.0')}
           </h2>
           {/* Hidden titles */}
-          <span className="hidden" data-slide-title="0">Bulmetore</span>
-          <span className="hidden" data-slide-title="1">Akullore</span>
-          <span className="hidden" data-slide-title="2">Pastiçeri</span>
-          <span className="hidden" data-slide-title="3">Furra</span>
-          <span className="hidden" data-slide-title="4">Paketime</span>
-          <span className="hidden" data-slide-title="5">Fruta të thata</span>
-          <span className="hidden" data-slide-title="6">Pajisje</span>
+          <span className="hidden" data-slide-title="0">{t('displacementSlider.slideTitles.0')}</span>
+          <span className="hidden" data-slide-title="1">{t('displacementSlider.slideTitles.1')}</span>
+          <span className="hidden" data-slide-title="2">{t('displacementSlider.slideTitles.2')}</span>
+          <span className="hidden" data-slide-title="3">{t('displacementSlider.slideTitles.3')}</span>
+          <span className="hidden" data-slide-title="4">{t('displacementSlider.slideTitles.4')}</span>
+          <span className="hidden" data-slide-title="5">{t('displacementSlider.slideTitles.5')}</span>
+          <span className="hidden" data-slide-title="6">{t('displacementSlider.slideTitles.6')}</span>
           <div className="meta">ADSH</div>
           <div id="slide-status" ref={slideStatusRef}>
-          Produkte
+            {t('displacementSlider.status.products')}
           </div>
           {/* Hidden statuses */}
-          <span className="hidden" data-slide-status="0">Produkte</span>
-          <span className="hidden" data-slide-status="1">Produkte</span>
-          <span className="hidden" data-slide-status="2">Produkte</span>
-          <span className="hidden" data-slide-status="3">Produkte</span>
-          <span className="hidden" data-slide-status="4">Produkte</span>
-          <span className="hidden" data-slide-status="5">Produkte</span>
-          <span className="hidden" data-slide-status="5">Produkte</span>
-
+          <span className="hidden" data-slide-status="0">{t('displacementSlider.status.products')}</span>
+          <span className="hidden" data-slide-status="1">{t('displacementSlider.status.products')}</span>
+          <span className="hidden" data-slide-status="2">{t('displacementSlider.status.products')}</span>
+          <span className="hidden" data-slide-status="3">{t('displacementSlider.status.products')}</span>
+          <span className="hidden" data-slide-status="4">{t('displacementSlider.status.products')}</span>
+          <span className="hidden" data-slide-status="5">{t('displacementSlider.status.products')}</span>
+          <span className="hidden" data-slide-status="6">{t('displacementSlider.status.products')}</span>
         </div>
       </div>
       {/* Images */}
-      <img src="/assets/Homepage - Hero.jpg" alt="Dairy Products / Produkte Bulmeti" />
-      <img src="/assets/Product - Ice Cream.jpg" alt="Ice Cream Products / Produkte Akullore" />
-      <img src="/assets/Product - Pastry.jpg" alt="Pastry Products / Produkte Pasticerie" />
-      <img src="/assets/Product - Bakery.jpg" alt="Bakery Products / Produkte per Furra" />
-      <img src="/assets/Product - Packaging.jpg" alt="Packaging Products / Produkte Paketimi" />
-      <img src="/assets/Product - Nuts.jpg" alt="Dried Fruits / Fruta të thata" />
-      <img src="/assets/Product - Equipment.jpg" alt="Equipment Products / Pajisje & Veshje" />
+      <img src="/assets/Homepage - Hero.jpg" alt={t('displacementSlider.slideTitles.0')} />
+      <img src="/assets/Product - Ice Cream.jpg" alt={t('displacementSlider.slideTitles.1')} />
+      <img src="/assets/Product - Pastry.jpg" alt={t('displacementSlider.slideTitles.2')} />
+      <img src="/assets/Product - Bakery.jpg" alt={t('displacementSlider.slideTitles.3')} />
+      <img src="/assets/Product - Packaging.jpg" alt={t('displacementSlider.slideTitles.4')} />
+      <img src="/assets/Product - Nuts.jpg" alt={t('displacementSlider.slideTitles.5')} />
+      <img src="/assets/Product - Equipment.jpg" alt={t('displacementSlider.slideTitles.6')} />
       {/* Pagination */}
       <div id="pagination" ref={paginationRef}>
         <button className="active" data-slide="0"></button>
@@ -322,7 +325,6 @@ function DisplacementSlider() {
         <button data-slide="4"></button>
         <button data-slide="5"></button>
         <button data-slide="6"></button>
-
       </div>
     </div>
   );

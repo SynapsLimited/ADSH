@@ -1,10 +1,14 @@
+// src/pages/Login.jsx
+
 import React, { useState, useContext } from 'react';
 import './../css/blog.css'; 
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../context/userContext';
+import { useTranslation } from 'react-i18next';
 
 const Login = () => {
+  const { t } = useTranslation();
   const [userData, setUserData] = useState({
     email: '',
     password: '',
@@ -33,7 +37,7 @@ const Login = () => {
       if (err.response) {
         setError(err.response.data.message);
       } else {
-        setError("An error occurred while logging in. Please try again.");
+        setError(t('login.error'));
       }
     }
   };
@@ -42,13 +46,13 @@ const Login = () => {
     <section data-aos="fade-up" className="login">
       <div className="container">
         <div className="blog-title">
-          <h1>Sign In</h1>
+          <h1>{t('login.title')}</h1>
         </div>
         <form className="form login-form" onSubmit={loginUser}>
           {error && <p className="form-error-message">{error}</p>}
           <input
             type="text"
-            placeholder="Email"
+            placeholder={t('login.email')}
             name="email"
             value={userData.email}
             onChange={changeInputHandler}
@@ -56,16 +60,16 @@ const Login = () => {
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder={t('login.password')}
             name="password"
             value={userData.password}
             onChange={changeInputHandler}
           />
           <button type="submit" className="btn btn-secondary btn-submit">
-            Login
+            {t('login.loginButton')}
           </button>
         </form>
-        <small>Don't have an account? <Link to="/register">Sign Up</Link></small>
+        <small>{t('login.noAccount')} <Link to="/register">{t('login.register')}</Link></small>
       </div>
     </section>
   );

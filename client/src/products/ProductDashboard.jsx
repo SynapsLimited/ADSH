@@ -6,8 +6,11 @@ import { UserContext } from '../context/userContext';
 import axios from 'axios';
 import Loader from '../components/Loader';
 import DeleteProduct from './DeleteProduct';
+import { useTranslation } from 'react-i18next';
 
 const ProductDashboard = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +53,7 @@ const ProductDashboard = () => {
   return (
     <section data-aos="fade-up" className="dashboard">
       <div className="blog-title-filtered">
-        <h1>Product Dashboard</h1>
+        <h1>{t('productDashboard')}</h1>
       </div>
 
       {products.length ? (
@@ -65,10 +68,10 @@ const ProductDashboard = () => {
               </div>
               <div className="dashboard-post-actions">
                 <Link to={`/products/${product._id}`} className="btn btn-primary">
-                  View
+                  {t('view')}
                 </Link>
                 <Link to={`/products/${product._id}/edit`} className="btn btn-primary">
-                  Edit
+                  {t('edit')}
                 </Link>
                 <DeleteProduct productId={product._id} />
               </div>
@@ -76,7 +79,7 @@ const ProductDashboard = () => {
           ))}
         </div>
       ) : (
-        <h2 className="center">No products found.</h2>
+        <h2 className="center">{t('noProductsFound')}</h2>
       )}
     </section>
   );

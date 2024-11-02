@@ -1,3 +1,5 @@
+// src/components/FixedMenu.jsx
+
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -14,9 +16,10 @@ import {
 } from 'lucide-react';
 import './../css/fixedmenu.css';
 import { UserContext } from '../context/userContext';
-
+import { useTranslation } from 'react-i18next';
 
 const FixedMenu = () => {
+  const { t } = useTranslation();
   const [activeMenu, setActiveMenu] = useState(null);
   const menuRef = useRef(null);
   const { currentUser } = useContext(UserContext);
@@ -44,29 +47,29 @@ const FixedMenu = () => {
   const menuItems = [
     {
       icon: <User className="menu-icon" />,
-      label: 'Profile',
+      label: t('fixedMenu.profile'),
       submenu: [
-        { icon: <User className="submenu-icon" />, label: 'Profile', link: `/profile/${currentUser.id}` },
-        { icon: <LogOut className="submenu-icon" />, label: 'Logout', link: `/logout` },
+        { icon: <User className="submenu-icon" />, label: t('fixedMenu.profile'), link: `/profile/${currentUser.id}` },
+        { icon: <LogOut className="submenu-icon" />, label: t('fixedMenu.logout'), link: `/logout` },
       ],
     },
     {
       icon: <BookOpen className="menu-icon" />,
-      label: 'Blog',
+      label: t('fixedMenu.blog'),
       submenu: [
-        { icon: <BookOpen className="submenu-icon" />, label: 'All Posts', link: `/posts` },
-        { icon: <Users className="submenu-icon" />, label: 'Authors', link: `/authors` },
-        { icon: <PenTool className="submenu-icon" />, label: 'Create', link: `/create` },
-        { icon: <LayoutDashboard className="submenu-icon" />, label: 'Dashboard', link: `/myposts/${currentUser.id}` },
+        { icon: <BookOpen className="submenu-icon" />, label: t('fixedMenu.allPosts'), link: `/posts` },
+        { icon: <Users className="submenu-icon" />, label: t('fixedMenu.authors'), link: `/authors` },
+        { icon: <PenTool className="submenu-icon" />, label: t('fixedMenu.create'), link: `/create` },
+        { icon: <LayoutDashboard className="submenu-icon" />, label: t('fixedMenu.dashboard'), link: `/myposts/${currentUser.id}` },
       ],
     },
     {
       icon: <Package className="menu-icon" />,
-      label: 'Products',
+      label: t('fixedMenu.products'),
       submenu: [
-        { icon: <ShoppingBag className="submenu-icon" />, label: 'All Products', link: `/full-catalog` },
-        { icon: <PlusCircle className="submenu-icon" />, label: 'Create', link: `/create-product` },
-        { icon: <LayoutDashboard className="submenu-icon" />, label: 'Dashboard', link: `/products-dashboard` },
+        { icon: <ShoppingBag className="submenu-icon" />, label: t('fixedMenu.allProducts'), link: `/full-catalog` },
+        { icon: <PlusCircle className="submenu-icon" />, label: t('fixedMenu.createProduct'), link: `/create-product` },
+        { icon: <LayoutDashboard className="submenu-icon" />, label: t('fixedMenu.productsDashboard'), link: `/products-dashboard` },
       ],
     },
   ];
@@ -77,11 +80,10 @@ const FixedMenu = () => {
   };
 
   return (
-
-      <div className="fixed-menu" ref={menuRef}>
-        {menuItems.map((item, index) => (
+    <div className="fixed-menu" ref={menuRef}>
+      {menuItems.map((item, index) => (
         <div
-          className={`menu-item-wrapper ${activeMenu === item.label ? 'active' : ''}`} // Add 'active' class here
+          className={`menu-item-wrapper ${activeMenu === item.label ? 'active' : ''}`}
           key={index}
         >
           <button
@@ -100,7 +102,7 @@ const FixedMenu = () => {
                   to={subItem.link}
                   className="submenu-item"
                   key={subIndex}
-                  onClick={() => setActiveMenu(null)} // Close submenu after clicking on an item
+                  onClick={() => setActiveMenu(null)}
                   role="menuitem"
                 >
                   {subItem.icon}
@@ -111,9 +113,8 @@ const FixedMenu = () => {
             </div>
           )}
         </div>
-        ))}
-      </div>
-
+      ))}
+    </div>
   );
 };
 

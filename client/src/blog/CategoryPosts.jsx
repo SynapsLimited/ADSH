@@ -7,28 +7,28 @@ import './../css/blog.css';
 import Authors from '../blog/Authors';
 import Loader from './../components/Loader';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const CategoryPosts = () => {
+  const { t } = useTranslation();
   const [posts, setPosts] = useState([]);
-  const [authorName, setAuthorName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { category } = useParams();
 
-  // Mapping from English category names to Albanian translations
-  const categoryTranslationMap = {
-    "Dairy": "Bulmetore",
-    "Ice Cream": "Akullore",
-    "Pastry": "Pastiçeri",
-    "Bakery": "Furra",
-    "Packaging": "Paketime",
-    "Dried Fruits": "Fruta të thata",
-    "Equipment": "Pajisje",
-    "Other": "Të tjera"
+  // Mapping from category keys to translation keys
+  const categoryKeyMap = {
+    "Dairy": "categoryPosts.category_Dairy",
+    "Ice Cream": "categoryPosts.category_Ice_Cream",
+    "Pastry": "categoryPosts.category_Pastry",
+    "Bakery": "categoryPosts.category_Bakery",
+    "Packaging": "categoryPosts.category_Packaging",
+    "Dried Fruits": "categoryPosts.category_Dried_Fruits",
+    "Equipment": "categoryPosts.category_Equipment",
+    "Other": "categoryPosts.category_Other"
   };
 
-  // Get the display name in Albanian
-  const categoryDisplayName =
-    categoryTranslationMap[category] || category;
+  // Get the display name via translation
+  const categoryDisplayName = t(categoryKeyMap[category] || 'categoryPosts.category_Other');
 
   useEffect(() => {
     const fetchAuthorAndPosts = async () => {
@@ -62,18 +62,18 @@ const CategoryPosts = () => {
           ))}
         </div>
       ) : (
-        <h1 className="error-blog-not-found">Nuk u gjetën postime</h1>
+        <h1 className="error-blog-not-found">{t('categoryPosts.noPosts')}</h1>
       )}
 
       {/* Blog Categories Section */}
       <section data-aos="fade-up" className="container blog-categories-section">
         <div className="blog-title">
-          <h1>Kategori</h1>
+          <h1>{t('categoryPosts.categoriesTitle')}</h1>
         </div>
         <ul className="blog-categories">
-          {Object.keys(categoryTranslationMap).map((key) => (
+          {Object.keys(categoryKeyMap).map((key) => (
             <li key={key} className="btn btn-secondary">
-              <Link to={`/posts/categories/${key}`}>{categoryTranslationMap[key]}</Link>
+              <Link to={`/posts/categories/${key}`}>{t(categoryKeyMap[key])}</Link>
             </li>
           ))}
         </ul>

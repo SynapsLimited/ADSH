@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 const ProductCatalog = () => {
   const { category } = useParams();
   const navigate = useNavigate();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
   const [products, setProducts] = useState([]);
@@ -236,16 +236,13 @@ const ProductCatalog = () => {
       >
         <div className="hero-content">
           <h1 className="hero-title-h1">
-            {currentLanguage === 'en' ? 'Catalog for' : 'Katalog për'}{' '}
-            {categoryDisplayName}
+            {t('productCatalog.catalogFor')} {categoryDisplayName}
           </h1>
           <p className="hero-description">
-            {currentLanguage === 'en'
-              ? `Discover and browse our products for ${categoryDisplayName.toLowerCase()}.`
-              : `Zbuloni dhe shfletoni produktet tona për ${categoryDisplayName.toLowerCase()}.`}
+            {t('productCatalog.discoverProducts', { categoryDisplayName })}
           </p>
           <a href="/contact" className="btn btn-primary">
-            {currentLanguage === 'en' ? 'Contact' : 'Kontakto'}
+            {t('productCatalog.contact')}
           </a>
         </div>
       </div>
@@ -274,16 +271,12 @@ const ProductCatalog = () => {
         style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}
       >
         <Link to={`/download-catalog/${category}`} className="btn btn-primary">
-          {currentLanguage === 'en'
-            ? `Download catalog for ${categoryDisplayName}`
-            : `Shkarko katalog për ${categoryDisplayName}`}
+          {t('productCatalog.downloadCatalogFor', { categoryDisplayName })}
         </Link>
       </div>
 
       <p className="center-p">
-        {currentLanguage === 'en'
-          ? `Browse our products for ${categoryDisplayName.toLowerCase()}, sorted alphabetically for your convenience.`
-          : `Shfletoni produktet tona për ${categoryDisplayName.toLowerCase()}, të renditura alfabetikisht për komoditetin tuaj.`}
+        {t('productCatalog.browseProducts', { categoryDisplayName })}
       </p>
 
       <SearchBar
@@ -337,20 +330,14 @@ const ProductCatalog = () => {
                       to={`/products/${product._id}`}
                       className="btn btn-secondary"
                     >
-                      {currentLanguage === 'en'
-                        ? 'View Details'
-                        : 'Shiko Detajet'}
+                      {t('common.viewDetails')}
                     </Link>
                   </div>
                 </div>
               );
             })
           ) : (
-            <p>
-              {currentLanguage === 'en'
-                ? 'No products found in this category.'
-                : 'Nuk u gjetën produkte në këtë kategori.'}
-            </p>
+            <p>{t('productCatalog.noProductsFound')}</p>
           )}
         </div>
       </section>

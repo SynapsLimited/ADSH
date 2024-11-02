@@ -1,8 +1,12 @@
+// src/components/ContactForm.jsx
+
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
-import './../css/contact.css'; // Assuming you have a corresponding CSS file for styling
+import './../css/contact.css';
+import { useTranslation } from 'react-i18next';
 
 const ContactForm = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     surname: '',
@@ -47,21 +51,21 @@ const ContactForm = () => {
     )
       .then((response) => {
         console.log('SUCCESS!', response.status, response.text);
-        alert('Mesazhi u dërgua me sukses!');
+        alert(t('contactForm.successMessage'));
       }, (err) => {
         console.error('FAILED...', err);
-        alert('Problem i përkohshëm. Provo përsëri më vonë!');
+        alert(t('contactForm.errorMessage'));
       });
   };
 
   return (
-    <section data-aos="fade-up"  className="container contact-form-section">
+    <section data-aos="fade-up" className="container contact-form-section">
       <form className="container contact-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <input
             type="text"
             name="name"
-            placeholder="Emri"
+            placeholder={t('contactForm.name')}
             value={formData.name}
             onChange={handleChange}
             required
@@ -69,7 +73,7 @@ const ContactForm = () => {
           <input
             type="text"
             name="surname"
-            placeholder="Mbiemri"
+            placeholder={t('contactForm.surname')}
             value={formData.surname}
             onChange={handleChange}
             required
@@ -79,7 +83,7 @@ const ContactForm = () => {
           <input
             type="text"
             name="country"
-            placeholder="Shteti"
+            placeholder={t('contactForm.country')}
             value={formData.country}
             onChange={handleChange}
             required
@@ -87,7 +91,7 @@ const ContactForm = () => {
           <input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder={t('contactForm.email')}
             value={formData.email}
             onChange={handleChange}
             required
@@ -97,7 +101,7 @@ const ContactForm = () => {
           <input
             type="text"
             name="phoneNumber"
-            placeholder="Telefon"
+            placeholder={t('contactForm.phoneNumber')}
             value={formData.phoneNumber}
             onChange={handleChange}
             required
@@ -105,20 +109,20 @@ const ContactForm = () => {
           <input
             type="text"
             name="companyName"
-            placeholder="Kompania"
+            placeholder={t('contactForm.companyName')}
             value={formData.companyName}
             onChange={handleChange}
           />
         </div>
         <textarea
           name="message"
-          placeholder="Mesazhi"
+          placeholder={t('contactForm.message')}
           value={formData.message}
           onChange={handleChange}
           required
         />
         <button type="submit" className="btn btn-secondary btn-submit-form">
-          Dërgo
+          {t('contactForm.send')}
         </button>
       </form>
     </section>

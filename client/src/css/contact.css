@@ -140,11 +140,13 @@
     border: 2px solid var(--color-secondary);
     width: calc(50% - 10px); /* Maintain width while accounting for gap */
     max-width: 100%;
+    font-family: 'Manjari', sans-serif;
   }
   
   .contact-form textarea {
     width: 100%; /* Make textarea full width */
     height: 100px; /* Set a fixed height for the textarea */
+    font-family: 'Manjari', sans-serif;
   }
   
   

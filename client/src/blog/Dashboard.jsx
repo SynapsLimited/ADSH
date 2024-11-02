@@ -1,11 +1,15 @@
+// src/pages/Dashboard.jsx
+
 import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../context/userContext';
 import axios from 'axios';
 import Loader from '../components/Loader';
 import DeletePost from './DeletePost';
+import { useTranslation } from 'react-i18next';
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +48,7 @@ const Dashboard = () => {
   return (
     <section data-aos="fade-up" className="dashboard">
       <div className="blog-title-filtered">
-        <h1>Dashboard</h1>
+        <h1>{t('dashboard.title')}</h1>
       </div>
 
       {posts.length ? (
@@ -58,15 +62,15 @@ const Dashboard = () => {
                 <h4>{post.title}</h4>
               </div>
               <div className="dashboard-post-actions">
-                <Link to={`/posts/${post._id}`} className="btn btn-primary">View</Link>
-                <Link to={`/posts/${post._id}/edit`} className="btn btn-primary">Edit</Link>
+                <Link to={`/posts/${post._id}`} className="btn btn-primary">{t('dashboard.view')}</Link>
+                <Link to={`/posts/${post._id}/edit`} className="btn btn-primary">{t('dashboard.edit')}</Link>
                 <DeletePost postId={post._id} />
               </div>
             </article>
           ))}
         </div>
       ) : (
-        <h2 className="center">No posts found.</h2>
+        <h2 className="center">{t('dashboard.noPosts')}</h2>
       )}
     </section>
   );

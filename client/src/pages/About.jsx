@@ -1,8 +1,12 @@
+// src/components/About.jsx
+
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 import './../css/about.css';
 
 function About() {
+  const { t } = useTranslation();
   const [scrollPosition, setScrollPosition] = useState(0);
 
   // Track scroll position to apply parallax effect
@@ -21,29 +25,32 @@ function About() {
 
   const cards = [
     {
-      title: 'Misioni',
+      key: 'mission',
+      title: t('about.cards.mission.title'),
       icon: '/assets/Flour.png',
-      alt: 'Ikona e Misionit',
-      text: 'Të furnizojmë partnerët tanë me lëndë të para dhe pajisje të cilësisë së lartë, duke ndihmuar në përmirësimin e produkteve të tyre dhe rritjen e suksesit në tregun konkurrues.',
+      alt: t('about.cards.mission.alt'),
+      text: t('about.cards.mission.text'),
     },
     {
-      title: 'Vizioni',
+      key: 'vision',
+      title: t('about.cards.vision.title'),
       icon: '/assets/Tetra Pak.png',
-      alt: 'Ikona e Vizionit',
-      text: 'Të jemi lider në tregun shqiptar në furnizimin me lëndë të para dhe pajisje për industrinë ushqimore, duke sjellë inovacion dhe standarde të larta cilësie.',
+      alt: t('about.cards.vision.alt'),
+      text: t('about.cards.vision.text'),
     },
     {
-      title: 'Vlerat',
+      key: 'values',
+      title: t('about.cards.values.title'),
       icon: '/assets/Cheese.png',
-      alt: 'Ikona e Vlerave',
-      text: 'Cilësia, Integriteti, Përkushtimi ndaj klientit, Inovacioni, Eksperienca.',
+      alt: t('about.cards.values.alt'),
+      text: t('about.cards.values.text'),
     },
   ];
 
   return (
     <div>
       <Helmet>
-        <title>ADSH - Rreth Nesh</title>
+        <title>{t('about.helmetTitle')}</title>
       </Helmet>
       {/* Hero Section */}
       <div
@@ -52,26 +59,26 @@ function About() {
       >
         <div className="hero-content">
           {/* Text Section */}
-          <h1 className="hero-title-h1">Rreth Nesh</h1>
+          <h1 className="hero-title-h1">{t('about.hero.heading')}</h1>
           <p className="hero-description">
-            Njihuni me ADSH, historikun e kompanisë dhe vizionin, misionin, dhe vlerat të cilat kompania reflekton dhe mundohet të transmetojë në tregun e përgjithshëm!
+            {t('about.hero.description')}
           </p>
 
           {/* Contact Button */}
-          <a href="/contact" className="btn btn-primary">Kontakto</a>
+          <a href="/contact" className="btn btn-primary">{t('about.hero.contactButton')}</a>
         </div>
       </div>
 
       <section data-aos="fade-up" className="about-section">
-        <h2 className="about-title">Historiku i ADSH</h2>
+        <h2 className="about-title">{t('about.historySection.heading')}</h2>
         <div className="about-content">
           <div className="about-text">
             <p>
-              ADSH-2014 është një kompani që është krijuar në vitin 2014. Stafi ka operuar që në vitin 1995 nën kompaninë D&A. Kompania zotëron mbi 26 vite eksperiencë në fushën e lëndëve të para për bulmetore, akullore, pastiçeri, furra, ambalazhe, pajisje pune, etj. Produktet tona kanë cilësi të lartë dhe çmime konkurruese në treg. ADSH ka rreth 200 produkte në disponim.
+              {t('about.historySection.text')}
             </p>
           </div>
           <div className="about-image">
-            <img src="/assets/Slideshow 5.png" alt="ADSH History" />
+            <img src="/assets/Slideshow 5.png" alt={t('about.historySection.imageAlt')} />
           </div>
         </div>
       </section>
@@ -80,10 +87,10 @@ function About() {
 
       <section data-aos="fade-up" className="card-container container">
         <p className="card-text-mission container">
-          Me një trashëgimi mbi 26 vjet eksperiencë në industrinë e lëndëve të para për bulmetore, akullore, pastiçeri, furra dhe më shumë, ADSH-2014 synon të ofrojë produkte me cilësi të lartë dhe çmime konkurruese. Ne jemi të përkushtuar të mbështesim klientët tanë në prodhimin e produkteve cilësore, duke u ofruar një gamë të gjerë prej rreth 200 artikujsh.
+          {t('about.cards.mission.text')}
         </p>
-        {cards.map((card, index) => (
-          <div key={index} className="card">
+        {cards.map((card) => (
+          <div key={card.key} className="card">
             <h2 className="card-title">{card.title}</h2>
             <p className="card-text">
               {card.text}
