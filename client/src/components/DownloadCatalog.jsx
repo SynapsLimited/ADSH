@@ -347,7 +347,7 @@ const DownloadCatalog = () => {
     'Ice Cream': currentLanguage === 'en' ? 'Ice Cream' : 'Akullore',
     Pastry: currentLanguage === 'en' ? 'Pastry' : 'Pastiçeri',
     Bakery: currentLanguage === 'en' ? 'Bakery' : 'Furra',
-    Packaging: currentLanguage === 'en' ? 'Packaging' : 'Paketime',
+    Packaging: currentLanguage === 'en' ? 'Packaging' : 'Ambalazhe',
     'Dried Fruits': currentLanguage === 'en' ? 'Dried Fruits' : 'Fruta të thata',
     Equipment: currentLanguage === 'en' ? 'Equipment' : 'Pajisje',
     'All Products': currentLanguage === 'en' ? 'All Products' : 'Të gjitha produktet',
