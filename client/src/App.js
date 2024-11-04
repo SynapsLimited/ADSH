@@ -176,9 +176,9 @@ function App() {
                     <Route path="/full-catalog" element={<FullCatalog />} />
                     <Route path="/products-dashboard" element={<ProductDashboard />} />
                     <Route path="/create-product" element={<CreateProduct />} />
-                    <Route path="/delete-product/:id" element={<DeleteProduct />} />
-                    <Route path="/products/:id/edit" element={<EditProduct />} />
-                    <Route path="/products/:id" element={<ProductDetail />} />
+                    <Route path="/products/:slug/delete" element={<DeleteProduct />} />
+                    <Route path="/products/:slug/edit" element={<EditProduct />} />
+                    <Route path="/products/:slug" element={<ProductDetail />} />
 
 
                     <Route path="/privacy-policy" element={<PrivacyPolicy />} />

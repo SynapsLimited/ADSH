@@ -286,8 +286,8 @@ const ProductCatalog = () => {
         onSuggestionClick={handleSuggestionClick}
       />
 
-      {/* Product Catalog Section */}
-      <section className="container product-catalog-section">
+  {/* Product Catalog Section */}
+  <section className="container product-catalog-section">
         <div className="product-catalog-cards">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => {
@@ -327,7 +327,7 @@ const ProductCatalog = () => {
                     {/* Truncated Description */}
                     <p>{truncateDescription(description, 20)}</p>
                     <Link
-                      to={`/products/${product._id}`}
+                      to={`/products/${product.slug}`} // Changed from product._id to product.slug
                       className="btn btn-secondary"
                     >
                       {t('common.viewDetails')}

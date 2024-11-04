@@ -300,7 +300,7 @@ const FullCatalog = () => {
                     {/* Truncated Description */}
                     <p>{truncateDescription(description, 20)}</p>
                     <Link
-                      to={`/products/${product._id}`}
+                      to={`/products/${product.slug}`} // Changed from product._id to product.slug
                       className="btn btn-secondary"
                     >
                       {t('common.viewDetails')}

@@ -107,22 +107,6 @@ const getProducts = async (req, res, next) => {
   }
 };
 
-// ======================== Get single product
-// GET : api/products/:id
-// UNPROTECTED
-const getProduct = async (req, res, next) => {
-  try {
-    const productId = req.params.id;
-    const product = await Product.findById(productId);
-    if (!product) {
-      return next(new HttpError('Product not found.', 404));
-    }
-    res.status(200).json(product);
-  } catch (error) {
-    return next(new HttpError('Product does not exist', 404));
-  }
-};
-
 // ======================== Get products by Category
 // GET : api/products/categories/:category
 // UNPROTECTED
@@ -179,55 +163,96 @@ const editProduct = async (req, res, next) => {
     }
 
     // Update the product with the new data
-    const updatedProduct = await Product.findByIdAndUpdate(
-      productId,
-      {
-        name,
-        name_en,
-        category,
-        description,
-        description_en,
-        variations: variationsArray,
-        variations_en: variationsEnArray,
-        images: newImageUrls,
-      },
-      { new: true }
-    );
+    oldProduct.name = name;
+    oldProduct.name_en = name_en;
+    oldProduct.category = category;
+    oldProduct.description = description;
+    oldProduct.description_en = description_en;
+    oldProduct.variations = variationsArray;
+    oldProduct.variations_en = variationsEnArray;
+    oldProduct.images = newImageUrls;
+
+    // Save the updated product
+    const updatedProduct = await oldProduct.save();
 
     res.status(200).json(updatedProduct);
   } catch (error) {
     return next(new HttpError(error.message || "Couldn't update product", 500));
   }
 };
-
 // ======================== Delete product
 // DELETE : api/products/:id
 // PROTECTED
+// ======================== Delete product
+// DELETE : api/products/:slug
+// PROTECTED
 const deleteProduct = async (req, res, next) => {
   try {
-    const productId = req.params.id;
-    if (!productId) {
-      return next(new HttpError('Product unavailable.', 400));
-    }
+    const productSlug = req.params.slug;
 
-    // Find the product by ID
-    const product = await Product.findById(productId);
+    // Find the product by slug
+    const product = await Product.findOne({ slug: productSlug });
+
     if (!product) {
       return next(new HttpError('Product not found.', 404));
     }
 
-    // Attempt to delete the images from Vercel Blob storage
+    // Delete images from Vercel Blob storage
     for (const imageUrl of product.images) {
       await deleteFromVercelBlob(imageUrl);
     }
 
     // Delete the product from the database
-    await Product.findByIdAndDelete(productId);
+    await Product.findByIdAndDelete(product._id);
 
     res.status(200).json({ message: 'Product deleted successfully' });
   } catch (error) {
+    console.error('Error deleting product:', error);
     return next(new HttpError("Couldn't delete product.", 400));
   }
+};
+
+
+// ======================== Get single product by slug
+// GET : api/products/slug/:slug
+// UNPROTECTED
+const getProductBySlug = async (req, res, next) => {
+  try {
+    const productSlug = req.params.slug;
+    const product = await Product.findOne({ slug: productSlug }).populate('creator', 'name email');
+
+    if (!product) {
+      return next(new HttpError('Product not found.', 404));
+    }
+    res.status(200).json(product);
+  } catch (error) {
+    return next(new HttpError('Product does not exist', 404));
+  }
+};
+
+// ======================== Get single product by ID and redirect to slug
+// GET : api/products/id/:id
+// UNPROTECTED
+const getProductById = async (req, res, next) => {
+  try {
+    const productId = req.params.id;
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return next(new HttpError('Product not found.', 404));
+    }
+
+    // Redirect to slug-based URL
+    res.redirect(301, `/products/${product.slug}`);
+  } catch (error) {
+    return next(new HttpError('Product does not exist', 404));
+  }
+};
+
+// ======================== Get single product (updated to use slug)
+const getProduct = async (req, res, next) => {
+  const { slug } = req.params;
+  return getProductBySlug(req, res, next);
 };
 
 module.exports = {

@@ -10,6 +10,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet'; // For dynamic page titles
 
 // Mapping from English category names to translations
 const categoryTranslationMap = {
@@ -26,7 +27,7 @@ const categoryTranslationMap = {
 
 const ProductDetail = () => {
   const { t, i18n } = useTranslation();
-  const { id } = useParams();
+  const { slug } = useParams(); // Changed from 'id' to 'slug'
   const currentLanguage = i18n.language;
 
   const [product, setProduct] = useState(null);
@@ -38,20 +39,19 @@ const ProductDetail = () => {
     const getProduct = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/${id}`);
-        const data = await response.json();
-        if (data) {
-          setProduct(data);
-        } else {
-          setError(t('productNotFound'));
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/${slug}`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
         }
+        const data = await response.json();
+        setProduct(data);
       } catch (error) {
-        setError(error.message);
+        setError(t('productNotFound'));
       }
       setIsLoading(false);
     };
     getProduct();
-  }, [id, t]);
+  }, [slug, t]);
 
   if (isLoading) {
     return <Loader />;
@@ -88,6 +88,12 @@ const ProductDetail = () => {
 
   return (
     <div className="product-detail-section">
+      <Helmet>
+        <title>
+          ADSH - {name} {variations.length > 0 ? `- ${variations[0]}` : ''}
+        </title>
+        <link rel="canonical" href={`https://www.adsh2014.al/products/${product.slug}`} />
+      </Helmet>
       <section data-aos="fade-up" className="container product-detail">
         <div className="product-detail-container">
           <div className="product-detail-header">
@@ -96,7 +102,7 @@ const ProductDetail = () => {
             {/* Only show edit and delete buttons if the current user is the product creator */}
             {currentUser?.id === (product.creator._id || product.creator) && (
               <div className="product-detail-buttons">
-                <Link to={`/products/${product._id}/edit`} className="btn btn-primary">
+                <Link to={`/products/${product.slug}/edit`} className="btn btn-primary">
                   {t('edit')}
                 </Link>
                 <DeleteProduct productId={product._id} />
@@ -123,7 +129,7 @@ const ProductDetail = () => {
           </h3>
           {variations.length > 0 && (
             <h4>
-              {t('variationsLabel')}: {variations}
+              {t('variationsLabel')}: {variations.join(', ')}
             </h4>
           )}
           <p>{description}</p>

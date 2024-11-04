@@ -1,4 +1,7 @@
+// models/productModel.js
+
 const { Schema, model } = require('mongoose');
+const slugify = require('slugify');
 
 const productSchema = new Schema(
   {
@@ -16,8 +19,33 @@ const productSchema = new Schema(
     images: [{ type: String, required: true }], // Array of image URLs
     variations: [{ type: String }],
     variations_en: [{ type: String }],
+    slug: { type: String, required: true, unique: true }, // New slug field
   },
   { timestamps: true }
 );
+
+// Pre-validate middleware to generate or regenerate slug
+productSchema.pre('validate', async function (next) {
+  if (this.isModified('name') || this.isModified('variations')) {
+    // Generate base slug from name
+    let baseSlug = slugify(this.name, { lower: true, strict: true });
+
+    // Append the first variation if available
+    if (this.variations && this.variations.length > 0) {
+      baseSlug += `-${slugify(this.variations[0], { lower: true, strict: true })}`;
+    }
+
+    // Ensure slug uniqueness
+    let slug = baseSlug;
+    let counter = 1;
+    while (await this.constructor.exists({ slug })) {
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+    }
+
+    this.slug = slug;
+  }
+  next();
+});
 
 module.exports = model('Product', productSchema);
