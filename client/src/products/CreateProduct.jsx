@@ -5,6 +5,7 @@ import { UserContext } from '../context/userContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify'; // Import toast
 
 const CreateProduct = () => {
   const { t } = useTranslation();
@@ -65,10 +66,12 @@ const CreateProduct = () => {
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
       });
       if (response.status === 201) {
+        toast.success(t('Product created successfully.')); // Show success toast
         navigate('/products-dashboard');
       }
     } catch (err) {
       setError(err.response?.data?.message || t('An error occurred'));
+      toast.error(err.response?.data?.message || t('An error occurred')); // Show error toast
     }
   };
 
@@ -88,8 +91,9 @@ const CreateProduct = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             autoFocus
+            required
           />
-          <select name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
+          <select name="category" value={category} onChange={(e) => setCategory(e.target.value)} required>
             {PRODUCT_CATEGORIES.map((cat) => (
               <option key={cat}>{t(cat)}</option>
             ))}
@@ -99,6 +103,7 @@ const CreateProduct = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={5}
+            required
           />
           <input
             type="text"
@@ -147,6 +152,7 @@ const CreateProduct = () => {
               onChange={handleImageChange}
               accept="image/png, image/jpeg, image/webp"
               multiple
+              required
             />
           </div>
           <button type="submit" className="btn btn-primary btn-submit">

@@ -19,7 +19,8 @@ const productSchema = new Schema(
     images: [{ type: String, required: true }], // Array of image URLs
     variations: [{ type: String }],
     variations_en: [{ type: String }],
-    slug: { type: String, required: true, unique: true }, // New slug field
+    slug: { type: String, required: true, unique: true }, // Slug field
+    previousSlugs: [{ type: String }], // To store old slugs for redirection
   },
   { timestamps: true }
 );
@@ -41,6 +42,11 @@ productSchema.pre('validate', async function (next) {
     while (await this.constructor.exists({ slug })) {
       slug = `${baseSlug}-${counter}`;
       counter++;
+    }
+
+    // If slug is being changed, store the old slug
+    if (this.slug && this.slug !== slug) {
+      this.previousSlugs.push(this.slug);
     }
 
     this.slug = slug;

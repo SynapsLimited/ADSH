@@ -12,6 +12,8 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './App.css';
 import './i18n/i18n'; // Import i18n configuration
+import { ToastContainer } from 'react-toastify'; // Import ToastContainer
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 
 
 import CookieConsent from './components/CookieConsent';
@@ -184,6 +186,9 @@ function App() {
                     <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
                   </Routes>
+                
+
+                  <ToastContainer />
                 </div>
                 <Footer />
               </Layout>

@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../context/userContext';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify'; // Import toast
 
 const EditProduct = () => {
   const { t } = useTranslation();
@@ -21,7 +22,7 @@ const EditProduct = () => {
   const [addTranslation, setAddTranslation] = useState(false);
 
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { slug } = useParams(); // Changed from 'id' to 'slug'
 
   const { currentUser } = useContext(UserContext);
   const token = currentUser?.token;
@@ -38,7 +39,9 @@ const EditProduct = () => {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/products/${id}`);
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/products/${slug}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         const product = response.data;
         setName(product.name);
         setNameEn(product.name_en || '');
@@ -53,11 +56,12 @@ const EditProduct = () => {
           setAddTranslation(true);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        setError(t('productNotFound'));
       }
     };
     getProduct();
-  }, [id]);
+  }, [slug, token, t]);
 
   const editProduct = async (e) => {
     e.preventDefault();
@@ -82,7 +86,7 @@ const EditProduct = () => {
     }
 
     try {
-      const response = await axios.patch(`${process.env.REACT_APP_BASE_URL}/products/${id}`, productData, {
+      const response = await axios.patch(`${process.env.REACT_APP_BASE_URL}/products/${slug}/edit`, productData, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -90,10 +94,13 @@ const EditProduct = () => {
         },
       });
       if (response.status === 200) {
+        toast.success(t('Product updated successfully.')); // Show success toast
         navigate('/products-dashboard');
       }
     } catch (err) {
       setError(err.response?.data?.message || t('An error occurred'));
+      toast.error(err.response?.data?.message || t('An error occurred')); // Show error toast
+      console.error(err);
     }
   };
 
@@ -113,8 +120,9 @@ const EditProduct = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             autoFocus
+            required
           />
-          <select name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
+          <select name="category" value={category} onChange={(e) => setCategory(e.target.value)} required>
             {PRODUCT_CATEGORIES.map((cat) => (
               <option key={cat}>{t(cat)}</option>
             ))}
@@ -124,6 +132,7 @@ const EditProduct = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={5}
+            required
           />
           <input
             type="text"
