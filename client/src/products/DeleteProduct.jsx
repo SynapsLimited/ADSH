@@ -27,12 +27,10 @@ const DeleteProduct = ({ slug: propSlug }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (response.status === 200) {
-        console.log(t('Product deleted successfully.'));
         toast.success(t('Product deleted successfully.'));
         navigate('/products-dashboard');
       }
     } catch (error) {
-      console.log(t("Couldn't delete product."), error);
       toast.error(t("Couldn't delete product."));
     }
   };
