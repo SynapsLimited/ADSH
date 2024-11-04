@@ -70,7 +70,9 @@ const Contact = () => {
                     <div className="social-icons">
                         <a href="https://www.facebook.com" className="contact-link"><img src="/assets/facebook.png" alt={t('contact.socials.facebookAlt')} /></a>
                         <a href="https://www.instagram.com" className="contact-link"><img src="/assets/instagram.png" alt={t('contact.socials.instagramAlt')} /></a>
-                        <a href="https://www.linkedin.com" className="contact-link"><img src="/assets/linkedin.png" alt={t('contact.socials.linkedinAlt')} /></a>
+                        <a href="https://www.linkedin.com/company/albanian-dairy-supply-hub" className="contact-link"><img src="/assets/linkedin.png" alt={t('contact.socials.linkedinAlt')} /></a>
+                        <a href="https://wa.link/oj2ybw" className="contact-link"><img src="/assets/whatsapp.png" alt="Whatsapp" /></a>
+
                     </div>
                 </div>
             </section>

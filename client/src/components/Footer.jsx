@@ -57,7 +57,7 @@ const Footer = () => {
               </div>
               <div className="social-row">
                 <img src={`${process.env.PUBLIC_URL}/assets/linkedin.png`} alt="LinkedIn" />
-                <a href="https://www.linkedin.com" className="footer-link">{t('footer.linkedin')}</a>
+                <a href="https://www.linkedin.com/company/albanian-dairy-supply-hub" className="footer-link">{t('footer.linkedin')}</a>
               </div>
             </div>
           </div>
