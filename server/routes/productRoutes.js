@@ -1,5 +1,3 @@
-// routes/productRoutes.js
-
 const { Router } = require('express');
 const {
   createProduct,
@@ -21,8 +19,8 @@ const router = Router();
 router.post('/', authMiddleware, upload.array('images', 5), createProduct);
 router.get('/', getProducts);
 router.get('/categories/:category', getCategoryProducts);
-router.get('/slug/:slug', getProduct); // Fetch by slug
-router.patch('/slug/:slug/edit', authMiddleware, upload.array('images', 5), editProduct);
-router.delete('/slug/:slug', authMiddleware, deleteProduct); // Delete by slug
+router.get('/:slug', getProduct); // Fetch by slug
+router.patch('/:slug/edit', authMiddleware, upload.array('images', 5), editProduct);
+router.delete('/:slug/delete', authMiddleware, deleteProduct); // Delete by slug
 
 module.exports = router;

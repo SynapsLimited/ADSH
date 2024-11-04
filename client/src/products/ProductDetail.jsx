@@ -105,7 +105,7 @@ const ProductDetail = () => {
                 <Link to={`/products/${product.slug}/edit`} className="btn btn-primary">
                   {t('edit')}
                 </Link>
-                <DeleteProduct productId={product._id} />
+                <DeleteProduct /> {/* Updated to use slug from URL */}
               </div>
             )}
           </div>
