@@ -49,11 +49,11 @@ const Footer = () => {
               </div>
               <div className="social-row">
                 <img src={`${process.env.PUBLIC_URL}/assets/instagram.png`} alt="Instagram" />
-                <a href="https://www.instagram.com" className="footer-link">{t('footer.instagram')}</a>
+                <a href="https://www.instagram.com/albaniandairysupplyhub/" className="footer-link">{t('footer.instagram')}</a>
               </div>
               <div className="social-row">
                 <img src={`${process.env.PUBLIC_URL}/assets/facebook.png`} alt="Facebook" />
-                <a href="https://www.facebook.com" className="footer-link">{t('footer.facebook')}</a>
+                <a href="https://www.facebook.com/people/ADSH/61567858514013/" className="footer-link">{t('footer.facebook')}</a>
               </div>
               <div className="social-row">
                 <img src={`${process.env.PUBLIC_URL}/assets/linkedin.png`} alt="LinkedIn" />
