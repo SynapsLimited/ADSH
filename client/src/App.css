@@ -560,21 +560,6 @@ img:hover {
     justify-content: center; /* Center the image container */
   }
 
-  spline-viewer {
-    height: 500px;
-    pointer-events: none;
-  }
-
-  #spline-container::after {
-    width: 98%; /* Adjust to 70% of the container's width */
-    bottom: 18px; /* Adjusted to position the element at the bottom */
-    right: 0; /* Positions the element to the right */
-  }
-
-  #spline-container:hover::after {
-    box-shadow: none;
-    transform: none;
-  }
 
   .header__container {
     display: flex;
