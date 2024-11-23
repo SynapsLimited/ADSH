@@ -53,7 +53,7 @@ const Contact = () => {
             <section data-aos="fade-up"  className="container contact-section">
                 <div className="blob location-blob">
                     <h2>{t('contact.overviewTitles.location')}</h2>
-                    <a href='https://maps.app.goo.gl/bumqeQ7GmkcZK42F9'>
+                    <a href='https://www.google.com/maps/place/ADSH-2014/@41.3177496,19.7092078,12z/data=!4m6!3m5!1s0x135031b2d86be505:0x7f9de65e08ceaa89!8m2!3d41.31765!4d19.7916102!16s%2Fg%2F11fmt25r81?entry=tts&g_ep=EgoyMDI0MTAwNS4yIPu8ASoASAFQAw%3D%3D'>
                     <img className="location-img" src="/assets/Europe Map.png" alt={t('contact.location.mapAlt')} />
                     </a>
                     <p>{t('contact.location.address')}</p>
