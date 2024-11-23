@@ -36,7 +36,7 @@ const Footer = () => {
               </div>
               <div className="social-row">
                 <img src={`${process.env.PUBLIC_URL}/assets/email.png`} alt="Email" />
-                <a href="mailto:contact@adsh2014.com" className="footer-link">{t('footer.email')}</a>
+                <a href="mailto:contact@adsh2014.al" className="footer-link">{t('footer.email')}</a>
               </div>
             </div>
           </div>
