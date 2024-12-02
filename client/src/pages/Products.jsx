@@ -69,7 +69,7 @@ function Products() {
     },
     {
       // No category for "All Products"
-      name: t('productsPage.section.allProducts.name'),
+      name: t('productsPage.section.productsCards.allProducts.name'),
       imageUrl: '/assets/About - Hero.jpg',
       link: '/full-catalog',
     },
