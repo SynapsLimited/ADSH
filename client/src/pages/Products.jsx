@@ -35,7 +35,7 @@ function Products() {
       category: 'IceCream',
       name: t('productsPage.section.productsCards.IceCream.name'),
       imageUrl: '/assets/Product - Ice Cream.jpg',
-      link: '/products/category/IceCream',
+      link: '/products/category/Ice Cream',
     },
     {
       category: 'Pastry',
@@ -59,7 +59,7 @@ function Products() {
       category: 'DriedFruits',
       name: t('productsPage.section.productsCards.DriedFruits.name'),
       imageUrl: '/assets/Product - Nuts.jpg',
-      link: '/products/category/DriedFruits',
+      link: '/products/category/Dried Fruits',
     },
     {
       category: 'Equipment',
