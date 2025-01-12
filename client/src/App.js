@@ -6,6 +6,7 @@ import {
   matchPath,
   useLocation,
 } from 'react-router-dom';
+import { Analytics } from "@vercel/analytics/react"
 
 import { HelmetProvider } from 'react-helmet-async';
 import AOS from 'aos';
@@ -125,6 +126,7 @@ function App() {
 
   return (
     <HelmetProvider>
+    <Analytics />
       <UserContext.Consumer>
         {({ currentUser }) => (
           <>
