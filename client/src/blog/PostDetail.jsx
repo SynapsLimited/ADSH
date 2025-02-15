@@ -1,6 +1,7 @@
 // src/pages/PostDetail.jsx
 
 import React, { useContext, useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet'; // For dynamic meta tags
 import PostAuthor from '../components/PostAuthor';
 import { Link, useParams } from 'react-router-dom';
 import './../css/blog.css';
@@ -44,19 +45,11 @@ const PostDetail = () => {
   }
 
   if (error) {
-    return (
-      <p className="error">
-        {t('postDetail.postNotFound')}
-      </p>
-    );
+    return <p className="error">{t('postDetail.postNotFound')}</p>;
   }
 
   if (!post) {
-    return (
-      <p className="error">
-        {t('postDetail.postNotFound')}
-      </p>
-    );
+    return <p className="error">{t('postDetail.postNotFound')}</p>;
   }
 
   const defaultThumbnail = `${process.env.PUBLIC_URL}/assets/Blog-default.webp`;
@@ -66,8 +59,29 @@ const PostDetail = () => {
   const description =
     currentLanguage === 'en' ? post.description_en || post.description : post.description;
 
+  const canonicalUrl = `https://www.adsh2014.al/posts/${post._id}`;
+  const ogImage = post.thumbnail || defaultThumbnail;
+
   return (
     <div className="post-detail-section">
+      <Helmet>
+        <title>{title} | ADSH Blog</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonicalUrl} />
+
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="article" />
+
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+      </Helmet>
       <section data-aos="fade-up" className="container post-detail">
         {post && post.creator ? (
           <div className="post-detail-container">
@@ -76,7 +90,7 @@ const PostDetail = () => {
 
               {currentUser?.id === (post.creator._id || post.creator) && (
                 <div className="post-detail-buttons">
-                  <Link to={`/posts/${post?._id}/edit`} className="btn btn-primary">
+                  <Link to={`/posts/${post._id}/edit`} className="btn btn-primary">
                     {t('postDetail.edit')}
                   </Link>
                   <DeletePost postId={post._id} />
@@ -87,15 +101,13 @@ const PostDetail = () => {
             <h1>{title}</h1>
 
             <div className="post-detail-thumbnail">
-              <img src={post.thumbnail || defaultThumbnail} alt={title} />
+              <img src={ogImage} alt={title} />
             </div>
 
             <p dangerouslySetInnerHTML={{ __html: description }}></p>
           </div>
         ) : (
-          <p className="error">
-            {t('postDetail.authorNotFound')}
-          </p>
+          <p className="error">{t('postDetail.authorNotFound')}</p>
         )}
 
         <Link to="/blog" className="btn btn-secondary post-detail-btn">

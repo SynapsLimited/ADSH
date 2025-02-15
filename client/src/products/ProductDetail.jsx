@@ -10,7 +10,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useTranslation } from 'react-i18next';
-import { Helmet } from 'react-helmet'; // For dynamic page titles
+import { Helmet } from 'react-helmet'; // For dynamic page titles and meta tags
 
 // Mapping from English category names to translations
 const categoryTranslationMap = {
@@ -27,7 +27,7 @@ const categoryTranslationMap = {
 
 const ProductDetail = () => {
   const { t, i18n } = useTranslation();
-  const { slug } = useParams(); // Changed from 'id' to 'slug'
+  const { slug } = useParams(); // Using slug from the URL
   const currentLanguage = i18n.language;
 
   const [product, setProduct] = useState(null);
@@ -79,20 +79,39 @@ const ProductDetail = () => {
 
   // Get translations
   const name = currentLanguage === 'en' ? product.name_en || product.name : product.name;
-  const description = currentLanguage === 'en' ? product.description_en || product.description : product.description;
+  const description =
+    currentLanguage === 'en' ? product.description_en || product.description : product.description;
   const variations =
     currentLanguage === 'en' ? product.variations_en || product.variations : product.variations;
 
   const categoryName =
     categoryTranslationMap[product.category][currentLanguage] || product.category;
 
+  // Fallback image if no image available (adjust the path as needed)
+  const fallbackImage = `${process.env.PUBLIC_URL}/assets/fallback-product.jpg`;
+  const ogImage = product.images && product.images.length > 0 ? product.images[0] : fallbackImage;
+  const canonicalUrl = `https://www.adsh2014.al/products/${product.slug}`;
+  const fullTitle = `ADSH - ${name} ${variations.length > 0 ? `- ${variations[0]}` : ''}`;
+
   return (
     <div className="product-detail-section">
       <Helmet>
-        <title>
-          ADSH - {name} {variations.length > 0 ? `- ${variations[0]}` : ''}
-        </title>
-        <link rel="canonical" href={`https://www.adsh2014.al/products/${product.slug}`} />
+        <title>{fullTitle}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonicalUrl} />
+
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content={fullTitle} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="product" />
+
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={fullTitle} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
       </Helmet>
       <section data-aos="fade-up" className="container product-detail">
         <div className="product-detail-container">

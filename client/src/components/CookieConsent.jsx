@@ -1,7 +1,7 @@
 // src/components/CookieConsent.jsx
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import './../css/cookieconsent.css';
 import { useTranslation } from 'react-i18next';
 
@@ -10,40 +10,38 @@ const CookieConsent = () => {
   const [showConsent, setShowConsent] = useState(false);
 
   useEffect(() => {
-    const consent = localStorage.getItem('adshCookieConsent');
-    if (!consent) {
-      setShowConsent(true);
-    }
+    const consent = Cookies.get('adshCookieConsent');
+    if (consent === undefined) setShowConsent(true);
   }, []);
 
   const acceptCookies = () => {
-    localStorage.setItem('adshCookieConsent', 'true');
+    Cookies.set('adshCookieConsent', 'true', { expires: 365 });
     setShowConsent(false);
   };
 
   const declineCookies = () => {
-    localStorage.setItem('adshCookieConsent', 'false');
+    Cookies.set('adshCookieConsent', 'false', { expires: 365 });
     setShowConsent(false);
   };
 
-  if (!showConsent) {
-    return null;
-  }
+  if (!showConsent) return null;
 
   return (
     <div className="cookie-consent">
       <div className="cookie-consent__content">
         <p>
-          {t('cookieConsent.text')}
-          <Link to="/privacy-policy" className="cookie-consent__link">{t('cookieConsent.learnMore')}</Link>
+          {t('cookieConsent.text')}{' '}
+          <Link to="/privacy-policy" className="cookie-consent__link">
+            {t('footer.privacyPolicy')}
+          </Link>
         </p>
         <div className="cookie-consent__buttons">
-          <a className="cookie-consent__button accept" onClick={acceptCookies}>
+          <button className="cookie-consent__button accept" onClick={acceptCookies}>
             {t('cookieConsent.accept')}
-          </a>
-          <a className="cookie-consent__button decline" onClick={declineCookies}>
+          </button>
+          <button className="cookie-consent__button decline" onClick={declineCookies}>
             {t('cookieConsent.decline')}
-          </a>
+          </button>
         </div>
       </div>
     </div>

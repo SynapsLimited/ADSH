@@ -1,33 +1,27 @@
+// src/App.js
 import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
-  Route,
-  matchPath,
-  useLocation,
+  Route
 } from 'react-router-dom';
-import { Analytics } from "@vercel/analytics/react"
-
 import { HelmetProvider } from 'react-helmet-async';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './App.css';
 import './i18n/i18n'; // Import i18n configuration
-import { ToastContainer } from 'react-toastify'; // Import ToastContainer
-import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import CookieConsent from './components/CookieConsent';
-import PrivacyPolicy from './pages/PrivacyPolicy'; // Ensure this page exists
-
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import FixedMenu from './components/FixedMenu';
-import ThemeToggle from './components/ThemeToggle'; // Import ThemeToggle
+import ThemeToggle from './components/ThemeToggle';
 import UserProvider, { UserContext } from './context/userContext';
 import LoadingScreen from './components/LoadingScreen';
-
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -60,13 +54,15 @@ import ProductCatalog from './components/ProductCatalog';
 import FullCatalog from './components/FullCatalog';
 import DownloadCatalog from './components/DownloadCatalog';
 
-
 // Product pages
 import ProductDashboard from './products/ProductDashboard';
 import CreateProduct from './products/CreateProduct';
 import DeleteProduct from './products/DeleteProduct';
 import EditProduct from './products/EditProduct';
 import ProductDetail from './products/ProductDetail';
+
+import Cookies from 'js-cookie';
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   useEffect(() => {
@@ -75,7 +71,6 @@ function App() {
       once: true,
       mirror: false,
     });
-
     AOS.refresh();
   }, []);
 
@@ -83,12 +78,10 @@ function App() {
   const [currentTheme, setCurrentTheme] = useState('normal');
 
   useEffect(() => {
-    // Load saved theme from localStorage if available
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       setCurrentTheme(savedTheme);
     } else {
-      // If no theme is saved, set 'normal' as default
       setCurrentTheme('normal');
       localStorage.setItem('theme', 'normal');
     }
@@ -103,15 +96,6 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Initialize AOS
-    AOS.init({
-      duration: 1000,
-      once: true,
-      mirror: false,
-    });
-
-    AOS.refresh();
-
     // Simulate a loading time (e.g., fetching data)
     const timer = setTimeout(() => {
       setLoading(false);
@@ -126,28 +110,24 @@ function App() {
 
   return (
     <HelmetProvider>
-    <Analytics />
+      {/* Only load Vercel Analytics if the user accepted cookies */}
+      {Cookies.get('adshCookieConsent') === 'true' && <Analytics />}
       <UserContext.Consumer>
         {({ currentUser }) => (
           <>
-            {/* Fixed Elements Routes */}
-            <Navbar currentTheme={currentTheme} /> {/* Navbar outside theme-container */}
+            {/* Fixed Elements */}
+            <Navbar currentTheme={currentTheme} />
             <ThemeToggle updateTheme={updateTheme} currentTheme={currentTheme} />
-            <FixedMenu currentTheme={currentTheme} /> {/* FixedMenu outside theme-container */}
+            <FixedMenu currentTheme={currentTheme} />
 
-            
             {/* Themed Content */}
             <div className={`theme-container ${currentTheme}`}>
-
-            <CookieConsent />
-
-              {/* Technical Routes */}
+              <CookieConsent />
               <BackgroundAnimation />
               <ScrollToTop />
               <Layout>
                 <div className="content">
                   <Routes>
-
                     {/* Main Routes */}
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
@@ -184,12 +164,8 @@ function App() {
                     <Route path="/products/:slug/edit" element={<EditProduct />} />
                     <Route path="/products/:slug" element={<ProductDetail />} />
 
-
                     <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-
                   </Routes>
-                
-
                   <ToastContainer />
                 </div>
                 <Footer />
@@ -202,7 +178,6 @@ function App() {
   );
 }
 
-
 export default function AppWrapper() {
   return (
     <Router>
@@ -211,5 +186,4 @@ export default function AppWrapper() {
       </UserProvider>
     </Router>
   );
-
 }

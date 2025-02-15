@@ -1,0 +1,38 @@
+[
+    {
+      "name": "Dairy",
+      "slug": "dairy",
+      "subcategories": []
+    },
+    {
+      "name": "Ice Cream",
+      "slug": "ice-cream",
+      "subcategories": []
+    },
+    {
+      "name": "Pastry",
+      "slug": "pastry",
+      "subcategories": []
+    },
+    {
+      "name": "Bakery",
+      "slug": "bakery",
+      "subcategories": []
+    },
+    {
+      "name": "Packaging",
+      "slug": "packaging",
+      "subcategories": []
+    },
+    {
+      "name": "Dried Fruits",
+      "slug": "dried-fruits",
+      "subcategories": []
+    },
+    {
+      "name": "Equipment",
+      "slug": "equipment",
+      "subcategories": []
+    }
+  ]
+  
