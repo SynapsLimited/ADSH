@@ -48,7 +48,6 @@
     "generate-sitemap": "node generate-sitemap.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "postbuild": "react-snap",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -79,12 +78,5 @@
     "globals": "^15.11.0",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.14"
-  },
-  "reactSnap": {
-  "inlineCss": true,
-  "minifyHtml": {
-    "collapseWhitespace": false
   }
-},
-"homepage": "https://www.adsh2014.al"
 }
