@@ -22,6 +22,7 @@ import FixedMenu from './components/FixedMenu';
 import ThemeToggle from './components/ThemeToggle';
 import UserProvider, { UserContext } from './context/userContext';
 import LoadingScreen from './components/LoadingScreen';
+import LatestSideBar from './components/LatestSideBar'
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -117,6 +118,7 @@ function App() {
           <>
             {/* Fixed Elements */}
             <Navbar currentTheme={currentTheme} />
+            <LatestSideBar />
             <ThemeToggle updateTheme={updateTheme} currentTheme={currentTheme} />
             <FixedMenu currentTheme={currentTheme} />
 

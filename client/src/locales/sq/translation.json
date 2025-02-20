@@ -649,9 +649,24 @@
     "View": "Shiko",
     "Delete": "Fshijë",
     "Create": "Krijo",
-    "Update": "Përditëso"
-  
-      
+    "Update": "Përditëso",
+    "latestSideBar": {
+      "latestProducts": "Produktet e Fundit",
+      "viewDetails": "Shiko Detajet",
+      "noDescription": "Nuk ka përshkrim të disponueshëm",
+      "noProductsFound": "Nuk u gjetën produkte"
+    },
+    "categories": {
+      "dairy": "Bulmetore",
+      "iceCream": "Akullore",
+      "pastry": "Pastiçeri",
+      "packaging": "Ambalazhe",
+      "driedFruits": "Fruta të thata",
+      "bakery": "Furra",
+      "equipment": "Pajisje"
+    }
+
+    
 
   }
 

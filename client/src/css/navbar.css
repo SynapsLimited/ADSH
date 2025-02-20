@@ -45,6 +45,7 @@
   display: grid;
   grid-template-columns: repeat(6,1fr);
   justify-self: end;
+  margin-right: 50px;
 }
 
 .nav-item a {
@@ -283,7 +284,14 @@
   animation-delay: 0.1s; /* First to disappear */
 }
 
+@media only screen and (max-width: 1024px) { 
 
+  .navbar ul {
+    margin-right: 0px;
+
+  }
+
+}
 
 
 
@@ -309,6 +317,8 @@
     text-align: center;
     overflow: scroll;
     z-index: 1000;
+    margin-right: 0px;
+
   }
 
   .navbar ul.scrolled {

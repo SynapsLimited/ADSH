@@ -582,7 +582,22 @@
   "View": "View",
   "Delete": "Delete",
   "Create": "Create",
-  "Update": "Update"
+  "Update": "Update",
+  "latestSideBar": {
+    "latestProducts": "Latest Products",
+    "viewDetails": "View Details",
+    "noDescription": "No description available",
+    "noProductsFound": "No products found"
+  },
+  "categories": {
+    "dairy": "Dairy",
+    "iceCream": "Ice Cream",
+    "pastry": "Pastry",
+    "packaging": "Packaging",
+    "driedFruits": "Dried Fruits",
+    "bakery": "Bakery",
+    "equipment": "Equipment"
+  }
   
   
     
