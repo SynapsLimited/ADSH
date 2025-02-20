@@ -424,6 +424,11 @@
             "description": "Ingredients for ice cream production to bring a refreshing zest during the hot summer months!",
             "button": "Catalog for Ice Cream"
           },
+          "Ice Cream": {
+            "name": "Ice Cream",
+            "description": "Ingredients for ice cream production to bring a refreshing zest during the hot summer months!",
+            "button": "Catalog for Ice Cream"
+          },
           "Pastry": {
             "name": "Pastry",
             "description": "Products for pastry, cakes, croissants, and more!",
@@ -440,6 +445,11 @@
             "button": "Catalog for Packaging"
           },
           "DriedFruits": {
+            "name": "Dried Fruits",
+            "description": "Different types of dried fruits for our clients.",
+            "button": "Catalog for Dried Fruits"
+          },
+          "Dried Fruits": {
             "name": "Dried Fruits",
             "description": "Different types of dried fruits for our clients.",
             "button": "Catalog for Dried Fruits"

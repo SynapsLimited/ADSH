@@ -435,13 +435,14 @@
   font-weight: 700;
   margin-bottom: 1rem;
   color: var(--color-secondary);
-  text-align: right;
+  text-align: center;
+  padding-top: 50px;
 }
 
 .blog-content p {
   color: var(--color-secondary);
   margin-bottom: 1.5rem;
-  text-align: right;
+  text-align: center;
 
 }
 
@@ -449,8 +450,7 @@
 
 .blog-content .blog-button {
   display: block;
-  margin-left: auto;
-  text-align: right;
+  margin: auto;
   width: fit-content;
 }
 

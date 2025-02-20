@@ -1,7 +1,5 @@
-// src/pages/PostDetail.jsx
-
 import React, { useContext, useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet'; // For dynamic meta tags
+import { Helmet } from 'react-helmet';
 import PostAuthor from '../components/PostAuthor';
 import { Link, useParams } from 'react-router-dom';
 import './../css/blog.css';
@@ -12,13 +10,12 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
 const PostDetail = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { id } = useParams();
   const [post, setPost] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { currentUser } = useContext(UserContext);
-  const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
   useEffect(() => {
@@ -36,7 +33,6 @@ const PostDetail = () => {
       }
       setIsLoading(false);
     };
-
     getPost();
   }, [id, t]);
 
@@ -44,21 +40,25 @@ const PostDetail = () => {
     return <Loader />;
   }
 
-  if (error) {
-    return <p className="error">{t('postDetail.postNotFound')}</p>;
-  }
-
-  if (!post) {
-    return <p className="error">{t('postDetail.postNotFound')}</p>;
+  if (error || !post) {
+    return (
+      <>
+        <Helmet>
+          <meta name="robots" content="noindex, nofollow" />
+          <title>{t('postDetail.postNotFound')} | ADSH Blog</title>
+        </Helmet>
+        <p className="error">{t('postDetail.postNotFound')}</p>
+      </>
+    );
   }
 
   const defaultThumbnail = `${process.env.PUBLIC_URL}/assets/Blog-default.webp`;
-
-  const title =
-    currentLanguage === 'en' ? post.title_en || post.title : post.title;
-  const description =
-    currentLanguage === 'en' ? post.description_en || post.description : post.description;
-
+  const title = currentLanguage === 'en'
+    ? post.title_en || post.title
+    : post.title;
+  const description = currentLanguage === 'en'
+    ? post.description_en || post.description
+    : post.description;
   const canonicalUrl = `https://www.adsh2014.al/posts/${post._id}`;
   const ogImage = post.thumbnail || defaultThumbnail;
 
@@ -68,15 +68,12 @@ const PostDetail = () => {
         <title>{title} | ADSH Blog</title>
         <meta name="description" content={description} />
         <link rel="canonical" href={canonicalUrl} />
-
-        {/* Open Graph Meta Tags */}
+        <meta name="robots" content="index, follow" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={ogImage} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="article" />
-
-        {/* Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
@@ -87,7 +84,6 @@ const PostDetail = () => {
           <div className="post-detail-container">
             <div className="post-detail-header">
               <PostAuthor authorID={post.creator._id || post.creator} createdAt={post.createdAt} />
-
               {currentUser?.id === (post.creator._id || post.creator) && (
                 <div className="post-detail-buttons">
                   <Link to={`/posts/${post._id}/edit`} className="btn btn-primary">
@@ -97,19 +93,15 @@ const PostDetail = () => {
                 </div>
               )}
             </div>
-
             <h1>{title}</h1>
-
             <div className="post-detail-thumbnail">
               <img src={ogImage} alt={title} />
             </div>
-
             <p dangerouslySetInnerHTML={{ __html: description }}></p>
           </div>
         ) : (
           <p className="error">{t('postDetail.authorNotFound')}</p>
         )}
-
         <Link to="/blog" className="btn btn-secondary post-detail-btn">
           {t('postDetail.backToArticles')}
         </Link>

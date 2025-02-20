@@ -14,4 +14,9 @@ Disallow: /create-product
 Disallow: /products/*/delete
 Disallow: /products/*/edit
 
+# Disallow download catalog pages
+Disallow: /download-catalog
+Disallow: /download-catalog/
+Disallow: /download-catalog/*
+
 Sitemap: https://www.adsh2014.al/sitemap.xml

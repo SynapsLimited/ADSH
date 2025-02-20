@@ -9,6 +9,17 @@ import 'slick-carousel/slick/slick-theme.css';
 import SearchBar from './SearchBar';
 import { useTranslation } from 'react-i18next';
 
+// Helper function to slugify text (e.g. "Ice Cream" -> "ice-cream")
+const slugify = (text) =>
+  text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')       
+    .replace(/&/g, '-and-')     
+    .replace(/[^\w\-]+/g, '')   
+    .replace(/\-\-+/g, '-');    
+
 const FullCatalog = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
@@ -31,49 +42,27 @@ const FullCatalog = () => {
     'All Products': { sq: 'Të gjitha produktet', en: 'All Products' },
   };
 
-  // Helper function to normalize text
-  const normalizeText = (text) => {
-    return text
-      .toLowerCase()
-      .replace(/ç/g, 'c')
-      .replace(/ë/g, 'e');
-  };
-
   // Fetch all products from the backend
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_BASE_URL}/products`
-        );
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products`);
         const data = await response.json();
-
         const sortedProducts = data.sort((a, b) => {
-          const nameA =
-            currentLanguage === 'en' ? a.name_en || a.name : a.name;
-          const nameB =
-            currentLanguage === 'en' ? b.name_en || b.name : b.name;
-
+          const nameA = currentLanguage === 'en' ? a.name_en || a.name : a.name;
+          const nameB = currentLanguage === 'en' ? b.name_en || b.name : b.name;
           const nameCompare = nameA.localeCompare(nameB);
-          if (nameCompare !== 0) {
-            return nameCompare;
-          } else {
-            const variationsA =
-              currentLanguage === 'en'
-                ? a.variations_en || a.variations
-                : a.variations;
-            const variationsB =
-              currentLanguage === 'en'
-                ? b.variations_en || b.variations
-                : b.variations;
-
-            const variationA = variationsA[0] || '';
-            const variationB = variationsB[0] || '';
-
-            return variationA.localeCompare(variationB);
-          }
+          if (nameCompare !== 0) return nameCompare;
+          const variationsA = currentLanguage === 'en'
+            ? a.variations_en || a.variations
+            : a.variations;
+          const variationsB = currentLanguage === 'en'
+            ? b.variations_en || b.variations
+            : b.variations;
+          const variationA = variationsA[0] || '';
+          const variationB = variationsB[0] || '';
+          return variationA.localeCompare(variationB);
         });
-
         setProducts(sortedProducts);
         setFilteredProducts(sortedProducts);
       } catch (error) {
@@ -88,26 +77,14 @@ const FullCatalog = () => {
     if (searchQuery.trim() === '') {
       setFilteredProducts(products);
     } else {
-      const normalizedSearchQuery = normalizeText(searchQuery);
-
+      const normalizedSearchQuery = searchQuery.toLowerCase();
       const filtered = products.filter((product) => {
-        const name =
-          currentLanguage === 'en' ? product.name_en || product.name : product.name;
-        const variations =
-          currentLanguage === 'en'
-            ? product.variations_en || product.variations
-            : product.variations;
-
-        // Combine name and variations into a single array
-        const searchFields = [
-          normalizeText(name),
-          ...variations.map((v) => normalizeText(v)),
-        ];
-
-        // Check if any field includes the normalized search query
-        return searchFields.some((field) =>
-          field.includes(normalizedSearchQuery)
-        );
+        const name = currentLanguage === 'en' ? product.name_en || product.name : product.name;
+        const variations = currentLanguage === 'en'
+          ? product.variations_en || product.variations
+          : product.variations;
+        const searchFields = [name.toLowerCase(), ...variations.map(v => v.toLowerCase())];
+        return searchFields.some((field) => field.includes(normalizedSearchQuery));
       });
       setFilteredProducts(filtered);
     }
@@ -115,19 +92,11 @@ const FullCatalog = () => {
 
   // Track scroll position for parallax effect
   useEffect(() => {
-    const handleScroll = () => {
-      const position = window.pageYOffset;
-      setScrollPosition(position);
-    };
-
+    const handleScroll = () => setScrollPosition(window.pageYOffset);
     window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Slider settings for react-slick
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -143,59 +112,35 @@ const FullCatalog = () => {
   const suggestions = [];
 
   if (searchQuery.trim()) {
-    const normalizedSearchQuery = normalizeText(searchQuery);
-
+    const normalizedSearchQuery = searchQuery.toLowerCase();
     products.forEach((product) => {
-      const name =
-        currentLanguage === 'en' ? product.name_en || product.name : product.name;
-      const variations =
-        currentLanguage === 'en'
-          ? product.variations_en || product.variations
-          : product.variations;
-
-      const normalizedName = normalizeText(name);
-      const normalizedVariations = variations.map((v) => normalizeText(v));
-
-      const nameMatches = normalizedName.includes(normalizedSearchQuery);
-      const matchingVariations = variations.filter((variation, index) =>
-        normalizedVariations[index].includes(normalizedSearchQuery)
+      const name = currentLanguage === 'en' ? product.name_en || product.name : product.name;
+      const variations = currentLanguage === 'en'
+        ? product.variations_en || product.variations
+        : product.variations;
+      const nameMatches = name.toLowerCase().includes(normalizedSearchQuery);
+      const matchingVariations = variations.filter(variation =>
+        variation.toLowerCase().includes(normalizedSearchQuery)
       );
-
-      if (nameMatches && matchingVariations.length > 0) {
-        matchingVariations.forEach((variation) => {
-          suggestions.push({
-            product,
-            displayText: `${name} - ${variation}`,
-          });
-        });
-      } else if (nameMatches) {
-        suggestions.push({
-          product,
-          displayText: name,
-        });
+      if (nameMatches) {
+        suggestions.push({ product, displayText: name });
       } else if (matchingVariations.length > 0) {
-        matchingVariations.forEach((variation) => {
-          suggestions.push({
-            product,
-            displayText: `${name} - ${variation}`,
-          });
+        matchingVariations.forEach(variation => {
+          suggestions.push({ product, displayText: `${name} - ${variation}` });
         });
       }
     });
   }
 
-  // Handle suggestion click
+  // Use product slug (not _id) for navigation consistency
   const handleSuggestionClick = (suggestion) => {
-    navigate(`/products/${suggestion.product._id}`);
+    navigate(`/products/${suggestion.product.slug}`);
   };
 
   // Helper function to truncate description
   const truncateDescription = (text, wordLimit) => {
     const words = text.split(' ');
-    if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(' ') + '...';
-    }
-    return text;
+    return words.length > wordLimit ? words.slice(0, wordLimit).join(' ') + '...' : text;
   };
 
   return (
@@ -225,7 +170,7 @@ const FullCatalog = () => {
             key !== 'All Products' && (
               <Link
                 key={key}
-                to={`/products/category/${key}`}
+                to={`/products/category/${slugify(key)}`}
                 className="btn btn-primary"
               >
                 {categoryTranslationMap[key][currentLanguage]}
@@ -238,9 +183,7 @@ const FullCatalog = () => {
       </div>
 
       {/* Download Catalog Link */}
-      <div
-        style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}
-      >
+      <div style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}>
         <Link to={`/download-catalog`} className="btn btn-primary">
           {t('fullCatalog.downloadCatalog')}
         </Link>
@@ -264,18 +207,15 @@ const FullCatalog = () => {
         <div className="product-catalog-cards">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => {
-              const name =
-                currentLanguage === 'en'
-                  ? product.name_en || product.name
-                  : product.name;
-              const description =
-                currentLanguage === 'en'
-                  ? product.description_en || product.description
-                  : product.description;
-              const variations =
-                currentLanguage === 'en'
-                  ? product.variations_en || product.variations
-                  : product.variations;
+              const name = currentLanguage === 'en'
+                ? product.name_en || product.name
+                : product.name;
+              const description = currentLanguage === 'en'
+                ? product.description_en || product.description
+                : product.description;
+              const variations = currentLanguage === 'en'
+                ? product.variations_en || product.variations
+                : product.variations;
 
               return (
                 <div className="product-catalog-card" key={product._id}>
@@ -293,14 +233,12 @@ const FullCatalog = () => {
                   </div>
                   <div className="product-catalog-card-content">
                     <h3>{name}</h3>
-                    {/* Variations */}
                     {variations.length > 0 && (
                       <h4>{variations.join(', ')}</h4>
                     )}
-                    {/* Truncated Description */}
                     <p>{truncateDescription(description, 20)}</p>
                     <Link
-                      to={`/products/${product.slug}`} // Changed from product._id to product.slug
+                      to={`/products/${product.slug}`}
                       className="btn btn-secondary"
                     >
                       {t('common.viewDetails')}

@@ -1,5 +1,3 @@
-// src/components/ProductCatalog.jsx
-
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
@@ -8,6 +6,25 @@ import 'slick-carousel/slick/slick-theme.css';
 import './../css/products.css';
 import SearchBar from './SearchBar';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet';
+
+// Helper function to slugify text (e.g. "Ice Cream" -> "ice-cream")
+const slugify = (text) =>
+  text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')       // Replace spaces with -
+    .replace(/&/g, '-and-')      // Replace & with 'and'
+    .replace(/[^\w\-]+/g, '')    // Remove non-word chars
+    .replace(/\-\-+/g, '-');     // Replace multiple - with single -
+
+// Convert a URL slug back to title case (e.g. "ice-cream" -> "Ice Cream")
+const normalizeCategory = (slug) =>
+  slug
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 
 const ProductCatalog = () => {
   const { category } = useParams();
@@ -15,12 +32,10 @@ const ProductCatalog = () => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [scrollPosition, setScrollPosition] = useState(0);
+  // Convert URL slug to normalized category title
+  const normalizedCategory = category ? normalizeCategory(category) : '';
 
-  // Mapping from category to CSS class name
+  // Mapping from category names to hero CSS classes
   const categoryClassMap = {
     Dairy: 'hero-container hero-container-products-dairy',
     'Ice Cream': 'hero-container hero-container-products-ice-cream',
@@ -32,7 +47,7 @@ const ProductCatalog = () => {
     'All Products': 'hero-container hero-container-products-all',
   };
 
-  // Mapping from English category names to translations
+  // Display name mapping for translations
   const categoryTranslationMap = {
     Dairy: { sq: 'Bulmetore', en: 'Dairy' },
     'Ice Cream': { sq: 'Akullore', en: 'Ice Cream' },
@@ -44,119 +59,80 @@ const ProductCatalog = () => {
     'All Products': { sq: 'Të gjitha produktet', en: 'All Products' },
   };
 
-  // Normalize the category name
-  const normalizedCategory = category
-    .replace('-', ' ')
-    .replace(/\b\w/g, (l) => l.toUpperCase());
-
   const heroClassName =
     categoryClassMap[normalizedCategory] || 'hero-container-products';
-
-  // Get the display name in the current language
   const categoryDisplayName =
-    categoryTranslationMap[normalizedCategory][currentLanguage] ||
-    normalizedCategory;
+    categoryTranslationMap[normalizedCategory] !== undefined
+      ? categoryTranslationMap[normalizedCategory][currentLanguage]
+      : normalizedCategory;
 
-  // Helper function to normalize text
-  const normalizeText = (text) => {
-    return text
-      .toLowerCase()
-      .replace(/ç/g, 'c')
-      .replace(/ë/g, 'e');
-  };
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [scrollPosition, setScrollPosition] = useState(0);
 
-  // Fetch products by category from the backend
+  // Fetch products from backend and filter by category (case-insensitive)
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_BASE_URL}/products`
-        );
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products`);
         const data = await response.json();
+        // Filter by exact match of product.category with normalizedCategory (ignoring case)
         const filtered = data.filter(
-          (product) => product.category === normalizedCategory
+          (product) =>
+            product.category &&
+            product.category.toLowerCase() === normalizedCategory.toLowerCase()
         );
-
+        // Sort alphabetically by product name (using language fallback)
         const sortedProducts = filtered.sort((a, b) => {
-          const nameA =
-            currentLanguage === 'en' ? a.name_en || a.name : a.name;
-          const nameB =
-            currentLanguage === 'en' ? b.name_en || b.name : b.name;
-
+          const nameA = currentLanguage === 'en' ? a.name_en || a.name : a.name;
+          const nameB = currentLanguage === 'en' ? b.name_en || b.name : b.name;
           const nameCompare = nameA.localeCompare(nameB);
-          if (nameCompare !== 0) {
-            return nameCompare;
-          } else {
-            const variationsA =
-              currentLanguage === 'en'
-                ? a.variations_en || a.variations
-                : a.variations;
-            const variationsB =
-              currentLanguage === 'en'
-                ? b.variations_en || b.variations
-                : b.variations;
-
-            const variationA = variationsA[0] || '';
-            const variationB = variationsB[0] || '';
-
-            return variationA.localeCompare(variationB);
-          }
+          if (nameCompare !== 0) return nameCompare;
+          const variationsA = currentLanguage === 'en'
+            ? a.variations_en || a.variations
+            : a.variations;
+          const variationsB = currentLanguage === 'en'
+            ? b.variations_en || b.variations
+            : b.variations;
+          const variationA = variationsA[0] || '';
+          const variationB = variationsB[0] || '';
+          return variationA.localeCompare(variationB);
         });
-
         setProducts(sortedProducts);
         setFilteredProducts(sortedProducts);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     fetchProducts();
-  }, [category, normalizedCategory, currentLanguage]);
+  }, [normalizedCategory, currentLanguage]);
 
-  // Update filtered products based on search query
+  // Update filtered products when search query changes
   useEffect(() => {
     if (searchQuery.trim() === '') {
       setFilteredProducts(products);
     } else {
-      const normalizedSearchQuery = normalizeText(searchQuery);
-
+      const normalizedSearchQuery = searchQuery.toLowerCase();
       const filtered = products.filter((product) => {
-        const name =
-          currentLanguage === 'en' ? product.name_en || product.name : product.name;
-        const variations =
-          currentLanguage === 'en'
-            ? product.variations_en || product.variations
-            : product.variations;
-
-        // Combine name and variations into a single array
-        const searchFields = [
-          normalizeText(name),
-          ...variations.map((v) => normalizeText(v)),
-        ];
-
-        // Check if any field includes the normalized search query
-        return searchFields.some((field) =>
-          field.includes(normalizedSearchQuery)
-        );
+        const name = currentLanguage === 'en' ? product.name_en || product.name : product.name;
+        const variations = currentLanguage === 'en'
+          ? product.variations_en || product.variations
+          : product.variations;
+        const searchFields = [name.toLowerCase(), ...variations.map(v => v.toLowerCase())];
+        return searchFields.some((field) => field.includes(normalizedSearchQuery));
       });
       setFilteredProducts(filtered);
     }
   }, [searchQuery, products, currentLanguage]);
 
-  // Track scroll position for parallax effect
+  // Parallax scroll effect
   useEffect(() => {
-    const handleScroll = () => {
-      const position = window.pageYOffset;
-      setScrollPosition(position);
-    };
-
+    const handleScroll = () => setScrollPosition(window.pageYOffset);
     window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Slider settings for react-slick
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -168,72 +144,49 @@ const ProductCatalog = () => {
     autoplaySpeed: 2000,
   };
 
-  // Generate suggestions based on search query
+  // Generate search suggestions
   const suggestions = [];
-
   if (searchQuery.trim()) {
-    const normalizedSearchQuery = normalizeText(searchQuery);
-
+    const normalizedSearchQuery = searchQuery.toLowerCase();
     products.forEach((product) => {
-      const name =
-        currentLanguage === 'en' ? product.name_en || product.name : product.name;
-      const variations =
-        currentLanguage === 'en'
-          ? product.variations_en || product.variations
-          : product.variations;
-
-      const normalizedName = normalizeText(name);
-      const normalizedVariations = variations.map((v) => normalizeText(v));
-
-      const nameMatches = normalizedName.includes(normalizedSearchQuery);
-      const matchingVariations = variations.filter((variation, index) =>
-        normalizedVariations[index].includes(normalizedSearchQuery)
+      const name = currentLanguage === 'en' ? product.name_en || product.name : product.name;
+      const variations = currentLanguage === 'en'
+        ? product.variations_en || product.variations
+        : product.variations;
+      const nameMatches = name.toLowerCase().includes(normalizedSearchQuery);
+      const matchingVariations = variations.filter(variation =>
+        variation.toLowerCase().includes(normalizedSearchQuery)
       );
-
-      if (nameMatches && matchingVariations.length > 0) {
-        matchingVariations.forEach((variation) => {
-          suggestions.push({
-            product,
-            displayText: `${name} - ${variation}`,
-          });
-        });
-      } else if (nameMatches) {
-        suggestions.push({
-          product,
-          displayText: name,
-        });
+      if (nameMatches) {
+        suggestions.push({ product, displayText: name });
       } else if (matchingVariations.length > 0) {
-        matchingVariations.forEach((variation) => {
-          suggestions.push({
-            product,
-            displayText: `${name} - ${variation}`,
-          });
+        matchingVariations.forEach(variation => {
+          suggestions.push({ product, displayText: `${name} - ${variation}` });
         });
       }
     });
   }
 
-  // Handle suggestion click
   const handleSuggestionClick = (suggestion) => {
-    navigate(`/products/${suggestion.product._id}`);
+    navigate(`/products/${suggestion.product.slug}`);
   };
 
-  // Helper function to truncate description
   const truncateDescription = (text, wordLimit) => {
     const words = text.split(' ');
-    if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(' ') + '...';
-    }
-    return text;
+    return words.length > wordLimit ? words.slice(0, wordLimit).join(' ') + '...' : text;
   };
 
   return (
     <div>
+      <Helmet>
+        <title>{`${t('productCatalog.catalogFor')} ${categoryDisplayName} | ADSH`}</title>
+        <meta
+          name="description"
+          content={`Browse our extensive catalog of ${categoryDisplayName} products at Albanian Dairy & Supply Hub. Find high-quality ${categoryDisplayName} products curated just for you.`}
+        />
+      </Helmet>
       {/* Hero Section */}
-      <div
-        className={heroClassName}
-        style={{ backgroundPositionY: `${scrollPosition * 0}px` }}
-      >
+      <div className={heroClassName} style={{ backgroundPositionY: `${scrollPosition * 0}px` }}>
         <div className="hero-content">
           <h1 className="hero-title-h1">
             {t('productCatalog.catalogFor')} {categoryDisplayName}
@@ -246,67 +199,52 @@ const ProductCatalog = () => {
           </a>
         </div>
       </div>
-
       {/* Category Navigation Buttons */}
       <div className="category-buttons">
-        {Object.keys(categoryTranslationMap).map(
-          (key) =>
-            key !== 'All Products' && (
-              <Link
-                key={key}
-                to={`/products/category/${key}`}
-                className="btn btn-primary"
-              >
-                {categoryTranslationMap[key][currentLanguage]}
-              </Link>
-            )
+        {Object.keys(categoryTranslationMap).map((key) =>
+          key !== 'All Products' && (
+            <Link
+              key={key}
+              to={`/products/category/${slugify(key)}`}
+              className="btn btn-primary"
+            >
+              {categoryTranslationMap[key][currentLanguage]}
+            </Link>
+          )
         )}
         <Link to="/full-catalog" className="btn btn-primary">
           {categoryTranslationMap['All Products'][currentLanguage]}
         </Link>
       </div>
-
       {/* Download Catalog Link */}
-      <div
-        style={{ textAlign: 'center', marginBottom: '0px', marginTop: '40px' }}
-      >
-        <Link to={`/download-catalog/${category}`} className="btn btn-primary">
+      <div style={{ textAlign: 'center', margin: '40px 0' }}>
+        <Link to={`/download-catalog/${slugify(normalizedCategory)}`} className="btn btn-primary">
           {t('productCatalog.downloadCatalogFor', { categoryDisplayName })}
         </Link>
       </div>
-
       <p className="center-p">
         {t('productCatalog.browseProducts', { categoryDisplayName })}
       </p>
-
       <SearchBar
         query={searchQuery}
         setQuery={setSearchQuery}
         suggestions={suggestions}
         onSuggestionClick={handleSuggestionClick}
       />
-
-  {/* Product Catalog Section */}
-  <section className="container product-catalog-section">
+      {/* Product Catalog Section */}
+      <section className="container product-catalog-section">
         <div className="product-catalog-cards">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => {
-              const name =
-                currentLanguage === 'en'
-                  ? product.name_en || product.name
-                  : product.name;
-              const description =
-                currentLanguage === 'en'
-                  ? product.description_en || product.description
-                  : product.description;
-              const variations =
-                currentLanguage === 'en'
-                  ? product.variations_en || product.variations
-                  : product.variations;
-
+              const name = currentLanguage === 'en' ? product.name_en || product.name : product.name;
+              const description = currentLanguage === 'en'
+                ? product.description_en || product.description
+                : product.description;
+              const variations = currentLanguage === 'en'
+                ? product.variations_en || product.variations
+                : product.variations;
               return (
                 <div className="product-catalog-card" key={product._id}>
-                  {/* Image Container */}
                   <div className="product-image-container">
                     {product.images.length > 1 ? (
                       <Slider {...sliderSettings}>
@@ -320,16 +258,9 @@ const ProductCatalog = () => {
                   </div>
                   <div className="product-catalog-card-content">
                     <h3>{name}</h3>
-                    {/* Variations */}
-                    {variations.length > 0 && (
-                      <h4>{variations.join(', ')}</h4>
-                    )}
-                    {/* Truncated Description */}
+                    {variations.length > 0 && <h4>{variations.join(', ')}</h4>}
                     <p>{truncateDescription(description, 20)}</p>
-                    <Link
-                      to={`/products/${product.slug}`} // Changed from product._id to product.slug
-                      className="btn btn-secondary"
-                    >
+                    <Link to={`/products/${product.slug}`} className="btn btn-secondary">
                       {t('common.viewDetails')}
                     </Link>
                   </div>

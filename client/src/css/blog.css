@@ -105,7 +105,6 @@
     text-align: center;
 }
 
-
 /* ================== Post Categories ============= */
 
 .blog-categories-section {
@@ -121,7 +120,14 @@
     margin-bottom: 4rem;
     transition: var(--transition);
     color: var(--color-background);
+    width: fit-content;
+}
 
+/* New rule to make each button fit its content */
+.blog-categories li.btn {
+    display: inline-flex;
+    flex: 0 0 auto;
+    width: auto;
 }
 
 .blog-categories a {
@@ -131,9 +137,7 @@
 
 .blog-categories a:hover {
     color: var(--color-secondary);
-
 }
-
 
 
 

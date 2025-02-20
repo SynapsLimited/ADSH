@@ -19,7 +19,18 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 // Import your custom CSS after Swiper styles
-import './../css/home.css'; // Import the CSS file
+import './../css/home.css';
+
+// Helper function to slugify text (e.g. "Ice Cream" -> "ice-cream")
+const slugify = (text) =>
+  text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')       
+    .replace(/&/g, '-and-')     
+    .replace(/[^\w\-]+/g, '')   
+    .replace(/\-\-+/g, '-');
 
 const stats = [
   { title: "products", value: 100 },
@@ -32,9 +43,9 @@ function Home() {
   const { t } = useTranslation();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-  const [latestPost, setLatestPost] = useState(null); // State for latest post
-  const [isLoading, setIsLoading] = useState(false); // Loading state
-  const [error, setError] = useState(null); // Error state
+  const [latestPost, setLatestPost] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Track scroll position to apply parallax effect
   useEffect(() => {
@@ -70,9 +81,8 @@ function Home() {
     };
   }, []);
 
-
-   // Fetch the latest post
-   useEffect(() => {
+  // Fetch the latest post
+  useEffect(() => {
     const fetchLatestPost = async () => {
       setIsLoading(true);
       try {
@@ -93,13 +103,11 @@ function Home() {
     fetchLatestPost();
   }, [t]);
   
-
-
   // Array of images for the slider
   const slideImages = [
     {
       src: '/assets/Slideshow 1.png',
-      alt: t('home.whoWeAre.swiperAlt1') // Add corresponding keys in translation.json
+      alt: t('home.whoWeAre.swiperAlt1')
     },
     {
       src: '/assets/Slideshow 2.png',
@@ -124,43 +132,43 @@ function Home() {
       title: t('home.productCategories.categories.Dairy'),
       image: "/assets/Homepage - Hero.jpg",
       description: t('home.productCategories.categories.DairyDescription'),
-      link: "/products/category/Dairy",
+      link: `/products/category/${slugify('Dairy')}`,
     },
     {
       title: t('home.productCategories.categories.IceCream'),
       image: "/assets/Product - Ice Cream.jpg",
       description: t('home.productCategories.categories.IceCreamDescription'),
-      link: "/products/category/Ice Cream",
+      link: `/products/category/${slugify('Ice Cream')}`,
     },
     {
       title: t('home.productCategories.categories.Pastry'),
       image: "/assets/Product - Pastry.jpg",
       description: t('home.productCategories.categories.PastryDescription'),
-      link: "/products/category/Pastry",
+      link: `/products/category/${slugify('Pastry')}`,
     },
     {
       title: t('home.productCategories.categories.Packaging'),
       image: "/assets/Product - Packaging.jpg",
       description: t('home.productCategories.categories.PackagingDescription'),
-      link: "/products/category/Packaging",
+      link: `/products/category/${slugify('Packaging')}`,
     },
     {
       title: t('home.productCategories.categories.DriedFruits'),
       image: "/assets/Product - Nuts.jpg",
       description: t('home.productCategories.categories.DriedFruitsDescription'),
-      link: "/products/category/Dried Fruits",
+      link: `/products/category/${slugify('Dried Fruits')}`,
     },
     {
       title: t('home.productCategories.categories.Bakery'),
       image: "/assets/Product - Bakery.jpg",
       description: t('home.productCategories.categories.BakeryDescription'),
-      link: "/products/category/Bakery",
+      link: `/products/category/${slugify('Bakery')}`,
     },
     {
       title: t('home.productCategories.categories.Equipment'),
       image: "/assets/Product - Equipment.jpg",
       description: t('home.productCategories.categories.EquipmentDescription'),
-      link: "/products/category/Equipment",
+      link: `/products/category/${slugify('Equipment')}`,
     },
   ];
 
@@ -172,19 +180,14 @@ function Home() {
       {/* Hero Section */}
       <div
         className="hero-container hero-container-home"
-        style={{ backgroundPositionY: `${scrollPosition * 0}px` }} // Apply parallax effect
+        style={{ backgroundPositionY: `${scrollPosition * 0}px` }}
       >
         <div className="hero-content">
-          {/* Logo Image */}
           <img src="/assets/Logo-White.png" alt={t('home.hero.logoAlt')} className="hero-logo" />
-
-          {/* Text Section */}
           <h3 className="hero-title">{t('home.hero.subheading')}</h3>
           <p className="hero-description">
             {t('home.hero.description')}
           </p>
-
-          {/* Contact Button */}
           <a href="/contact" className="btn btn-primary">{t('home.hero.contactButton')}</a>
         </div>
       </div>
@@ -225,7 +228,6 @@ function Home() {
       <section data-aos="fade-up"  className="who-we-are-section">
         <div className="who-we-are-container container">
           <div className="who-we-are-content">
-            {/* Text Section */}
             <div className="who-we-are-text">
               <h2 className="who-we-are-title">{t('home.whoWeAre.sectionTitle')}</h2>
               <p className="who-we-are-description">
@@ -233,7 +235,6 @@ function Home() {
               </p>
               <a href="/about" className="btn btn-primary" >{t('home.whoWeAre.button')}</a>
             </div>
-            {/* Swiper Section */}
             <div className="who-we-are-swiper">
               <Swiper
                 modules={[Navigation, Pagination]}
@@ -260,7 +261,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Add the Displacement Slider Section */}
+      {/* Displacement Slider Section */}
       <section data-aos="fade-up"  className="displacement-slider-section">
         <DisplacementSlider />
       </section>
@@ -281,13 +282,13 @@ function Home() {
                   <h3>{category.title}</h3>
                   <p>{category.description}</p>
                   <a href={category.link} className="btn btn-primary">
-                  {category.title}
+                    {category.title}
                   </a>
                 </div>
               </div>
             ))}
           </div>
-          {/* Added Paragraph and Button */}
+          {/* Catalog Download */}
           <div className="catalog-download container">
             <p>
               {t('home.productCategories.downloadCatalogParagraph')}
@@ -304,38 +305,34 @@ function Home() {
         </div>
       </section>
 
+      {/* Blog Section */}
+      <section data-aos="fade-up" className="blog-section">
+        <div className="container">
+          <div className="blog-container">
+            {isLoading ? (
+              <p>{t('blog.posts.loading')}</p>
+            ) : error ? (
+              <p>{error}</p>
+            ) : latestPost ? (
+              <div className="blog-card">
+                <PostItem post={latestPost} />
+              </div>
+            ) : (
+              <p>{t('blog.posts.noPosts')}</p>
+            )}
 
- {/* Blog Section */}
-<section data-aos="fade-up" className="blog-section">
-  <div className="container">
-    <div className="blog-container">
-      {isLoading ? (
-        <p>{t('blog.posts.loading')}</p>
-      ) : error ? (
-        <p>{error}</p>
-      ) : latestPost ? (
-        <div className="blog-card">
-          <PostItem post={latestPost} />
+            <div className="blog-content container">
+              <h2>{t('home.blogSection.heading')}</h2>
+              <p>
+                {t('home.blogSection.description')}
+              </p>
+              <Link to="/blog" className="btn btn-primary blog-button">
+                {t('home.blogSection.button')}
+              </Link>
+            </div>
+          </div>
         </div>
-      ) : (
-        <p>{t('blog.posts.noPosts')}</p>
-      )}
-
-      <div className="blog-content container">
-        <h2>{t('home.blogSection.heading')}</h2>
-        <p>
-          {t('home.blogSection.description')}
-        </p>
-        <Link to="/blog" className="btn btn-primary blog-button">
-          {t('home.blogSection.button')}
-        </Link>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-            
+      </section>
     </div>
   );
 }
@@ -345,8 +342,7 @@ function Counter({ from, to }) {
 
   useEffect(() => {
     if (count < to) {
-      // Adjusting the speed based on the target value
-      const duration = to <= 99 ? 100 : 20; // If the value is small (like 30), slow it down
+      const duration = to <= 99 ? 100 : 20;
       const timer = setTimeout(() => setCount(count + 1), duration);
       return () => clearTimeout(timer);
     }

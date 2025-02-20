@@ -6,6 +6,23 @@ import { jsPDF } from 'jspdf';
 import Loader from './Loader'; // Import the Loader component
 import { useTranslation } from 'react-i18next';
 
+// Helper functions for slugifying and normalizing categories
+const slugify = (text) =>
+  text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')       // Replace spaces with -
+    .replace(/&/g, '-and-')      // Replace & with 'and'
+    .replace(/[^\w\-]+/g, '')    // Remove non-word chars
+    .replace(/\-\-+/g, '-');     // Replace multiple - with single -
+
+const normalizeCategory = (slug) =>
+  slug
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+
 // Helper function to convert array buffer to Base64
 const arrayBufferToBase64 = (buffer) => {
   let binary = '';
@@ -333,13 +350,15 @@ const addCoverPage = async (doc, category, bgDataURL, categoryTranslationMap, cu
 };
 
 const DownloadCatalog = () => {
-  const { category } = useParams(); // Get the category from the URL
-  const navigate = useNavigate(); // For navigation after download
-  const [isLoading, setIsLoading] = useState(true); // State for loading indicator
-  const downloadInitiated = useRef(false); // Ref to prevent multiple downloads
-
+  const { category } = useParams();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+  const downloadInitiated = useRef(false);
   const { i18n, t } = useTranslation();
   const currentLanguage = i18n.language;
+
+  // Normalize the category parameter if provided
+  const normalizedCategory = category ? normalizeCategory(category) : null;
 
   // Mapping from English category names to translations
   const categoryTranslationMap = {
@@ -356,7 +375,6 @@ const DownloadCatalog = () => {
 
   useEffect(() => {
     const fetchAndDownload = async () => {
-      // Prevent multiple executions
       if (downloadInitiated.current) return;
       downloadInitiated.current = true;
 
@@ -368,12 +386,11 @@ const DownloadCatalog = () => {
         }
         const data = await response.json();
 
-        // Filter products by category if a category is specified
-        const filteredProducts = category
+        // Filter products by category if a category is specified (using normalizedCategory)
+        const filteredProducts = normalizedCategory
           ? data.filter(
               (product) =>
-                product.category &&
-                product.category.toLowerCase() === category.toLowerCase()
+                product.category && product.category === normalizedCategory
             )
           : data;
 
@@ -402,26 +419,26 @@ const DownloadCatalog = () => {
         doc.setFont('ManjariRegular', 'normal');
 
         // **Load the high-resolution background image once**
-        const bgUrl = '/assets/ADSH PDF BG.jpg'; // Path to the high-res background image
+        const bgUrl = '/assets/ADSH PDF BG.jpg';
         const bgDataObj = await getImageDataUrl(
           bgUrl,
           210, // A4 width in mm
           297, // A4 height in mm
-          150, // Reduced DPI
-          'JPEG', // Changed to 'JPEG' for compression
-          0.85, // Set JPEG quality to 0.85
-          0 // No border radius for background
-        ); // Use 'JPEG' if possible
+          150,
+          'JPEG',
+          0.85,
+          0
+        );
         const bgDataURL = bgDataObj.dataURL;
 
         // Add Cover Page with additional sections and background
-        await addCoverPage(doc, category, bgDataURL, categoryTranslationMap, currentLanguage, t);
+        await addCoverPage(doc, normalizedCategory, bgDataURL, categoryTranslationMap, currentLanguage, t);
 
         // Initialize coordinates after the cover page
         const pageWidth = doc.internal.pageSize.getWidth();
         const pageHeight = doc.internal.pageSize.getHeight();
-        const margin = 20; // Fixed margin in mm
-        const containerWidth = pageWidth - 2 * margin; // 170mm
+        const margin = 20;
+        const containerWidth = pageWidth - 2 * margin;
         const centerX = pageWidth / 2;
 
         for (const product of sortedProducts) {
@@ -429,36 +446,33 @@ const DownloadCatalog = () => {
           doc.addPage();
 
           // **Add background image to the new page**
-          doc.addImage(bgDataURL, 'JPEG', 0, 0, pageWidth, pageHeight); // Use 'JPEG' for compression
+          doc.addImage(bgDataURL, 'JPEG', 0, 0, pageWidth, pageHeight);
 
           // Desired physical size for product image (optimized)
-          const originalWidthMM = (1920 / 150) * 25.4; // Adjusted for lower DPI
-          const originalHeightMM = (1080 / 150) * 25.4; // Adjusted for lower DPI
-          const scaledWidthMM = originalWidthMM * 1.4; // 227.58mm -> Adjusted scaling
-          const scaledHeightMM = originalHeightMM * 1.4; // 128.02mm -> Adjusted scaling
+          const originalWidthMM = (1920 / 150) * 25.4;
+          const originalHeightMM = (1080 / 150) * 25.4;
+          const scaledWidthMM = originalWidthMM * 1.4;
+          const scaledHeightMM = originalHeightMM * 1.4;
 
           // Adjust scaled size to fit within page margins
-          const maxWidthMM = containerWidth; // 170mm
-          const maxHeightMM = pageHeight - 2 * margin; // 257mm
+          const maxWidthMM = containerWidth;
+          const maxHeightMM = pageHeight - 2 * margin;
 
           let finalWidthMM = scaledWidthMM;
           let finalHeightMM = scaledHeightMM;
 
-          // If scaled width exceeds max width, scale down proportionally
           if (finalWidthMM > maxWidthMM) {
             const scalingFactor = maxWidthMM / finalWidthMM;
             finalWidthMM = maxWidthMM;
             finalHeightMM = finalHeightMM * scalingFactor;
           }
 
-          // Similarly, if scaled height exceeds max height, scale down proportionally
           if (finalHeightMM > maxHeightMM) {
             const scalingFactor = maxHeightMM / finalHeightMM;
             finalHeightMM = maxHeightMM;
             finalWidthMM = finalWidthMM * scalingFactor;
           }
 
-          // Estimate required height for the product
           const requiredHeight = estimateProductHeight(
             doc,
             product,
@@ -467,97 +481,86 @@ const DownloadCatalog = () => {
             currentLanguage
           );
 
-          // Calculate starting Y position to center content vertically
           const yStart = (pageHeight - requiredHeight) / 2;
           let y = yStart;
 
           // Add Product Name (h3)
-          doc.setFont('ManjariBold', 'bold'); // Use ManjariBold
+          doc.setFont('ManjariBold', 'bold');
           doc.setFontSize(16);
           const nameText =
             currentLanguage === 'en' ? product.name_en || product.name : product.name;
           const splitName = doc.splitTextToSize(nameText, containerWidth);
           doc.text(splitName, centerX, y, { align: 'center' });
-          y += splitName.length * 7 + 10; // Spacing after name with increased padding
+          y += splitName.length * 7 + 10;
 
-          // Add Product Image (centered) with improved quality and border radius
+          // Add Product Image (centered)
           if (product.images && product.images.length > 0) {
             try {
-              // Product images are to be scaled up by 1.4x with border radius
               const imgDataObj = await getImageDataUrl(
                 product.images[0],
                 finalWidthMM,
                 finalHeightMM,
-                150, // Reduced DPI
-                'JPEG', // Changed to 'JPEG' for compression
-                0.85, // Increased JPEG quality to 0.85
-                0 // Border radius set to 22px for product images
+                150,
+                'JPEG',
+                0.85,
+                0
               );
               const { dataURL } = imgDataObj;
-
-              // Calculate centered position
               const imgX = (pageWidth - finalWidthMM) / 2;
-
-              doc.addImage(dataURL, 'JPEG', imgX, y, finalWidthMM, finalHeightMM); // Use 'JPEG' format
-              y += finalHeightMM + 10; // Increased spacing after image
+              doc.addImage(dataURL, 'JPEG', imgX, y, finalWidthMM, finalHeightMM);
+              y += finalHeightMM + 10;
             } catch (error) {
               console.error(`Error loading image for product ${product.name}:`, error);
-              y += 10; // Add space if image fails to load
+              y += 10;
             }
           } else {
-            y += 10; // Add space if no image
+            y += 10;
           }
 
           // Add Variations (in reddish color)
           const variations =
             currentLanguage === 'en' ? product.variations_en : product.variations;
           if (variations && variations.length > 0) {
-            doc.setFont('ManjariRegular', 'normal'); // Use ManjariRegular for variations
+            doc.setFont('ManjariRegular', 'normal');
             doc.setFontSize(14);
-            doc.setTextColor(237, 32, 90); // --color-primary: #ED205A
+            doc.setTextColor(237, 32, 90);
             const variationsText = `${variations.join(', ')}`;
             const splitVariations = doc.splitTextToSize(variationsText, containerWidth);
             doc.text(splitVariations, centerX, y, { align: 'center' });
-            y += splitVariations.length * 7 + 5; // Spacing after variations
-            doc.setTextColor(0, 0, 0); // Reset to black
+            y += splitVariations.length * 7 + 5;
+            doc.setTextColor(0, 0, 0);
           }
 
           // Add Description (p) with centered alignment
-          doc.setFont('ManjariThin', 'normal'); // Use ManjariThin for paragraphs
+          doc.setFont('ManjariThin', 'normal');
           doc.setFontSize(12);
           const descriptionText =
             currentLanguage === 'en' ? product.description_en || product.description : product.description;
           const splitDescription = doc.splitTextToSize(descriptionText, containerWidth);
           splitDescription.forEach((line) => {
             if (y + 7 > pageHeight - margin) {
-              // If the text exceeds the page height, add a new page
               doc.addPage();
-
-              // Add background image to the new page
-              doc.addImage(bgDataURL, 'JPEG', 0, 0, pageWidth, pageHeight); // Use 'JPEG' for compression
-
-              y = margin + 10; // Reset y position with top padding on new page
+              doc.addImage(bgDataURL, 'JPEG', 0, 0, pageWidth, pageHeight);
+              y = margin + 10;
             }
             doc.text(line, centerX, y, { align: 'center' });
             y += 7;
           });
 
-          // Add additional bottom padding between products
-          y += 15; // Increased space before next product
+          y += 15;
         }
 
         // Add footers with page numbers aligned to the left
         addFooter(doc, t);
 
-        // Save the PDF
-        const fileName = category
-          ? `${capitalizeFirstLetter(categoryTranslationMap[category])}_${t('downloadCatalog.catalog')}.pdf`
+        // Save the PDF with a file name based on the category (if provided)
+        const fileName = normalizedCategory
+          ? `${capitalizeFirstLetter(categoryTranslationMap[normalizedCategory])}_${t('downloadCatalog.catalog')}.pdf`
           : `${t('downloadCatalog.fullCatalog')}.pdf`;
         doc.save(fileName);
 
-        // Update loading state and redirect to Home.jsx
         setIsLoading(false);
-        navigate('/'); // Redirect to Home.jsx
+        navigate('/');
       } catch (error) {
         console.error('Error generating catalog PDF:', error);
         alert(
@@ -565,12 +568,12 @@ const DownloadCatalog = () => {
             'downloadCatalog.pleaseTryAgain'
           )}`
         );
-        navigate('/products'); // Redirect to Products.jsx
+        navigate('/products');
       }
     };
 
     fetchAndDownload();
-  }, [category, navigate, currentLanguage, t]);
+  }, [normalizedCategory, navigate, currentLanguage, t]);
 
   return (
     <div>

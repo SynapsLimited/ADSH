@@ -34,9 +34,6 @@ const Posts = ({ limit }) => {
 
   return (
     <section data-aos="fade-up" className="posts">
-      <div className="blog-title-filtered">
-        <h1>{t('posts.title')}</h1>
-      </div>
       {displayedPosts.length > 0 ? (
         <div className="container posts-container">
           {displayedPosts.map((post) => (

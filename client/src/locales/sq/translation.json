@@ -423,6 +423,11 @@
             "description": "Lëndë përbërëse për prodhimin e akullores për ti dhënë një freski jetës në muajt e nxehtë të verës!",
             "button": "Katalog për Akullore"
           },
+          "Ice Cream": {
+            "name": "Akullore",
+            "description": "Lëndë përbërëse për prodhimin e akullores për ti dhënë një freski jetës në muajt e nxehtë të verës!",
+            "button": "Katalog për Akullore"
+          },
           "Pastry": {
             "name": "Pastiçeri",
             "description": "Produkte për pastiçeri, torta, kruasant, dhe më shumë!",
@@ -439,6 +444,11 @@
             "button": "Katalog për Ambalazhe"
           },
           "DriedFruits": {
+            "name": "Fruta të thata",
+            "description": "Lloje të ndryshme frutash të thata për klientët tanë.",
+            "button": "Katalog për Fruta të thata"
+          },
+          "Dried Fruits": {
             "name": "Fruta të thata",
             "description": "Lloje të ndryshme frutash të thata për klientët tanë.",
             "button": "Katalog për Fruta të thata"
@@ -555,6 +565,11 @@
             "description": "Lëndë përbërëse për prodhimin e akullores për ti dhënë një freski jetës në muajt e nxehtë të verës!",
             "button": "Katalog për Akullore"
           },
+          "Ice Cream": {
+            "name": "Akullore",
+            "description": "Lëndë përbërëse për prodhimin e akullores për ti dhënë një freski jetës në muajt e nxehtë të verës!",
+            "button": "Katalog për Akullore"
+          },
           "Pastry": {
             "name": "Pastiçeri",
             "description": "Produkte për pastiçeri, torta, kruasant, dhe më shumë!",
@@ -571,6 +586,11 @@
             "button": "Katalog për Ambalazhe"
           },
           "DriedFruits": {
+            "name": "Fruta të thata",
+            "description": "Lloje të ndryshme frutash të thata për klientët tanë.",
+            "button": "Katalog për Fruta të thata"
+          },
+          "Dried Fruits": {
             "name": "Fruta të thata",
             "description": "Lloje të ndryshme frutash të thata për klientët tanë.",
             "button": "Katalog për Fruta të thata"

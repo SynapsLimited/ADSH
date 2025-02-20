@@ -1,10 +1,19 @@
-// src/components/Products.jsx
-
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import './../css/products.css';
+
+// Helper function to slugify text (e.g. "Ice Cream" -> "ice-cream")
+const slugify = (text) =>
+  text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')       // Replace spaces with -
+    .replace(/&/g, '-and-')      // Replace & with 'and'
+    .replace(/[^\w\-]+/g, '')    // Remove non-word chars
+    .replace(/\-\-+/g, '-');     // Replace multiple - with single -
 
 function Products() {
   const { t } = useTranslation();
@@ -24,48 +33,49 @@ function Products() {
     };
   }, []);
 
+  // Updated products array with consistent category names and slugified links
   const products = [
     {
       category: 'Dairy',
       name: t('productsPage.section.productsCards.Dairy.name'),
       imageUrl: '/assets/Homepage - Hero.jpg',
-      link: '/products/category/Dairy',
+      link: `/products/category/${slugify('Dairy')}`,
     },
     {
-      category: 'IceCream',
+      category: 'Ice Cream',
       name: t('productsPage.section.productsCards.IceCream.name'),
       imageUrl: '/assets/Product - Ice Cream.jpg',
-      link: '/products/category/Ice Cream',
+      link: `/products/category/${slugify('Ice Cream')}`,
     },
     {
       category: 'Pastry',
       name: t('productsPage.section.productsCards.Pastry.name'),
       imageUrl: '/assets/Product - Pastry.jpg',
-      link: '/products/category/Pastry',
+      link: `/products/category/${slugify('Pastry')}`,
     },
     {
       category: 'Bakery',
       name: t('productsPage.section.productsCards.Bakery.name'),
       imageUrl: '/assets/Product - Bakery.jpg',
-      link: '/products/category/Bakery',
+      link: `/products/category/${slugify('Bakery')}`,
     },
     {
       category: 'Packaging',
       name: t('productsPage.section.productsCards.Packaging.name'),
       imageUrl: '/assets/Product - Packaging.jpg',
-      link: '/products/category/Packaging',
+      link: `/products/category/${slugify('Packaging')}`,
     },
     {
-      category: 'DriedFruits',
+      category: 'Dried Fruits',
       name: t('productsPage.section.productsCards.DriedFruits.name'),
       imageUrl: '/assets/Product - Nuts.jpg',
-      link: '/products/category/Dried Fruits',
+      link: `/products/category/${slugify('Dried Fruits')}`,
     },
     {
       category: 'Equipment',
       name: t('productsPage.section.productsCards.Equipment.name'),
       imageUrl: '/assets/Product - Equipment.jpg',
-      link: '/products/category/Equipment',
+      link: `/products/category/${slugify('Equipment')}`,
     },
     {
       // No category for "All Products"
@@ -91,9 +101,10 @@ function Products() {
           <p className="hero-description">
             {t('productsPage.hero.description')}
           </p>
-
           {/* Contact Button */}
-          <Link to="/contact" className="btn btn-primary">{t('productsPage.hero.contactButton')}</Link>
+          <Link to="/contact" className="btn btn-primary">
+            {t('productsPage.hero.contactButton')}
+          </Link>
         </div>
       </div>
 

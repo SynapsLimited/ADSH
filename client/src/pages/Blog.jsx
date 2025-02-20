@@ -67,9 +67,6 @@ function Blog() {
 
       {/* Blog Categories Section */}
       <section data-aos="fade-up" className="container blog-categories-section">
-        <div className="blog-title">
-          <h1>{t('blog.categories.heading')}</h1>
-        </div>
         <ul className="blog-categories">
           {categories.map(({ key, value }) => (
             <li key={key} className="btn btn-secondary">
