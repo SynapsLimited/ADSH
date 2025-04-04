@@ -136,7 +136,7 @@ function LatestSideBar() {
             {productName}
           </h3>
         </div>
-        <p className="product-description" style={{ color: "var(--color-background)" }}>
+        <p className="product-description" style={{ color: "var(--color-secondary)" }}>
           {truncateDescription(productDescription)}
         </p>
         <button onClick={() => navigateToProduct(product.slug)} className="btn btn-primary">
@@ -232,11 +232,11 @@ function LatestSideBar() {
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.2 }}
                     className="sidebar-content"
-                    style={{ color: "var(--color-white)" }}
+                    style={{ color: "var(--color-primary)" }}
                   >
                     {activeCategory ? (
                       <div className="category-section">
-                        <h2 className="section-heading" style={{ color: "var(--color-white)" }}>
+                        <h2 className="section-heading" style={{ color: "var(--color-primary)" }}>
                           {t(`categories.${getCategoryKey(activeCategory)}`)}
                         </h2>
                         <div className="grid-gap-4">
@@ -252,7 +252,7 @@ function LatestSideBar() {
                     ) : (
                       <div className="default-section">
                         <section>
-                          <h2 className="section-heading section-heading--mb" style={{ color: "var(--color-white)" }}>
+                          <h2 className="section-heading section-heading--mb" style={{ color: "var(--color-primary)" }}>
                             {t("latestSideBar.latestProducts")}
                           </h2>
                           <div className="grid-gap-4">
