@@ -57,18 +57,17 @@ const deleteFromVercelBlob = async (fileUrl) => {
 // PROTECTED
 const createProduct = async (req, res, next) => {
   try {
-    console.log('Request body:', req.body);
-    console.log('Uploaded files:', req.files);
-
     const { name, name_en, category, description, description_en, variations, variations_en } = req.body;
 
     if (!name || !category || !description || !req.files || req.files.length === 0) {
       return next(new HttpError('Fill in all fields and upload at least one image.', 422));
     }
 
+    // Handle variations, if provided
     const variationsArray = variations ? variations.split(',').map((v) => v.trim()) : [];
     const variationsEnArray = variations_en ? variations_en.split(',').map((v) => v.trim()) : [];
 
+    // Upload images
     const imageUrls = [];
     for (const file of req.files) {
       const fileBuffer = file.buffer;
@@ -77,6 +76,7 @@ const createProduct = async (req, res, next) => {
       imageUrls.push(imageUrl);
     }
 
+    // Save the product with the image URLs
     const newProduct = await Product.create({
       name,
       name_en,
@@ -89,10 +89,8 @@ const createProduct = async (req, res, next) => {
       creator: req.user.id,
     });
 
-    console.log('Product created:', newProduct._id);
     res.status(201).json(newProduct);
   } catch (error) {
-    console.error('Error creating product:', error);
     return next(new HttpError(error.message || 'Something went wrong', 500));
   }
 };
