@@ -1,15 +1,12 @@
-// src/components/CreateProduct.jsx
-
 import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../context/userContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify'; // Import toast
+import { toast } from 'react-toastify';
 
 const CreateProduct = () => {
   const { t } = useTranslation();
-
   const [name, setName] = useState('');
   const [nameEn, setNameEn] = useState('');
   const [category, setCategory] = useState('Dairy');
@@ -22,59 +19,91 @@ const CreateProduct = () => {
   const [addTranslation, setAddTranslation] = useState(false);
 
   const navigate = useNavigate();
-
   const { currentUser } = useContext(UserContext);
   const token = currentUser?.token;
 
-  // Redirect to login page for any user who isn't logged in
+  // Redirect to login if no token is present
   useEffect(() => {
     if (!token) {
       navigate('/login');
     }
   }, [token, navigate]);
 
-  const PRODUCT_CATEGORIES = ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Dried Fruits', 'Equipment', 'Other'];
+  // Product categories for the dropdown
+  const PRODUCT_CATEGORIES = [
+    'Dairy',
+    'Ice Cream',
+    'Pastry',
+    'Bakery',
+    'Packaging',
+    'Dried Fruits',
+    'Equipment',
+    'Other',
+  ];
 
+  // Handle form submission to create a product
   const createProduct = async (e) => {
     e.preventDefault();
 
+    // Validate that at least one image is uploaded
     if (images.length === 0) {
       setError(t('uploadAtLeastOneImage'));
       return;
     }
 
+    // Construct FormData object
     const productData = new FormData();
-    productData.set('name', name);
-    productData.set('category', category);
-    productData.set('description', description);
-    productData.set('variations', variations);
+    productData.append('name', name);
+    productData.append('category', category);
+    productData.append('description', description);
+    productData.append('variations', variations);
 
+    // Append English translations if enabled
     if (addTranslation) {
-      productData.set('name_en', nameEn);
-      productData.set('description_en', descriptionEn);
-      productData.set('variations_en', variationsEn);
+      productData.append('name_en', nameEn);
+      productData.append('description_en', descriptionEn);
+      productData.append('variations_en', variationsEn);
     }
 
-    // Append images to FormData
+    // Append each image to FormData
     images.forEach((image) => {
       productData.append('images', image);
     });
 
+    // Log FormData entries for debugging
+    console.log('Sending FormData:');
+    for (let [key, value] of productData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/products`, productData, {
-        withCredentials: true,
-        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
-      });
+      // Send POST request to the server
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/products`,
+        productData,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }, // No 'Content-Type' header; Axios handles it
+        }
+      );
+
+      // Handle successful creation
       if (response.status === 201) {
-        toast.success(t('Product created successfully.')); // Show success toast
+        toast.success(t('Product created successfully.'));
         navigate('/products-dashboard');
       }
     } catch (err) {
-      setError(err.response?.data?.message || t('An error occurred'));
-      toast.error(err.response?.data?.message || t('An error occurred')); // Show error toast
+      // Handle errors with detailed feedback
+      const errorMessage =
+        err.response?.data?.message || t('An error occurred');
+      setError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
+  // Handle image file selection
   const handleImageChange = (e) => {
     setImages([...e.target.files]);
   };
@@ -93,7 +122,12 @@ const CreateProduct = () => {
             autoFocus
             required
           />
-          <select name="category" value={category} onChange={(e) => setCategory(e.target.value)} required>
+          <select
+            name="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            required
+          >
             {PRODUCT_CATEGORIES.map((cat) => (
               <option key={cat}>{t(cat)}</option>
             ))}
@@ -111,7 +145,7 @@ const CreateProduct = () => {
             value={variations}
             onChange={(e) => setVariations(e.target.value)}
           />
-          <div className='custom-checkbox-container'>
+          <div className="custom-checkbox-container">
             <label>
               <input
                 type="checkbox"
