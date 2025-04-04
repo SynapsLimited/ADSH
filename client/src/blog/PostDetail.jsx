@@ -14,13 +14,12 @@ const PostDetail = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Start with loading true
   const { currentUser } = useContext(UserContext);
   const currentLanguage = i18n.language;
 
   useEffect(() => {
     const getPost = async () => {
-      setIsLoading(true);
       try {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/posts/${id}`);
         if (response.data) {
@@ -30,14 +29,23 @@ const PostDetail = () => {
         }
       } catch (error) {
         setError(t('postDetail.postNotFound'));
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
     getPost();
   }, [id, t]);
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        <Helmet>
+          <title>{t('loading')} | ADSH Blog</title>
+          <meta name="robots" content="index, follow" />
+        </Helmet>
+        <Loader />
+      </>
+    );
   }
 
   if (error || !post) {

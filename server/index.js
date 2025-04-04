@@ -33,7 +33,6 @@ app.use(
       "http://127.0.0.1:3000",
       "https://adsh-client.vercel.app",
       "https://www.adsh2014.al",
-      "https://adsh2014.al",
     ],
     credentials: true,
   })

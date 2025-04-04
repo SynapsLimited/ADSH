@@ -28,12 +28,11 @@ const ProductDetail = () => {
   const currentLanguage = i18n.language;
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Start with loading true
   const { currentUser } = useContext(UserContext);
 
   useEffect(() => {
     const getProduct = async () => {
-      setIsLoading(true);
       try {
         const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/${slug}`);
         if (!response.ok) {
@@ -43,14 +42,23 @@ const ProductDetail = () => {
         setProduct(data);
       } catch (error) {
         setError(t('productNotFound'));
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
     getProduct();
   }, [slug, t]);
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <>
+        <Helmet>
+          <title>{t('loading')} | ADSH</title>
+          <meta name="robots" content="index, follow" />
+        </Helmet>
+        <Loader />
+      </>
+    );
   }
 
   if (error || !product) {
