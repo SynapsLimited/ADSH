@@ -5,7 +5,7 @@ import { UserContext } from '../context/userContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'; // Import toast
 
 const CreateProduct = () => {
   const { t } = useTranslation();
@@ -15,16 +15,18 @@ const CreateProduct = () => {
   const [category, setCategory] = useState('Dairy');
   const [description, setDescription] = useState('');
   const [descriptionEn, setDescriptionEn] = useState('');
-  const [variations, setVariations] = useState(''); // Comma-separated string
-  const [variationsEn, setVariationsEn] = useState(''); // Comma-separated string
+  const [variations, setVariations] = useState('');
+  const [variationsEn, setVariationsEn] = useState('');
   const [images, setImages] = useState([]);
   const [error, setError] = useState('');
   const [addTranslation, setAddTranslation] = useState(false);
 
   const navigate = useNavigate();
+
   const { currentUser } = useContext(UserContext);
   const token = currentUser?.token;
 
+  // Redirect to login page for any user who isn't logged in
   useEffect(() => {
     if (!token) {
       navigate('/login');
@@ -38,55 +40,38 @@ const CreateProduct = () => {
 
     if (images.length === 0) {
       setError(t('uploadAtLeastOneImage'));
-      toast.error(t('uploadAtLeastOneImage'));
       return;
     }
 
     const productData = new FormData();
-    productData.append('name', name);
-    productData.append('category', category);
-    productData.append('description', description);
-    productData.append('variations', variations); // Send as string
+    productData.set('name', name);
+    productData.set('category', category);
+    productData.set('description', description);
+    productData.set('variations', variations);
 
     if (addTranslation) {
-      productData.append('name_en', nameEn);
-      productData.append('description_en', descriptionEn);
-      productData.append('variations_en', variationsEn); // Send as string
+      productData.set('name_en', nameEn);
+      productData.set('description_en', descriptionEn);
+      productData.set('variations_en', variationsEn);
     }
 
+    // Append images to FormData
     images.forEach((image) => {
       productData.append('images', image);
     });
 
     try {
-      console.log('Sending product data:', {
-        name,
-        category,
-        description,
-        variations,
-        nameEn,
-        descriptionEn,
-        variationsEn,
-        imageCount: images.length,
-      });
-
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/products`, productData, {
         withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
       });
-
       if (response.status === 201) {
-        toast.success(t('Product created successfully.'));
+        toast.success(t('Product created successfully.')); // Show success toast
         navigate('/products-dashboard');
       }
     } catch (err) {
-      const errorMsg = err.response?.data?.message || t('An error occurred');
-      setError(errorMsg);
-      toast.error(errorMsg);
-      console.error('Error creating product:', err);
+      setError(err.response?.data?.message || t('An error occurred'));
+      toast.error(err.response?.data?.message || t('An error occurred')); // Show error toast
     }
   };
 
@@ -126,7 +111,7 @@ const CreateProduct = () => {
             value={variations}
             onChange={(e) => setVariations(e.target.value)}
           />
-          <div className="custom-checkbox-container">
+          <div className='custom-checkbox-container'>
             <label>
               <input
                 type="checkbox"
