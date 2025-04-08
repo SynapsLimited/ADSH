@@ -9,43 +9,40 @@ const fetch = require('node-fetch');
 // Utility functions to upload and delete images from Vercel Blob storage
 const uploadToVercelBlob = async (fileBuffer, fileName) => {
   try {
-    // Upload the file buffer to Vercel Blob storage
+    console.log(`Uploading file: ${fileName} to Vercel Blob`);
     const { url } = await put(fileName, fileBuffer, {
-      access: 'public', // Ensure the file is publicly accessible
-      token: process.env.BLOB_READ_WRITE_TOKEN, // Token with read/write access
+      access: 'public',
+      token: process.env.BLOB_READ_WRITE_TOKEN,
       headers: {
-        Authorization: `Bearer ${process.env.VERCEL_ACCESS_TOKEN}`, // Add Vercel API token
+        Authorization: `Bearer ${process.env.VERCEL_ACCESS_TOKEN}`,
       },
     });
-
-    // Log the success and return the URL
-    console.log('Uploaded successfully to Vercel Blob: ', url);
-    return url; // Return the public URL of the uploaded file
+    console.log('Uploaded successfully to Vercel Blob:', url);
+    return url;
   } catch (error) {
     console.error('Error uploading file to Vercel Blob:', error);
-    throw new Error('Failed to upload file to Vercel Blob');
+    throw new Error(`Failed to upload ${fileName}: ${error.message}`);
   }
 };
 
 const deleteFromVercelBlob = async (fileUrl) => {
   try {
     if (!fileUrl) {
-      console.log('No file to delete.');
+      console.log('No file URL provided for deletion.');
       return;
     }
-
-    const fileName = fileUrl.split('/').pop(); // Extract file name from URL
+    const fileName = fileUrl.split('/').pop();
+    console.log(`Deleting file from Vercel Blob: ${fileName}`);
     const response = await fetch(`https://api.vercel.com/v2/blob/files/${fileName}`, {
       method: 'DELETE',
       headers: {
-        Authorization: `Bearer ${process.env.VERCEL_ACCESS_TOKEN}`, // Vercel API token for authorization
+        Authorization: `Bearer ${process.env.VERCEL_ACCESS_TOKEN}`,
       },
     });
-
     if (!response.ok) {
-      throw new Error('Failed to delete from Vercel Blob Storage');
+      const errorText = await response.text();
+      throw new Error(`Failed to delete ${fileName}: ${errorText}`);
     }
-
     console.log(`Deleted successfully from Vercel Blob: ${fileName}`);
   } catch (error) {
     console.error('Error deleting file from Vercel Blob:', error);
@@ -57,10 +54,21 @@ const deleteFromVercelBlob = async (fileUrl) => {
 // PROTECTED
 const createProduct = async (req, res, next) => {
   try {
+    console.log('Received createProduct request:', {
+      body: req.body,
+      files: req.files ? req.files.map(f => f.originalname) : 'No files',
+    });
+
     const { name, name_en, category, description, description_en, variations, variations_en } = req.body;
 
-    if (!name || !category || !description || !req.files || req.files.length === 0) {
-      return next(new HttpError('Fill in all fields and upload at least one image.', 422));
+    if (!name || !category || !description) {
+      console.log('Missing required fields:', { name, category, description });
+      return next(new HttpError('Fill in all required fields: name, category, description.', 422));
+    }
+
+    if (!req.files || req.files.length === 0) {
+      console.log('No images uploaded.');
+      return next(new HttpError('Upload at least one image.', 422));
     }
 
     // Handle variations, if provided
@@ -76,6 +84,18 @@ const createProduct = async (req, res, next) => {
       imageUrls.push(imageUrl);
     }
 
+    console.log('Creating product with data:', {
+      name,
+      name_en,
+      category,
+      description,
+      description_en,
+      variations: variationsArray,
+      variations_en: variationsEnArray,
+      images: imageUrls,
+      creator: req.user.id,
+    });
+
     // Save the product with the image URLs
     const newProduct = await Product.create({
       name,
@@ -89,9 +109,11 @@ const createProduct = async (req, res, next) => {
       creator: req.user.id,
     });
 
+    console.log('Product created successfully:', newProduct._id);
     res.status(201).json(newProduct);
   } catch (error) {
-    return next(new HttpError(error.message || 'Something went wrong', 500));
+    console.error('Error in createProduct:', error);
+    return next(new HttpError(error.message || 'Failed to create product', 500));
   }
 };
 
@@ -121,19 +143,23 @@ const getCategoryProducts = async (req, res, next) => {
 };
 
 // ======================== Edit product
-// PATCH : api/products/:id
+// PATCH : api/products/:slug/edit
 // PROTECTED
 const editProduct = async (req, res, next) => {
   try {
-    const productId = req.params.id;
+    const productSlug = req.params.slug;
+    console.log('Editing product with slug:', productSlug);
+
     const { name, name_en, category, description, description_en, variations, variations_en } = req.body;
 
     if (!name || !category || !description) {
+      console.log('Missing required fields:', { name, category, description });
       return next(new HttpError('Fill in all fields.', 422));
     }
 
-    const oldProduct = await Product.findById(productId);
+    const oldProduct = await Product.findOne({ slug: productSlug });
     if (!oldProduct) {
+      console.log('Product not found for slug:', productSlug);
       return next(new HttpError('Product not found.', 404));
     }
 
@@ -147,7 +173,7 @@ const editProduct = async (req, res, next) => {
 
     // Check if new images were uploaded
     if (req.files && req.files.length > 0) {
-      // Upload new images
+      console.log('New images uploaded:', req.files.map(f => f.originalname));
       newImageUrls = [];
       for (const file of req.files) {
         const fileBuffer = file.buffer;
@@ -156,13 +182,13 @@ const editProduct = async (req, res, next) => {
         newImageUrls.push(imageUrl);
       }
 
-      // Optionally delete old images from Vercel Blob storage
+      // Delete old images
       for (const imageUrl of oldProduct.images) {
         await deleteFromVercelBlob(imageUrl);
       }
     }
 
-    // Update the product with the new data
+    // Update the product
     oldProduct.name = name;
     oldProduct.name_en = name_en;
     oldProduct.category = category;
@@ -172,39 +198,32 @@ const editProduct = async (req, res, next) => {
     oldProduct.variations_en = variationsEnArray;
     oldProduct.images = newImageUrls;
 
-    // Save the updated product
     const updatedProduct = await oldProduct.save();
-
+    console.log('Product updated successfully:', updatedProduct._id);
     res.status(200).json(updatedProduct);
   } catch (error) {
+    console.error('Error in editProduct:', error);
     return next(new HttpError(error.message || "Couldn't update product", 500));
   }
 };
-// ======================== Delete product
-// DELETE : api/products/:id
-// PROTECTED
+
 // ======================== Delete product
 // DELETE : api/products/:slug
 // PROTECTED
 const deleteProduct = async (req, res, next) => {
   try {
     const productSlug = req.params.slug;
-
-    // Find the product by slug
     const product = await Product.findOne({ slug: productSlug });
 
     if (!product) {
       return next(new HttpError('Product not found.', 404));
     }
 
-    // Delete images from Vercel Blob storage
     for (const imageUrl of product.images) {
       await deleteFromVercelBlob(imageUrl);
     }
 
-    // Delete the product from the database
     await Product.findByIdAndDelete(product._id);
-
     res.status(200).json({ message: 'Product deleted successfully' });
   } catch (error) {
     console.error('Error deleting product:', error);
@@ -212,11 +231,10 @@ const deleteProduct = async (req, res, next) => {
   }
 };
 
-
 // ======================== Get single product by slug
-// GET : api/products/slug/:slug
+// GET : api/products/:slug
 // UNPROTECTED
-const getProductBySlug = async (req, res, next) => {
+const getProduct = async (req, res, next) => {
   try {
     const productSlug = req.params.slug;
     const product = await Product.findOne({ slug: productSlug }).populate('creator', 'name email');
@@ -228,31 +246,6 @@ const getProductBySlug = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError('Product does not exist', 404));
   }
-};
-
-// ======================== Get single product by ID and redirect to slug
-// GET : api/products/id/:id
-// UNPROTECTED
-const getProductById = async (req, res, next) => {
-  try {
-    const productId = req.params.id;
-    const product = await Product.findById(productId);
-
-    if (!product) {
-      return next(new HttpError('Product not found.', 404));
-    }
-
-    // Redirect to slug-based URL
-    res.redirect(301, `/products/${product.slug}`);
-  } catch (error) {
-    return next(new HttpError('Product does not exist', 404));
-  }
-};
-
-// ======================== Get single product (updated to use slug)
-const getProduct = async (req, res, next) => {
-  const { slug } = req.params;
-  return getProductBySlug(req, res, next);
 };
 
 module.exports = {
