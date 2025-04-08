@@ -9,21 +9,20 @@ const fetch = require('node-fetch');
 // Utility functions to upload and delete images from Vercel Blob storage
 const uploadToVercelBlob = async (fileBuffer, fileName) => {
   try {
-    // Upload the file buffer to Vercel Blob storage
-    const { url } = await put(fileName, fileBuffer, {
-      access: 'public', // Ensure the file is publicly accessible
-      token: process.env.BLOB_READ_WRITE_TOKEN, // Token with read/write access
-      headers: {
-        Authorization: `Bearer ${process.env.VERCEL_ACCESS_TOKEN}`, // Add Vercel API token
-      },
+    const { url, error } = await put(fileName, fileBuffer, {
+      access: 'public',
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+      headers: { Authorization: `Bearer ${process.env.VERCEL_ACCESS_TOKEN}` },
     });
-
-    // Log the success and return the URL
-    console.log('Uploaded successfully to Vercel Blob: ', url);
-    return url; // Return the public URL of the uploaded file
+    if (error) {
+      console.error('Vercel Blob upload error:', error);
+      throw new Error('Upload failed: ' + error.message);
+    }
+    console.log('Uploaded to Vercel Blob:', url);
+    return url;
   } catch (error) {
-    console.error('Error uploading file to Vercel Blob:', error);
-    throw new Error('Failed to upload file to Vercel Blob');
+    console.error('Error uploading to Vercel Blob:', error);
+    throw new Error('Failed to upload file: ' + error.message);
   }
 };
 

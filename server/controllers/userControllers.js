@@ -11,20 +11,22 @@ const upload = multer({ storage });
 
 const uploadToVercelBlob = async (fileBuffer, fileName) => {
     try {
-        const { url } = await put(fileName, fileBuffer, {
-            access: 'public', // Make sure the file is publicly accessible
-            token: process.env.BLOB_READ_WRITE_TOKEN, // Blob storage token
-            headers: {
-                Authorization: `Bearer ${process.env.VERCEL_ACCESS_TOKEN}` // Vercel API token for authorization
-            }
-        });
-        console.log("Uploaded successfully to Vercel Blob: ", url); // Log URL
-        return url; // Return the uploaded file URL
+      const { url, error } = await put(fileName, fileBuffer, {
+        access: 'public',
+        token: process.env.BLOB_READ_WRITE_TOKEN,
+        headers: { Authorization: `Bearer ${process.env.VERCEL_ACCESS_TOKEN}` },
+      });
+      if (error) {
+        console.error('Vercel Blob upload error:', error);
+        throw new Error('Upload failed: ' + error.message);
+      }
+      console.log('Uploaded to Vercel Blob:', url);
+      return url;
     } catch (error) {
-        console.error("Error uploading file to Vercel Blob:", error);
-        throw new Error("Failed to upload file to Vercel Blob");
+      console.error('Error uploading to Vercel Blob:', error);
+      throw new Error('Failed to upload file: ' + error.message);
     }
-};
+  };
 
 
 
