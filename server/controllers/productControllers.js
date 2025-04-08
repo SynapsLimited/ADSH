@@ -93,6 +93,9 @@ const createProduct = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError(error.message || 'Something went wrong', 500));
   }
+  if (!req.files || req.files.length === 0) {
+    return next(new HttpError('No images uploaded.', 422));
+  }
 };
 
 // ======================== Get all products

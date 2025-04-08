@@ -95,6 +95,9 @@ const createPost = async (req, res, next) => {
     } catch (error) {
       return next(new HttpError(error.message || 'Something went wrong', 500));
     }
+    if (!req.file) {
+        return next(new HttpError('No thumbnail uploaded.', 422));
+      }
   };
 
 
