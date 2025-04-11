@@ -1,0 +1,610 @@
+{
+    "navbar": {
+      "home": "Home",
+      "about": "About Us",
+      "products": "Products",
+      "blog": "Blog",
+      "contact": "Contact"
+    },
+
+    
+      "downloadCatalog": {
+        "page": "Page",
+        "of": "of",
+        "catalogFor": "Catalog for",
+        "fullCatalog": "Full Catalog",
+        "missionTextCategory": "Welcome to the {{category}} Catalog of Albanian Dairy & Supply Hub (ADSH). Discover our range of high-quality {{category}} products designed to meet your needs.",
+        "missionTextFull": "Welcome to the Full Catalog of Albanian Dairy & Supply Hub (ADSH). Browse our extensive range of products in all categories, crafted with quality and care to serve you better.",
+        "aboutUsTitle": "About Us",
+        "aboutUsText": "ADSH-2014 is a company established in 2014. The staff has been operating since 1995 under the company D&A. The company has over 29 years of experience in the field of raw materials for dairy and pastry shops.",
+        "productsTitle": "Our Products",
+        "productsText": "High quality and competitive prices in the market. We have around 200 products available. Some of them can be found below.",
+        "valuesTitle": "Company Values",
+        "valuesText": "24-hour service every day of the week for our clients. Quality products and competitive prices. To fulfill the demands of consumers in Albania.",
+        "catalog": "Catalog",
+        "noProductsInCategory": "There are no products in this category.",
+        "errorGeneratingCatalog": "An error occurred while generating the catalog",
+        "pleaseTryAgain": "Please try again.",
+        "downloadCompleted": "Download completed."
+      },
+
+        "authorPosts": {
+          "title": "Posts from {{authorName}}",
+          "noPosts": "No posts found!"
+        },
+        "authors": {
+          "title": "Authors",
+          "noAuthors": "No authors found!",
+          "post": "post",
+          "posts": "posts",
+          "avatarAlt": "Image of {{name}}"
+        },
+        "categoryPosts": {
+          "noPosts": "No posts found",
+          "categoriesTitle": "Categories",
+          "category_Dairy": "Dairy",
+          "category_Ice_Cream": "Ice Cream",
+          "category_Pastry": "Pastry",
+          "category_Bakery": "Bakery",
+          "category_Packaging": "Packaging",
+          "category_Dried_Fruits": "Dried Fruits",
+          "category_Equipment": "Equipment",
+          "category_Other": "Other"
+        },
+        "createPost": {
+          "title": "Create Post",
+          "titlePlaceholder": "Title",
+          "category": "Category",
+          "uncategorized": "Uncategorized",
+          "addTranslation": "Add translation in English",
+          "titleEnPlaceholder": "Title in English",
+          "descriptionEnPlaceholder": "Description in English",
+          "createButton": "Create",
+          "descriptionPlaceholder": "Description",
+          "postCategories": {
+            "Uncategorized": "Uncategorized",
+            "Dairy": "Dairy",
+            "Ice Cream": "Ice Cream",
+            "Bakery": "Bakery",
+            "Pastry": "Pastry",
+            "Packaging": "Packaging",
+            "Dried Fruits": "Dried Fruits",
+            "Equipment": "Equipment",
+            "Other": "Other"
+          },
+          "error": "Error",
+          "unexpectedError": "An unexpected error occurred. Please try again."
+        },
+        "dashboard": {
+          "title": "Dashboard",
+          "view": "View",
+          "edit": "Edit",
+          "delete": "Delete",
+          "noPosts": "No posts found."
+        },
+        "deletePost": {
+          "delete": "Delete",
+          "error": "Couldn't delete the post.",
+          "successDelete": "Post deleted successfully."
+        },
+        "editPost": {
+          "title": "Edit Post",
+          "updateButton": "Update",
+          "error": "Error"
+        },
+        "errorPage": {
+          "backButton": "Go Back",
+          "message": "Page not found!"
+        },
+        "login": {
+          "title": "Sign In",
+          "email": "Email",
+          "password": "Password",
+          "loginButton": "Sign In",
+          "noAccount": "Don't have an account?",
+          "error": "An error occurred while logging in. Please try again.",
+          "register":"Register"
+        },
+        "postDetail": {
+          "postNotFound": "Post not found.",
+          "authorNotFound": "Author not found.",
+          "backToArticles": "Back to Articles",
+          "edit": "Edit"
+        },
+        "register": {
+          "title": "Sign Up",
+          "fullName": "Full Name",
+          "email": "Email",
+          "password": "Password",
+          "confirmPassword": "Confirm Password",
+          "registerButton": "Register",
+          "haveAccount": "Already have an account?",
+          "error": "Couldn't register user. Please try again.",
+          "unexpectedError": "Unexpected error. Please try again.",
+          "networkError": "No response received from server. Please check your network connection.",
+          "errorResponse": "Error: {{status}} {{statusText}}"
+        },
+        "userProfile": {
+          "updateDetails": "Update Details",
+          "fullName": "Full Name",
+          "email": "Email",
+          "currentPassword": "Current Password",
+          "newPassword": "New Password",
+          "confirmNewPassword": "Confirm New Password",
+          "avatarAlt": "User Avatar",
+          "error": "Error",
+          "errorChangingAvatar": "Error changing avatar",
+          "failedUpdateAvatar": "Failed to update avatar."
+        },
+        "contactForm": {
+    "name": "Name",
+    "surname": "Surname",
+    "country": "Country",
+    "email": "Email",
+    "phoneNumber": "Phone Number",
+    "companyName": "Company Name",
+    "message": "Message",
+    "send": "Send",
+    "successMessage": "Your message has been sent successfully!",
+    "errorMessage": "Temporary issue. Please try again later!"
+  },
+  "cookieConsent": {
+    "text": "We use cookies to enhance your experience on our site. By continuing to browse this site, you accept the use of cookies.",
+    "learnMore": "Learn more",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "fixedMenu": {
+    "profile": "Profile",
+    "logout": "Logout",
+    "blog": "Blog",
+    "allPosts": "All Posts",
+    "authors": "Authors",
+    "create": "Create",
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "allProducts": "All Products",
+    "createProduct": "Create Product",
+    "productsDashboard": "Products Dashboard"
+  },
+  "footer": {
+    "location": "Location",
+    "contact": "Contact",
+    "socialNetworks": "Social Networks",
+    "allRightsReserved": "All rights reserved © ADSH",
+    "designedBy": "Designed by",
+    "privacyPolicy": "Privacy Policy",
+    "address": "Rruga Hamdi Pepa, Tirana",
+    "phone": "+355 69 20 74 234",
+    "email": "contact@adsh2014.al",
+    "whatsapp": "Whatsapp",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "linkedin": "LinkedIn",
+    "designedBySynaps": "Synaps"
+  },
+  "fullCatalog": {
+    "heroTitle": "All Products",
+    "heroDescription": "Discover our full range of products in all categories.",
+    "contact": "Contact",
+    "downloadCatalog": "Download Full Catalog",
+    "browseCatalog": "Browse our extensive catalog of products, sorted alphabetically for your convenience.",
+    "noProductsFound": "No products found."
+  },
+  "postItem": {
+    "noThumbnail": "No Thumbnail"
+  },
+  "posts": {
+    "title": "Posts",
+    "noPostsFound": "No Posts Found.",
+    "readMore": "Read More",
+    "postSingular": "post",
+    "postPlural": "posts"
+  },
+  "productCatalog": {
+    "catalogFor": "Catalog for",
+    "discoverProducts": "Discover and browse our products for {{categoryDisplayName}}.",
+    "contact": "Contact",
+    "downloadCatalogFor": "Download catalog for {{categoryDisplayName}}",
+    "browseProducts": "Browse our products for {{categoryDisplayName}}, sorted alphabetically for your convenience.",
+    "noProductsFound": "No products found in this category."
+  },
+  "searchBar": {
+    "placeholder": "Search products..."
+  },
+  "themeToggle": {
+    "changeTheme": "Change Theme!",
+    "setTheme": "Set {{theme}} theme"
+  },
+  "common": {
+    "viewDetails": "View Details",
+    "noProductsFoundGeneral": "No products found."
+  },
+
+  "displacementSlider": {
+    "meta": {
+      "category": "Category",
+      "company": "ADSH"
+    },
+    "status": {
+      "products": "Products"
+    },
+    "slideTitles": {
+      "0": "Dairy",
+      "1": "Ice Cream",
+      "2": "Pastry",
+      "3": "Bakery",
+      "4": "Packaging",
+      "5": "Dried Fruits",
+      "6": "Equipment"
+    }
+  },
+
+  "colors": {
+    "summer": "Summer",
+    "autumn": "Autumn",
+    "winter": "Winter",
+    "spring": "Spring"
+  },
+
+    "about": {
+      "helmetTitle": "ADSH - About Us",
+      "hero": {
+        "heading": "About Us",
+        "description": "Get to know ADSH, the company's history, vision, mission, and values that the company reflects and strives to convey in the general market!",
+        "contactButton": "Contact"
+      },
+      "historySection": {
+        "heading": "ADSH History",
+        "text": "ADSH-2014 is a company established in 2014. The staff has been operating since 1995 under the company D&A. The company boasts over 29 years of experience in the field of raw materials for dairy, ice cream, pastry, ovens, packaging, work equipment, etc. Our products have high quality and competitive prices in the market. ADSH has around 200 products available.",
+        "imageAlt": "ADSH History"
+      },
+      "cards": {
+        "mission": {
+          "title": "Mission",
+          "alt": "Mission Icon",
+          "text": "To supply our partners with high-quality raw materials and equipment, assisting in improving their products and increasing success in the competitive market."
+        },
+        "vision": {
+          "title": "Vision",
+          "alt": "Vision Icon",
+          "text": "To be a leader in the Albanian market in supplying raw materials and equipment for the food industry, bringing innovation and high-quality standards."
+        },
+        "values": {
+          "title": "Values",
+          "alt": "Values Icon",
+          "text": "Quality, Integrity, Customer Commitment, Innovation, Experience."
+        }
+      }
+    },
+    "blog": {
+      "helmetTitle": "ADSH - Articles",
+      "hero": {
+        "heading": "Articles",
+        "description": "Stay informed with the latest trends, tips, and knowledge in dairy, ice cream, ovens, and more.",
+        "contactButton": "Contact"
+      },
+      "intro": {
+        "heading": "Welcome to Our Blog",
+        "description": "Browse articles, news, and updates about our products, services, and industry insights."
+      },
+      "categories": {
+        "heading": "Categories",
+        "items": {
+          "Dairy": "Dairy",
+          "IceCream": "Ice Cream",
+          "Pastry": "Pastry",
+          "Bakery": "Bakery",
+          "Packaging": "Packaging",
+          "DriedFruits": "Dried Fruits",
+          "Equipment": "Equipment",
+          "Other": "Others"
+        }
+      },
+      "posts": {
+        "loading": "Loading the post...",
+        "error": "An error occurred while fetching the post.",
+        "noPosts": "No posts available."
+      },
+      "button": "Articles"
+    },
+    "contact": {
+      "helmetTitle": "ADSH - Contact",
+      "hero": {
+        "heading": "Contact",
+        "description": "Contact us for the products you need.",
+        "contactButton": "Contact"
+      },
+      "overviewTitles": {
+        "contactDetails": "Contact Details",
+        "location": "Location",
+        "contact": "Contact",
+        "socials": "Social Networks",
+        "contactNow": "Contact Now"
+      },
+      "location": {
+        "mapAlt": "Map of Europe",
+        "address": "Tirana, Albania",
+        "linkText": "ADSH-2014"
+      },
+      "contactInfo": {
+        "phoneAlt": "Phone Icon",
+        "phoneNumber": "+355 69 20 74 234",
+        "emailAlt": "Email Icon",
+        "email": "contact@adsh2014.al"
+      },
+      "socials": {
+        "facebookAlt": "Facebook Icon",
+        "instagramAlt": "Instagram Icon",
+        "linkedinAlt": "LinkedIn Icon"
+      },
+      "contactNow": {
+        "heading": "Contact Now",
+        "description": "Get in touch with us for the products you need."
+      },
+      "map": {
+        "iframeTitle": "ADSH Location on Google Maps"
+      }
+    },
+    "home": {
+      "helmetTitle": "ADSH - Home",
+      "hero": {
+        "heading": "Home",
+        "subheading": "Albanian Dairy & Supply Hub",
+        "description": "We empower your culinary creations with quality ingredients and supplies. From dairy delights to pastry perfection, we are your trusted partner in culinary excellence.",
+        "contactButton": "Contact",
+        "logoAlt": "ADSH Logo"
+      },
+      "stats": {
+        "sectionTitle": "Why Choose ADSH?",
+        "stats": {
+          "products": "Products",
+          "partners": "Partners",
+          "experience": "Experience",
+          "satisfiedcustomers": "Satisfied Customers"
+        },
+        "paragraph": "These are some of the statistics that ADSH has achieved over the years in the market."
+      },
+      "whoWeAre": {
+        "sectionTitle": "Who Are We?",
+        "description": "ADSH-2014 is a company established in 2014. The staff has been operating since 1995 under the company D&A. The company has over 29 years of experience in the field of raw materials for dairy and pastry shops. Our products are of high quality and come with competitive prices!",
+        "button": "About Us",
+        "swiperAlt1": "Image of Slider 1",
+        "swiperAlt2": "Image of Slider 2",
+        "swiperAlt3": "Image of Slider 3",
+        "swiperAlt4": "Image of Slider 4",
+        "swiperAlt5": "Image of Slider 5",
+        "logoAlt": "ADSH Logo"
+      },
+      "productCategories": {
+        "sectionTitle": "Product Categories",
+        "description": "Discover our products through digital catalogs divided into categories to enhance your browsing experience.",
+        "downloadCatalogParagraph": "Browse our digital catalogs on our website based on category. Not sure what product you're looking for? Browse the complete catalog or download the full catalog for a more convenient experience. Catalogs for each category can also be downloaded to simplify your experience!",
+        "buttons": {
+          "viewFullCatalog": "View Full Catalog",
+          "downloadFullCatalog": "Download Full Catalog"
+        },
+        "categories": {
+  "Dairy": "Dairy",
+  "DairyDescription": "Primary raw materials for dairy products to assist our clients in producing the highest quality product!",
+  "IceCream": "Ice Cream",
+  "IceCreamDescription": "Ingredients for producing ice cream to bring a freshness to life during the hot summer months!",
+  "Pastry": "Pastry",
+  "PastryDescription": "Products for pastry, cakes, croissants, and more!",
+  "Packaging": "Packaging",
+  "PackagingDescription": "Plastic packaging for dairy, ice cream, or pastry.",
+  "DriedFruits": "Dried Fruits",
+  "DriedFruitsDescription": "Different types of dried fruits for our customers.",
+  "Bakery": "Bakery",
+  "BakeryDescription": "Various ingredients for bread ovens.",
+  "Equipment": "Equipment",
+  "EquipmentDescription": "Equipment and workwear for food professionals."
+}
+
+      },
+      "blogSection": {
+        "heading": "Articles",
+        "description": "Browse our articles to learn more about our products and their use in your culinary creations. We cover all product categories, offering you tips, recipes, and the latest industry trends. Stay informed and inspired with our regularly updated content.",
+        "button": "Articles"
+      }
+    },
+    "productsPage": {
+      "helmetTitle": "ADSH - Products",
+      "hero": {
+        "heading": "Products",
+        "description": "ADSH offers products in several categories of the food industry.",
+        "contactButton": "Contact"
+      },
+      "section": {
+        "catalog": "Catalog",
+        "heading": "Products",
+        "description": "Discover our products through digital catalogs divided into categories to enhance your browsing experience.",
+        "watermark": "products",
+        "productsCards": {
+          "Dairy": {
+            "name": "Dairy",
+            "description": "Primary raw materials for dairy to assist our clients in producing high-quality products!",
+            "button": "Catalog for Dairy"
+          },
+          "IceCream": {
+            "name": "Ice Cream",
+            "description": "Ingredients for ice cream production to bring a refreshing zest during the hot summer months!",
+            "button": "Catalog for Ice Cream"
+          },
+          "Ice Cream": {
+            "name": "Ice Cream",
+            "description": "Ingredients for ice cream production to bring a refreshing zest during the hot summer months!",
+            "button": "Catalog for Ice Cream"
+          },
+          "Pastry": {
+            "name": "Pastry",
+            "description": "Products for pastry, cakes, croissants, and more!",
+            "button": "Catalog for Pastry"
+          },
+          "Bakery": {
+            "name": "Bakery",
+            "description": "Various ingredients for bread ovens.",
+            "button": "Catalog for Bakery"
+          },
+          "Packaging": {
+            "name": "Packaging",
+            "description": "Plastic packaging for dairy, ice cream, or pastry.",
+            "button": "Catalog for Packaging"
+          },
+          "DriedFruits": {
+            "name": "Dried Fruits",
+            "description": "Different types of dried fruits for our clients.",
+            "button": "Catalog for Dried Fruits"
+          },
+          "Dried Fruits": {
+            "name": "Dried Fruits",
+            "description": "Different types of dried fruits for our clients.",
+            "button": "Catalog for Dried Fruits"
+          },
+          "Equipment": {
+            "name": "Equipment",
+            "description": "Equipment and workwear for food processors.",
+            "button": "Catalog for Equipment"
+          },
+          "allProducts": {
+            "name": "All Products",
+            "description": "All products",
+            "button": "View Full Catalog"
+          }
+        }
+      }
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy",
+      "sections": {
+        "introduction": {
+          "heading": "1. Introduction",
+          "paragraph": "Welcome to ADSH! We respect your privacy and are committed to protecting the personal information you provide while using our website. This privacy policy explains how we collect, use, share, and protect your data."
+        },
+        "informationCollected": {
+          "heading": "2. Information We Collect",
+          "paragraphs": [
+            "We may collect various types of information from our users, including but not limited to:",
+            "Personal information such as name, email, phone number when you register or contact us.",
+            "Technical information such as IP addresses, types of browsers you use, and devices you use to access our site.",
+            "Information you provide through contact forms, blog comments, or participation in other interactive activities."
+          ]
+        },
+        "informationUse": {
+          "heading": "3. Use of Information",
+          "paragraphs": [
+            "The information we collect is used for various purposes, including:",
+            "Managing and improving our website.",
+            "Offering personalized services and products.",
+            "Communicating with users about important matters, including notifications about changes to the privacy policy.",
+            "Analyzing trends and user behaviors for marketing purposes."
+          ]
+        },
+        "informationSharing": {
+          "heading": "4. Sharing of Information",
+          "paragraphs": [
+            "We will not share your personal information with third parties except in the following cases:",
+            "When necessary to comply with legal or regulatory requirements.",
+            "With our trusted partners who assist us in our business operations, including payment processing and IT services.",
+            "In cases of company ownership transfer."
+          ]
+        },
+        "cookies": {
+          "heading": "5. Cookies and Similar Technologies",
+          "paragraphs": "We use cookies and similar technologies to enhance your experience on our website. Cookies are small files stored on your device to keep track of your preferences and actions while using our site. You have the option to manage or delete cookies through your browser settings, but please note that some parts of the site may not function properly without them."
+  
+        },
+        "dataSecurity": {
+          "heading": "6. Data Security",
+          "paragraph": "We take necessary measures to protect your personal information from unauthorized access, use, or disclosure. These measures include advanced security technologies and strict administrative procedures."
+        },
+        "userRights": {
+          "heading": "7. User Rights",
+          "paragraph": "You have the right to request access, correction, or deletion of your personal information that we have recorded. To exercise these rights, please contact us using the contact information provided below."
+        },
+        "policyChanges": {
+          "heading": "8. Changes to the Privacy Policy",
+          "paragraph": "We reserve the right to update this privacy policy at any time. Any changes will be posted on this page and will take effect immediately upon posting. We encourage you to review this policy regularly to stay informed about how we protect your information."
+        },
+        "contact": {
+          "heading": "9. Contact",
+          "paragraph": "If you have any questions or concerns regarding this privacy policy, please contact us at:",
+          "list": [
+            {
+              "label": "Email:",
+              "value": "contact@adsh2014.al"
+            },
+            {
+              "label": "Address:",
+              "value": "Rruga Hamdi Pepa, Tirana, Albania"
+            },
+            {
+              "label": "Phone:",
+              "value": "+355 69 20 74 234"
+            }
+          ]
+        }
+      }
+    },
+
+    "createProduct": "Create Product",
+  "name": "Name",
+  "category": "Category",
+  "description": "Description",
+  "variations": "Variations (comma-separated)",
+  "addTranslationInEnglish": "Add translation in English",
+  "nameInEnglish": "Name in English",
+  "descriptionInEnglish": "Description in English",
+  "variationsInEnglish": "Variations in English (comma-separated)",
+  "uploadAtLeastOneImage": "Please upload at least one image.",
+  "create": "Create",
+  "delete": "Delete",
+  "editProduct": "Edit Product",
+  "update": "Update",
+  "productDashboard": "Product Dashboard",
+  "view": "View",
+  "edit": "Edit",
+  "noProductsFound": "No products found.",
+  "productNotFound": "Product not found.",
+  "categoryLabel": "Category",
+  "variationsLabel": "Variations",
+  "backToProducts": "Back to Products",
+  "productDetail": "Product Detail",
+  "An error occurred": "An error occurred",
+  "Product deleted successfully.": "Product deleted successfully.",
+  "Couldn't delete product.": "Couldn't delete product.",
+  "Dairy": "Dairy",
+  "Ice Cream": "Ice Cream",
+  "Pastry": "Pastry",
+  "Bakery": "Bakery",
+  "Packaging": "Packaging",
+  "Dried Fruits": "Dried Fruits",
+  "Equipment": "Equipment",
+  "Other": "Other",
+  "All Products": "All Products",
+  "Back to Products": "Back to Products",
+  "Edit": "Edit",
+  "View": "View",
+  "Delete": "Delete",
+  "Create": "Create",
+  "Update": "Update",
+  "latestSideBar": {
+    "latestProducts": "Latest Products",
+    "viewDetails": "View Details",
+    "noDescription": "No description available",
+    "noProductsFound": "No products found"
+  },
+  "categories": {
+    "dairy": "Dairy",
+    "iceCream": "Ice Cream",
+    "pastry": "Pastry",
+    "packaging": "Packaging",
+    "driedFruits": "Dried Fruits",
+    "bakery": "Bakery",
+    "equipment": "Equipment"
+  }
+  
+  
+    
+  }
+  

@@ -1,0 +1,141 @@
+/* Container for the fixed menu */
+.fixed-menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--color-white); /* White background */
+  border-top: 1px solid #e5e7eb; /* Light gray top border */
+  padding: 16px; /* Padding around the menu */
+  display: flex;
+  justify-content: space-around; /* Evenly distribute menu items */
+  align-items: center;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  z-index: 1000; /* Ensure it's on top */
+}
+
+/* Wrapper for each menu item to handle positioning of submenu */
+.menu-item-wrapper {
+  position: relative; /* For absolute positioning of submenu */
+}
+
+/* Styles for the main menu buttons */
+.menu-button {
+  display: flex;
+  flex-direction: column; /* Stack icon and label vertically */
+  align-items: center;
+  background: none; /* No background */
+  border: none; /* No border */
+  cursor: pointer; /* Pointer cursor on hover */
+  padding: 8px; /* Padding around button */
+  transition: var(--transition);
+  border-radius: 8px; /* Rounded corners */
+}
+
+.menu-button:hover,
+.menu-button.active {
+  background-color: var(--color-white); /* Light gray background on hover/active */
+}
+
+/* Icon styles */
+.menu-icon {
+  height: 24px; /* 24px height */
+  width: 24px; /* 24px width */
+  color: var(--color-primary);
+}
+
+/* Label styles */
+.menu-label {
+  font-size: 12px; /* 12px font size */
+  margin-top: 10px; /* 4px margin on top */
+  color: var(--color-secondary);
+}
+
+/* Submenu container */
+.submenu {
+  position: absolute;
+  bottom: 100%; /* Position above the menu button */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%) translateY(20px); /* Initially positioned below */
+  width: 192px; /* 192px width */
+  background-color: var(--color-white); /* White background */
+  border: 1px solid var(--color-tertiary); /* Light gray border */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin-bottom: 8px; /* Space between menu button and submenu */
+  z-index: 1001; /* Above the fixed menu */
+  opacity: 0; /* Initially hidden */
+  visibility: hidden; /* Initially hidden */
+  transform: translateX(-50%) translateY(20px); /* Slide down when hidden */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+}
+
+/* Submenu when active (visible) */
+.menu-item-wrapper.active .submenu {
+  opacity: 1; /* Fully visible */
+  visibility: visible; /* Visible */
+  transform: translateX(-50%) translateY(0); /* Slide up into view */
+}
+
+/* Styles for each submenu item */
+.submenu-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px; /* Padding */
+  text-decoration: none; /* Remove underline */
+  color: var(--color-secondary); /* Dark gray color */
+  transition: var(--transition);
+}
+
+.submenu-item:hover {
+  background-color: #f3f4f6; /* Light gray background on hover */
+  border-radius: 4px; /* Slightly rounded corners */
+}
+
+/* Icon styles within submenu items */
+.submenu-icon {
+  height: 16px; /* 16px height */
+  width: 16px; /* 16px width */
+  color: var(--color-primary);
+}
+
+/* Label styles within submenu items */
+.submenu-label {
+  margin-left: 8px; /* 8px left margin */
+  font-size: 14px; /* 14px font size */
+  flex-grow: 1; /* Take up remaining space */
+}
+
+/* Chevron icon styles within submenu items */
+.submenu-chevron {
+  height: 16px; /* 16px height */
+  width: 16px; /* 16px width */
+  margin-left: auto; /* Push to the far right */
+  color: var(--color-primary); /* Light gray color */
+}
+
+/* Responsive Design: Adjust submenu position on smaller screens */
+@media (max-width: 600px) {
+  .submenu {
+    width: 160px; /* Slightly narrower */
+  }
+
+  .menu-icon {
+    height: 35px; /* Larger icon for smaller screens */
+    width: 35px;
+  }
+
+  .submenu-icon {
+    height: 30px; /* Larger icon for smaller screens */
+    width: 30px;
+  }
+
+  /* Label styles */
+  .menu-label {
+    font-size: 15px; /* Larger font size for smaller screens */
+  }
+
+  .submenu-label {
+    font-size: 15px;
+  }
+}

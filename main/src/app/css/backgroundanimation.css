@@ -1,0 +1,518 @@
+/* src/components/BackgroundAnimation.css */
+
+/* Ensure the background covers the entire viewport */
+.background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Place behind other content */
+    pointer-events: none; /* Allow clicks through the background */
+    overflow: hidden;
+}
+
+/* Base styles for fireflies */
+.firefly {
+    position: absolute; /* Changed from fixed to absolute */
+    width: 0.5vw;
+    height: 0.5vw;
+    animation: ease 200s alternate infinite;
+    pointer-events: none;
+    opacity: 0.65;
+}
+
+.firefly::before,
+.firefly::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transform-origin: -10vw;
+}
+
+.firefly::before {
+    background: var(--color-complementary);
+    opacity: 0.4;
+    animation: drift ease alternate infinite;
+}
+
+.firefly::after {
+    background: var(--color-primary);
+    opacity: 0;
+    box-shadow: 0 0 0vw 0vw var(--color-primary);
+    animation: drift ease alternate infinite, flash ease infinite;
+}
+
+/* Firefly 1 */
+.firefly-1 {
+    left: 20%;
+    top: 30%;
+    animation-name: move1;
+}
+
+.firefly-1::before {
+    animation-duration: 17s;
+}
+
+.firefly-1::after {
+    animation-duration: 17s, 7s;
+    animation-delay: 0s, 4.5s;
+}
+
+/* Firefly 2 */
+.firefly-2 {
+    left: 80%;
+    top: 70%;
+    animation-name: move2;
+}
+
+.firefly-2::before {
+    animation-duration: 17s;
+}
+
+.firefly-2::after {
+    animation-duration: 17s, 5.24s;
+    animation-delay: 0s, 0.883s;
+}
+
+/* Firefly 3 */
+.firefly-3 {
+    left: 50%;
+    top: 20%;
+    animation-name: move3;
+}
+
+.firefly-3::before {
+    animation-duration: 14s;
+}
+
+.firefly-3::after {
+    animation-duration: 14s, 5.597s;
+    animation-delay: 0s, 1.392s;
+}
+
+/* Firefly 4 */
+.firefly-4 {
+    left: 65%;
+    top: 40%;
+    animation-name: move4;
+}
+
+.firefly-4::before {
+    animation-duration: 16s;
+}
+
+.firefly-4::after {
+    animation-duration: 16s, 6s;
+    animation-delay: 0s, 2s;
+}
+
+/* Firefly 5 */
+.firefly-5 {
+    left: 30%;
+    top: 60%;
+    animation-name: move5;
+}
+
+.firefly-5::before {
+    animation-duration: 15s;
+}
+
+.firefly-5::after {
+    animation-duration: 15s, 5.5s;
+    animation-delay: 0s, 1.5s;
+}
+
+/* Firefly 6 */
+.firefly-6 {
+    left: 70%;
+    top: 25%;
+    animation-name: move6;
+}
+
+.firefly-6::before {
+    animation-duration: 18s;
+}
+
+.firefly-6::after {
+    animation-duration: 18s, 6.5s;
+    animation-delay: 0s, 3s;
+}
+
+/* Firefly 7 */
+.firefly-7 {
+    left: 40%;
+    top: 50%;
+    animation-name: move7;
+}
+
+.firefly-7::before {
+    animation-duration: 13s;
+}
+
+.firefly-7::after {
+    animation-duration: 13s, 4s;
+    animation-delay: 0s, 2.5s;
+}
+
+/* Firefly 8 */
+.firefly-8 {
+    left: 55%;
+    top: 35%;
+    animation-name: move8;
+}
+
+.firefly-8::before {
+    animation-duration: 19s;
+}
+
+.firefly-8::after {
+    animation-duration: 19s, 7s;
+    animation-delay: 0s, 3.5s;
+}
+
+/* Firefly 9 */
+.firefly-9 {
+    left: 25%;
+    top: 55%;
+    animation-name: move9;
+}
+
+.firefly-9::before {
+    animation-duration: 14.5s;
+}
+
+.firefly-9::after {
+    animation-duration: 14.5s, 5.75s;
+    animation-delay: 0s, 2.75s;
+}
+
+/* Firefly 10 */
+.firefly-10 {
+    left: 75%;
+    top: 45%;
+    animation-name: move10;
+}
+
+.firefly-10::before {
+    animation-duration: 17.5s;
+}
+
+.firefly-10::after {
+    animation-duration: 17.5s, 6.25s;
+    animation-delay: 0s, 3.25s;
+}
+
+/* Firefly 11 */
+.firefly-11 {
+    left: 35%;
+    top: 65%;
+    animation-name: move11;
+}
+
+.firefly-11::before {
+    animation-duration: 16.5s;
+}
+
+.firefly-11::after {
+    animation-duration: 16.5s, 6.75s;
+    animation-delay: 0s, 3.75s;
+}
+
+/* Firefly 12 */
+.firefly-12 {
+    left: 60%;
+    top: 30%;
+    animation-name: move12;
+}
+
+.firefly-12::before {
+    animation-duration: 18.5s;
+}
+
+.firefly-12::after {
+    animation-duration: 18.5s, 7.25s;
+    animation-delay: 0s, 4.25s;
+}
+
+/* Firefly 13 */
+.firefly-13 {
+    left: 45%;
+    top: 55%;
+    animation-name: move13;
+}
+
+.firefly-13::before {
+    animation-duration: 15.5s;
+}
+
+.firefly-13::after {
+    animation-duration: 15.5s, 5.5s;
+    animation-delay: 0s, 3s;
+}
+
+/* Firefly 14 */
+.firefly-14 {
+    left: 10%;
+    top: 40%;
+    animation-name: move14;
+}
+
+.firefly-14::before {
+    animation-duration: 19.5s;
+}
+
+.firefly-14::after {
+    animation-duration: 19.5s, 7.75s;
+    animation-delay: 0s, 4.75s;
+}
+
+/* Firefly 15 */
+.firefly-15 {
+    left: 85%;
+    top: 60%;
+    animation-name: move15;
+}
+
+.firefly-15::before {
+    animation-duration: 20s;
+}
+
+.firefly-15::after {
+    animation-duration: 20s, 8s;
+    animation-delay: 0s, 5s;
+}
+
+/* Keyframe animations for each firefly */
+
+/* Move1 */
+@keyframes move1 {
+    0% {
+        transform: translateX(-49vw) translateY(7vh) scale(0.87);
+    }
+    25% {
+        transform: translateX(-30vw) translateY(15vh) scale(1);
+    }
+    50% {
+        transform: translateX(-10vw) translateY(25vh) scale(0.95);
+    }
+    75% {
+        transform: translateX(10vw) translateY(35vh) scale(1.05);
+    }
+    100% {
+        transform: translateX(36vw) translateY(38vh) scale(0.5);
+    }
+}
+
+/* Move2 */
+@keyframes move2 {
+    0% {
+        transform: translateX(80vw) translateY(-20vh) scale(0.8);
+    }
+    25% {
+        transform: translateX(60vw) translateY(0vh) scale(1);
+    }
+    50% {
+        transform: translateX(40vw) translateY(20vh) scale(0.9);
+    }
+    75% {
+        transform: translateX(20vw) translateY(40vh) scale(1.1);
+    }
+    100% {
+        transform: translateX(-10vw) translateY(60vh) scale(0.6);
+    }
+}
+
+/* Move3 */
+@keyframes move3 {
+    0% {
+        transform: translateX(0vw) translateY(0vh) scale(1);
+    }
+    50% {
+        transform: translateX(25vw) translateY(25vh) scale(0.95);
+    }
+    100% {
+        transform: translateX(50vw) translateY(50vh) scale(0.5);
+    }
+}
+
+/* Move4 */
+@keyframes move4 {
+    0% {
+        transform: translateX(-20vw) translateY(10vh) scale(1);
+    }
+    50% {
+        transform: translateX(10vw) translateY(30vh) scale(1.05);
+    }
+    100% {
+        transform: translateX(30vw) translateY(50vh) scale(0.55);
+    }
+}
+
+/* Move5 */
+@keyframes move5 {
+    0% {
+        transform: translateX(15vw) translateY(-10vh) scale(0.9);
+    }
+    50% {
+        transform: translateX(35vw) translateY(10vh) scale(1);
+    }
+    100% {
+        transform: translateX(55vw) translateY(30vh) scale(0.6);
+    }
+}
+
+/* Move6 */
+@keyframes move6 {
+    0% {
+        transform: translateX(-30vw) translateY(5vh) scale(1.1);
+    }
+    50% {
+        transform: translateX(-10vw) translateY(25vh) scale(0.95);
+    }
+    100% {
+        transform: translateX(20vw) translateY(45vh) scale(0.5);
+    }
+}
+
+/* Move7 */
+@keyframes move7 {
+    0% {
+        transform: translateX(5vw) translateY(-15vh) scale(0.85);
+    }
+    50% {
+        transform: translateX(25vw) translateY(5vh) scale(1);
+    }
+    100% {
+        transform: translateX(45vw) translateY(25vh) scale(0.55);
+    }
+}
+
+/* Move8 */
+@keyframes move8 {
+    0% {
+        transform: translateX(-25vw) translateY(0vh) scale(1);
+    }
+    50% {
+        transform: translateX(0vw) translateY(20vh) scale(1.05);
+    }
+    100% {
+        transform: translateX(25vw) translateY(40vh) scale(0.6);
+    }
+}
+
+/* Move9 */
+@keyframes move9 {
+    0% {
+        transform: translateX(10vw) translateY(-5vh) scale(0.9);
+    }
+    50% {
+        transform: translateX(30vw) translateY(15vh) scale(1);
+    }
+    100% {
+        transform: translateX(50vw) translateY(35vh) scale(0.5);
+    }
+}
+
+/* Move10 */
+@keyframes move10 {
+    0% {
+        transform: translateX(-35vw) translateY(15vh) scale(1.2);
+    }
+    50% {
+        transform: translateX(-15vw) translateY(35vh) scale(1);
+    }
+    100% {
+        transform: translateX(10vw) translateY(55vh) scale(0.6);
+    }
+}
+
+/* Move11 */
+@keyframes move11 {
+    0% {
+        transform: translateX(0vw) translateY(-20vh) scale(0.95);
+    }
+    50% {
+        transform: translateX(20vw) translateY(0vh) scale(1);
+    }
+    100% {
+        transform: translateX(40vw) translateY(20vh) scale(0.55);
+    }
+}
+
+/* Move12 */
+@keyframes move12 {
+    0% {
+        transform: translateX(-40vw) translateY(10vh) scale(1.1);
+    }
+    50% {
+        transform: translateX(-20vw) translateY(30vh) scale(0.95);
+    }
+    100% {
+        transform: translateX(0vw) translateY(50vh) scale(0.5);
+    }
+}
+
+/* Move13 */
+@keyframes move13 {
+    0% {
+        transform: translateX(5vw) translateY(-25vh) scale(0.85);
+    }
+    50% {
+        transform: translateX(25vw) translateY(-5vh) scale(1);
+    }
+    100% {
+        transform: translateX(45vw) translateY(15vh) scale(0.55);
+    }
+}
+
+/* Move14 */
+@keyframes move14 {
+    0% {
+        transform: translateX(-15vw) translateY(5vh) scale(1);
+    }
+    50% {
+        transform: translateX(5vw) translateY(25vh) scale(1.05);
+    }
+    100% {
+        transform: translateX(25vw) translateY(45vh) scale(0.6);
+    }
+}
+
+/* Move15 */
+@keyframes move15 {
+    0% {
+        transform: translateX(10vw) translateY(-30vh) scale(0.9);
+    }
+    50% {
+        transform: translateX(30vw) translateY(-10vh) scale(1);
+    }
+    100% {
+        transform: translateX(50vw) translateY(10vh) scale(0.5);
+    }
+}
+
+/* Common animations */
+@keyframes drift {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes flash {
+    0%,
+    30%,
+    100% {
+        opacity: 0;
+        box-shadow: 0 0 0vw 0vw var(--color-primary);
+    }
+    5% {
+        opacity: 1;
+        box-shadow: 0 0 2vw 0.4vw var(--color-primary);
+    }
+}
