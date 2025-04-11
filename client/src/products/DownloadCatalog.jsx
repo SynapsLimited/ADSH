@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
-import Loader from './Loader'; // Import the Loader component
+import Loader from '../components/Loader'; // Import the Loader component
 import { useTranslation } from 'react-i18next';
 
 // Helper functions for slugifying and normalizing categories

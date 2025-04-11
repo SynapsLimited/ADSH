@@ -6,7 +6,7 @@ import './../css/products.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import SearchBar from './SearchBar';
+import SearchBar from '../components/SearchBar';
 import { useTranslation } from 'react-i18next';
 
 // Helper function to slugify text (e.g. "Ice Cream" -> "ice-cream")
