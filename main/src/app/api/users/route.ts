@@ -3,6 +3,10 @@ import connectDB from '../lib/db';
 import User from '../lib/models/userModel';
 import HttpError from '../lib/errorModel';
 import { authMiddleware } from '../lib/authMiddleware';
+import bcrypt from 'bcryptjs';
+
+// Load allowed emails from .env
+const ALLOWED_EMAILS = process.env.ALLOWED_EMAILS?.split(',') || [];
 
 export async function GET(req: NextRequest) {
   await connectDB();
@@ -11,7 +15,6 @@ export async function GET(req: NextRequest) {
 
   try {
     if (segments.length === 3 && segments[2]) {
-      // /api/users/:id
       const userId = segments[2];
       const user = await User.findById(userId).select('name');
       if (!user) {
@@ -19,7 +22,6 @@ export async function GET(req: NextRequest) {
       }
       return NextResponse.json({ name: user.name });
     } else {
-      // /api/users - Fetch all users (optional, can be restricted)
       const users = await User.find().select('name');
       return NextResponse.json(users);
     }
@@ -34,7 +36,6 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   await connectDB();
   try {
-    await authMiddleware(req); // Protect this route
     const body = await req.json();
     const { name, email, password } = body;
 
@@ -42,12 +43,18 @@ export async function POST(req: NextRequest) {
       throw new HttpError('Name, email, and password are required.', 422);
     }
 
+    // Check if email is allowed to register
+    if (!ALLOWED_EMAILS.includes(email)) {
+      throw new HttpError('Email not authorized for registration.', 403);
+    }
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       throw new HttpError('User with this email already exists.', 409);
     }
 
-    const newUser = await User.create({ name, email, password });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await User.create({ name, email, password: hashedPassword });
     return NextResponse.json(newUser, { status: 201 });
   } catch (error) {
     return NextResponse.json(
@@ -80,7 +87,7 @@ export async function PATCH(req: NextRequest) {
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { name, email, password },
+      { name, email, password: password ? await bcrypt.hash(password, 10) : user.password },
       { new: true }
     );
     return NextResponse.json(updatedUser);
