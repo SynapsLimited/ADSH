@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/context/userContext';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import '@/app/css/blog.css';
+import '@/css/blog.css';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
