@@ -10,7 +10,6 @@ import sq from 'javascript-time-ago/locale/sq.json';
 import { useTranslation } from 'react-i18next';
 import '@/css/blog.css';
 
-
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(sq);
 
@@ -25,13 +24,19 @@ interface Author {
 }
 
 const PostAuthor = ({ authorID, createdAt }: PostAuthorProps) => {
-  const [author, setAuthor] = useState<Author>({ name: 'ADSH' });
+  const [author, setAuthor] = useState<Author>({ name: 'Unknown Author' });
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
   const timeAgoLocale = currentLanguage === 'sq' ? 'sq' : 'en-US';
   const defaultAvatar = '/assets/Avatar-default.png';
 
   useEffect(() => {
+    // Safeguard: Check if authorID is a valid string
+    if (typeof authorID !== 'string' || !authorID) {
+      console.error('Invalid authorID:', authorID);
+      return;
+    }
+
     const getAuthor = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/users/${authorID}`);
@@ -44,12 +49,12 @@ const PostAuthor = ({ authorID, createdAt }: PostAuthorProps) => {
         );
       }
     };
-    if (typeof authorID === 'string') getAuthor();
-    else console.error('Invalid authorID:', authorID);
+
+    getAuthor();
   }, [authorID]);
 
   return (
-    <Link href={`/blog/posts/users/${authorID}`} className="post-author">
+    <Link href={`/blog/posts/users/${authorID || ''}`} className="post-author">
       <div className="post-author-avatar">
         <img src={author.avatar || defaultAvatar} alt={author.name} />
       </div>
