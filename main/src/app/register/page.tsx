@@ -25,8 +25,20 @@ const Register = () => {
   const registerUser = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    // Client-side validation for password match
+    if (userData.password !== userData.password2) {
+      setError(t('register.passwordMismatch'));
+      return;
+    }
+
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/users/register`, userData);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/users/register`, {
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+        password2: userData.password2,
+      });
       if (response.data) {
         router.push('/login');
       } else {
