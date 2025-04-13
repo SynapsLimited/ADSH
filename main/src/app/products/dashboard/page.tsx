@@ -35,7 +35,7 @@ const ProductDashboard: React.FC = () => {
         const userProducts = response.data.filter((product: any) => {
           if (product.creator) {
             const creatorId = typeof product.creator === 'object' ? product.creator.id.toString() : product.creator.toString();
-            const currentUserId = currentUser?.id?.toString();
+            const currentUserId = currentUser?._id?.toString();
             return creatorId === currentUserId;
           }
           return false;
@@ -48,7 +48,7 @@ const ProductDashboard: React.FC = () => {
       setIsLoading(false);
     };
     fetchProducts();
-  }, [currentUser?.id, token, t]); // Removed currentUser?._id from dependencies
+  }, [currentUser?._id, token, t]); // Removed currentUser?._id from dependencies
 
   if (isLoading) {
     return <Loader />;

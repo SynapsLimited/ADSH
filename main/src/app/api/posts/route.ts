@@ -5,12 +5,10 @@ import User from '@/api/lib/models/userModel';
 import { uploadToVercelBlob } from '@/api/lib/blobUtils';
 import { authMiddleware } from '@/api/lib/authMiddleware';
 
-// Define AuthenticatedRequest
 interface AuthenticatedRequest extends NextRequest {
   user?: { id: string; name: string };
 }
 
-// Helper function to wrap route handlers with authMiddleware
 const withAuth = (handler: (req: AuthenticatedRequest) => Promise<NextResponse>) => {
   return async (req: NextRequest) => {
     const authenticatedReq = req as AuthenticatedRequest;
@@ -26,7 +24,6 @@ const withAuth = (handler: (req: AuthenticatedRequest) => Promise<NextResponse>)
   };
 };
 
-// POST: Create a new post
 export const POST = withAuth(async (req: AuthenticatedRequest) => {
   try {
     await connectDB();
@@ -78,7 +75,6 @@ export const POST = withAuth(async (req: AuthenticatedRequest) => {
   }
 });
 
-// GET: Fetch all posts or by category
 export const GET = async (req: NextRequest) => {
   try {
     await connectDB();

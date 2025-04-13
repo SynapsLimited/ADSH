@@ -103,7 +103,7 @@ const PostDetail = () => {
                 authorID={typeof post.creator === 'string' ? post.creator : post.creator._id}
                 createdAt={post.createdAt}
               />
-              {currentUser?.id === (typeof post.creator === 'string' ? post.creator : post.creator._id) && (
+              {currentUser?._id === (typeof post.creator === 'string' ? post.creator : post.creator._id) && (
                 <div className="post-detail-buttons">
                   <Link href={`blog/posts/${post._id}/edit`} className="btn btn-primary">
                     {t('postDetail.edit')}

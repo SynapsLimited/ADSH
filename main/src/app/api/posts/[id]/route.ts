@@ -6,12 +6,10 @@ import { uploadToVercelBlob, deleteFromVercelBlob } from '@/api/lib/blobUtils';
 import { authMiddleware } from '@/api/lib/authMiddleware';
 import mongoose from 'mongoose';
 
-// Define AuthenticatedRequest
 interface AuthenticatedRequest extends NextRequest {
   user?: { id: string; name: string };
 }
 
-// Helper function to wrap route handlers with authMiddleware
 const withAuth = (
   handler: (req: AuthenticatedRequest, id: string) => Promise<NextResponse>
 ) => {
@@ -19,7 +17,7 @@ const withAuth = (
     const authenticatedReq = req as AuthenticatedRequest;
     try {
       await authMiddleware(authenticatedReq);
-      const { id } = await context.params; // Await the params promise
+      const { id } = await context.params;
       return await handler(authenticatedReq, id);
     } catch (error: any) {
       return NextResponse.json(
@@ -30,11 +28,10 @@ const withAuth = (
   };
 };
 
-// GET: Fetch a single post by ID
 export const GET = async (req: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
   try {
     await connectDB();
-    const { id } = await params; // Await the params promise
+    const { id } = await params;
 
     if (!mongoose.isValidObjectId(id)) {
       return NextResponse.json({ message: 'Invalid post ID.' }, { status: 400 });
@@ -55,7 +52,6 @@ export const GET = async (req: NextRequest, { params }: { params: Promise<{ id: 
   }
 };
 
-// PATCH: Update a post
 export const PATCH = withAuth(async (req: AuthenticatedRequest, id: string) => {
   try {
     await connectDB();
@@ -116,7 +112,6 @@ export const PATCH = withAuth(async (req: AuthenticatedRequest, id: string) => {
   }
 });
 
-// DELETE: Delete a post
 export const DELETE = withAuth(async (req: AuthenticatedRequest, id: string) => {
   try {
     await connectDB();

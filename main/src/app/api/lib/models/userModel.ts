@@ -1,6 +1,7 @@
 import { Schema, model, Document, models } from 'mongoose';
 
 interface IUser extends Document {
+  _id: string; // Explicitly define _id
   name: string;
   email: string;
   password: string;

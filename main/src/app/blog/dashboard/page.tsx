@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/context/userContext';
 import axios from 'axios';
 import Loader from '@/components/Loader';
@@ -18,37 +18,35 @@ interface Post {
 const Dashboard = () => {
   const { t } = useTranslation();
   const router = useRouter();
-  const params = useParams();
-  const id = params.id as string;
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const { currentUser } = useUserContext();
   const token = currentUser?.token;
+  const userId = currentUser?._id; // Use _id from context
 
   useEffect(() => {
-    if (!token) router.push('/login');
-  }, [token, router]);
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/blog/posts/users/${id}`,
-          {
-            withCredentials: true,
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setPosts(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-    };
-    if (id) fetchPosts();
-  }, [id, token]);
+    if (!token || !userId) {
+      router.push('/login');
+    } else {
+      const fetchPosts = async () => {
+        setIsLoading(true);
+        try {
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/posts/users/${userId}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          setPosts(response.data);
+        } catch (error) {
+          console.log('Error fetching posts:', error);
+        }
+        setIsLoading(false);
+      };
+      fetchPosts();
+    }
+  }, [token, userId, router]);
 
   if (isLoading) return <Loader />;
 

@@ -90,7 +90,7 @@ const ProductDetail: React.FC = () => {
         <div className="product-detail-container">
           <div className="product-detail-header">
             <h1>{name}</h1>
-            {currentUser?.id === (product.creator?._id || product.creator) && (
+            {currentUser?._id === (product.creator?._id || product.creator) && (
               <div className="product-detail-buttons">
                 <Link href={`/products/${product.slug}/edit`} className="btn btn-primary">
                   {t('edit')}

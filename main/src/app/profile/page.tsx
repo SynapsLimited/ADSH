@@ -24,14 +24,15 @@ const UserProfile = () => {
   const { currentUser } = useUserContext();
   const router = useRouter();
   const token = currentUser?.token;
+  const userId = currentUser?._id; // Use _id instead of id
 
   useEffect(() => {
-    if (!token) {
+    if (!token || !userId) {
       router.push('/login');
     } else {
       const getUser = async () => {
         try {
-          const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/users/${currentUser.id}`, {
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/users/${userId}`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           const { name, email, avatar } = response.data;
@@ -39,24 +40,25 @@ const UserProfile = () => {
           setEmail(email);
           setAvatarPreview(avatar || '');
         } catch (err) {
-          console.error(err);
+          console.error('Error fetching user:', err);
         }
       };
       getUser();
     }
-  }, [token, currentUser?.id, router]);
+  }, [token, userId, router]);
 
   const changeAvatarHandler = async () => {
     if (!avatar) return;
     try {
       const formData = new FormData();
       formData.append('avatar', avatar);
-      await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/users/change-avatar`, formData, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/users/change-avatar`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
         },
       });
+      setAvatarPreview(response.data.avatar); // Update preview with new URL
       setError('');
       setIsAvatarTouched(false);
     } catch (err: any) {
@@ -72,7 +74,7 @@ const UserProfile = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (response.status === 200) {
-        router.push('/logout');
+        router.push('/logout'); // Redirect to logout after update
       }
     } catch (err: any) {
       setError(err.response?.data?.message || t('userProfile.error'));

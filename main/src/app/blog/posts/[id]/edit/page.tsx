@@ -72,7 +72,9 @@ const EditPost = () => {
   useEffect(() => {
     const getPost = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/blog/posts/${id}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/posts/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         const postData = response.data;
         setTitle(postData.title);
         setTitleEn(postData.title_en || '');
@@ -81,11 +83,11 @@ const EditPost = () => {
         setDescriptionEn(postData.description_en || '');
         if (postData.title_en || postData.description_en) setAddTranslation(true);
       } catch (error) {
-        console.log(error);
+        console.log('Error fetching post:', error);
       }
     };
-    getPost();
-  }, [id]);
+    if (token && id) getPost();
+  }, [id, token]);
 
   const editPost = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -101,7 +103,7 @@ const EditPost = () => {
       }
       if (thumbnail) formData.append('thumbnail', thumbnail);
 
-      const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/blog/posts/${id}`, formData, {
+      const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/posts/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,

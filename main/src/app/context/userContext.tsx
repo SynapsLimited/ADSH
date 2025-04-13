@@ -1,12 +1,14 @@
-// app/context/userContext.tsx
 'use client'; // Mark as a client component
 
 import { createContext, useContext, useState, ReactNode } from 'react';
 
 interface User {
-  id: string;
+  _id: string; // Changed from `id` to `_id` to match Mongoose and API
   name: string;
-  token: string;
+  token?: string; // Optional, as it may not always be present
+  email?: string; // Optional, added to match API response
+  avatar?: string; // Optional, added to match user model
+  posts?: number; // Optional, added to match user model
 }
 
 interface UserContextType {

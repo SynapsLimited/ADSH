@@ -1,16 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/api/lib/db'; // Adjust path as needed
-import User from '@/api/lib/models/userModel'; // Adjust path as needed
-import HttpError from '@/api/lib/errorModel'; // Adjust path as needed
+import connectDB from '@/api/lib/db';
+import User from '@/api/lib/models/userModel';
+import HttpError from '@/api/lib/errorModel';
 import bcrypt from 'bcryptjs';
 
-// Load allowed emails from .env
 const ALLOWED_EMAILS = process.env.ALLOWED_EMAILS?.split(',') || [];
 
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
-    // Fetch all users with _id, name, avatar, and posts fields
     const users = await User.find()
       .select('_id name avatar posts')
       .lean();
@@ -34,7 +32,6 @@ export async function POST(req: NextRequest) {
       throw new HttpError('Name, email, and password are required.', 422);
     }
 
-    // Check if email is allowed to register
     if (!ALLOWED_EMAILS.includes(email)) {
       throw new HttpError('Email not authorized for registration.', 403);
     }
@@ -49,8 +46,8 @@ export async function POST(req: NextRequest) {
       name,
       email,
       password: hashedPassword,
-      posts: 0, // Initialize posts count
-      avatar: '', // Default empty avatar, can be updated later
+      posts: 0,
+      avatar: '',
     });
     return NextResponse.json(
       { _id: newUser._id, name: newUser.name, avatar: newUser.avatar, posts: newUser.posts },
