@@ -6,7 +6,6 @@ import PostAuthor from './PostAuthor';
 import { useTranslation } from 'react-i18next';
 import '@/css/blog.css';
 
-
 type Category =
   | 'Dairy'
   | 'Ice Cream'
@@ -26,7 +25,7 @@ interface PostItemProps {
     title_en?: string;
     description: string;
     description_en?: string;
-    creator: string;
+    creator: { _id: string; name: string; avatar?: string }; // Updated to reflect populated object
     createdAt: string;
     category: Category;
   };
@@ -67,8 +66,11 @@ const PostItem = ({ post }: PostItemProps) => {
         </Link>
         <p className="blog-text" dangerouslySetInnerHTML={{ __html: shortDescription }} />
         <div className="post-footer">
-          <PostAuthor authorID={post.creator} createdAt={post.createdAt} />
-          <Link href={`/blog/posts/categories/${post.category}`} className="btn btn-secondary btn-postitem">
+          <PostAuthor authorID={post.creator._id} createdAt={post.createdAt} />
+          <Link
+            href={`/blog/posts/categories/${post.category}`}
+            className="btn btn-secondary btn-postitem"
+          >
             {categoryTranslationMap[post.category][currentLanguage] || post.category}
           </Link>
         </div>

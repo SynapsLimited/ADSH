@@ -31,9 +31,9 @@ const PostAuthor = ({ authorID, createdAt }: PostAuthorProps) => {
   const defaultAvatar = '/assets/Avatar-default.png';
 
   useEffect(() => {
-    // Safeguard: Check if authorID is a valid string
-    if (typeof authorID !== 'string' || !authorID) {
-      console.error('Invalid authorID:', authorID);
+    // Validate authorID before making the API call
+    if (!authorID || typeof authorID !== 'string') {
+      console.error('Invalid authorID received in PostAuthor:', authorID);
       return;
     }
 
@@ -44,12 +44,12 @@ const PostAuthor = ({ authorID, createdAt }: PostAuthorProps) => {
       } catch (error) {
         const axiosError = error as AxiosError;
         console.error(
-          'Error fetching author:',
+          'Error fetching author in PostAuthor:',
           axiosError.response?.data || axiosError.message
         );
+        setAuthor({ name: 'Unknown Author' });
       }
     };
-
     getAuthor();
   }, [authorID]);
 
