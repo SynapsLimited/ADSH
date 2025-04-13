@@ -214,9 +214,3 @@ export const DELETE = withAuth(async (req: AuthenticatedRequest) => {
   }
 });
 
-// Optional: Handle disconnection (for development)
-export async function onDisconnect() {
-  if (process.env.NODE_ENV === 'development') {
-    await mongoose.connection.close();
-  }
-}
