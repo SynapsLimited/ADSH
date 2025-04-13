@@ -25,7 +25,7 @@ const DeletePost = ({ postId }: DeletePostProps) => {
   const removePost = async () => {
     try {
       const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/blog/posts/${postId}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/posts/${postId}`,
         {
           withCredentials: true,
           headers: { Authorization: `Bearer ${token}` },

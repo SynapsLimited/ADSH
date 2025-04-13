@@ -49,7 +49,7 @@ const Posts = ({ limit }: PostsProps) => {
       )}
       {limit && posts.length > limit && (
         <div className="read-more-container">
-          <Link href="/posts" className="btn btn-secondary">
+          <Link href="blog/posts" className="btn btn-secondary">
             {t('posts.readMore')}
           </Link>
         </div>

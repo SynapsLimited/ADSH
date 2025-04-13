@@ -105,7 +105,7 @@ const PostDetail = () => {
               />
               {currentUser?.id === (typeof post.creator === 'string' ? post.creator : post.creator._id) && (
                 <div className="post-detail-buttons">
-                  <Link href={`/posts/${post._id}/edit`} className="btn btn-primary">
+                  <Link href={`blog/posts/${post._id}/edit`} className="btn btn-primary">
                     {t('postDetail.edit')}
                   </Link>
                   <DeletePost postId={post._id} />
