@@ -1,41 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '../lib/db';
-import User from '../lib/models/userModel';
-import HttpError from '../lib/errorModel';
-import { authMiddleware } from '../lib/authMiddleware';
+import connectDB from '@/api/lib/db'; // Adjust path as needed
+import User from '@/api/lib/models/userModel'; // Adjust path as needed
+import HttpError from '@/api/lib/errorModel'; // Adjust path as needed
 import bcrypt from 'bcryptjs';
 
 // Load allowed emails from .env
 const ALLOWED_EMAILS = process.env.ALLOWED_EMAILS?.split(',') || [];
 
 export async function GET(req: NextRequest) {
-  await connectDB();
-  const { pathname } = req.nextUrl;
-  const segments = pathname.split('/');
-
   try {
-    if (segments.length === 3 && segments[2]) {
-      const userId = segments[2];
-      const user = await User.findById(userId).select('name');
-      if (!user) {
-        throw new HttpError('User not found.', 404);
-      }
-      return NextResponse.json({ name: user.name });
-    } else {
-      const users = await User.find().select('name');
-      return NextResponse.json(users);
-    }
+    await connectDB();
+    // Fetch all users with _id, name, avatar, and posts fields
+    const users = await User.find()
+      .select('_id name avatar posts')
+      .lean();
+    return NextResponse.json(users, { status: 200 });
   } catch (error) {
+    console.error('Error in GET /api/users:', error);
     return NextResponse.json(
-      { message: (error as HttpError).message || 'Error fetching user' },
+      { message: (error as HttpError).message || 'Error fetching users' },
       { status: (error as HttpError).code || 500 }
     );
   }
 }
 
 export async function POST(req: NextRequest) {
-  await connectDB();
   try {
+    await connectDB();
     const body = await req.json();
     const { name, email, password } = body;
 
@@ -54,75 +45,21 @@ export async function POST(req: NextRequest) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({ name, email, password: hashedPassword });
-    return NextResponse.json(newUser, { status: 201 });
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      posts: 0, // Initialize posts count
+      avatar: '', // Default empty avatar, can be updated later
+    });
+    return NextResponse.json(
+      { _id: newUser._id, name: newUser.name, avatar: newUser.avatar, posts: newUser.posts },
+      { status: 201 }
+    );
   } catch (error) {
+    console.error('Error in POST /api/users:', error);
     return NextResponse.json(
       { message: (error as HttpError).message || 'Error creating user' },
-      { status: (error as HttpError).code || 500 }
-    );
-  }
-}
-
-export async function PATCH(req: NextRequest) {
-  await connectDB();
-  try {
-    await authMiddleware(req);
-    const userId = req.nextUrl.pathname.split('/')[3];
-    const body = await req.json();
-    const { name, email, password } = body;
-
-    if (!userId) {
-      throw new HttpError('User ID is required.', 400);
-    }
-
-    const user = await User.findById(userId);
-    if (!user) {
-      throw new HttpError('User not found.', 404);
-    }
-
-    if (req.user!.id !== userId) {
-      throw new HttpError('Unauthorized: You can only update your own profile.', 403);
-    }
-
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { name, email, password: password ? await bcrypt.hash(password, 10) : user.password },
-      { new: true }
-    );
-    return NextResponse.json(updatedUser);
-  } catch (error) {
-    return NextResponse.json(
-      { message: (error as HttpError).message || 'Error updating user' },
-      { status: (error as HttpError).code || 500 }
-    );
-  }
-}
-
-export async function DELETE(req: NextRequest) {
-  await connectDB();
-  try {
-    await authMiddleware(req);
-    const userId = req.nextUrl.pathname.split('/')[3];
-
-    if (!userId) {
-      throw new HttpError('User ID is required.', 400);
-    }
-
-    const user = await User.findById(userId);
-    if (!user) {
-      throw new HttpError('User not found.', 404);
-    }
-
-    if (req.user!.id !== userId) {
-      throw new HttpError('Unauthorized: You can only delete your own profile.', 403);
-    }
-
-    await User.findByIdAndDelete(userId);
-    return NextResponse.json({ message: 'User deleted successfully' });
-  } catch (error) {
-    return NextResponse.json(
-      { message: (error as HttpError).message || 'Error deleting user' },
       { status: (error as HttpError).code || 500 }
     );
   }

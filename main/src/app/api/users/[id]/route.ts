@@ -1,48 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '../../lib/db';
-import User from '../../lib/models/userModel';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import connectDB from '@/api/lib/db'; // Adjust path as needed
+import User from '@/api/lib/models/userModel'; // Adjust path as needed
+import HttpError from '@/api/lib/errorModel'; // Adjust path as needed
+import mongoose from 'mongoose';
 
-// Load allowed emails from .env
-const ALLOWED_EMAILS = process.env.ALLOWED_EMAILS?.split(',') || [];
-
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await connectDB();
-    const { email, password } = await req.json();
+    const { id } = await params; // Await the params promise
 
-    // Check if email is allowed
-    if (!ALLOWED_EMAILS.includes(email)) {
-      return NextResponse.json({ message: 'Email not authorized for login.' }, { status: 403 });
+    if (!mongoose.isValidObjectId(id)) {
+      throw new HttpError('Invalid user ID.', 400);
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findById(id)
+      .select('_id name avatar posts')
+      .lean();
     if (!user) {
-      return NextResponse.json({ message: 'Invalid email or password.' }, { status: 401 });
+      throw new HttpError('User not found.', 404);
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return NextResponse.json({ message: 'Invalid email or password.' }, { status: 401 });
-    }
-
-    // Generate JWT token
-    const token = jwt.sign(
-      { id: user._id, name: user.name },
-      process.env.JWT_SECRET!,
-      { expiresIn: '1h' }
-    );
-
-    return NextResponse.json(
-      { token, user: { id: user._id, name: user.name, email: user.email } },
-      { status: 200 }
-    );
+    return NextResponse.json(user, { status: 200 });
   } catch (error) {
-    console.error('Error in POST /api/users/login:', error);
+    console.error('Error in GET /api/users/[id]:', error);
     return NextResponse.json(
-      { message: 'Error logging in', error: (error as Error).message },
-      { status: 500 }
+      { message: (error as HttpError).message || 'Error fetching user' },
+      { status: (error as HttpError).code || 500 }
     );
   }
 }
