@@ -4,6 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import PostAuthor from './PostAuthor';
 import { useTranslation } from 'react-i18next';
+import '@/css/blog.css';
+
 
 type Category =
   | 'Dairy'

@@ -5,6 +5,8 @@ import Link from 'next/link';
 import axios from 'axios';
 import Loader from '@/components/Loader';
 import { useTranslation } from 'react-i18next';
+import '@/css/blog.css';
+
 
 const Authors = () => {
   const { t } = useTranslation();

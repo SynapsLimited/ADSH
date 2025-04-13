@@ -8,6 +8,8 @@ import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import sq from 'javascript-time-ago/locale/sq.json';
 import { useTranslation } from 'react-i18next';
+import '@/css/blog.css';
+
 
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(sq);

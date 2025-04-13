@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/context/userContext';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import '@/css/blog.css';
+
 
 interface DeletePostProps {
   postId: string;

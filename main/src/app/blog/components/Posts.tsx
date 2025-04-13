@@ -6,6 +6,8 @@ import PostItem from './PostItem';
 import Loader from '@/components/Loader';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import '@/css/blog.css';
+
 
 interface PostsProps {
   limit?: number;
