@@ -18,7 +18,7 @@ interface Post {
   title_en?: string;
   description: string;
   description_en?: string;
-  creator: string;
+  creator: { _id: string; name: string; avatar?: string }; // Updated to match PostItemProps
   createdAt: string;
   category: Category;
 }
