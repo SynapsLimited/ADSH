@@ -66,7 +66,7 @@ const FixedMenu: React.FC = () => {
       submenu: [
         { icon: <BookOpen className="submenu-icon" />, label: t('fixedMenu.allPosts'), link: `/blog/posts` },
         { icon: <Users className="submenu-icon" />, label: t('fixedMenu.authors'), link: `/blog/authors` },
-        { icon: <PenTool className="submenu-icon" />, label: t('fixedMenu.create'), link: `/blog/create` },
+        { icon: <PenTool className="submenu-icon" />, label: t('fixedMenu.create'), link: `/blog/posts/create` },
         { icon: <LayoutDashboard className="submenu-icon" />, label: t('fixedMenu.dashboard'), link: `/blog/dashboard` },
       ],
     },
