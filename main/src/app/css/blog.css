@@ -118,6 +118,7 @@
     justify-content: center;
     gap: 1.5rem;
     margin-bottom: 4rem;
+    margin: 0 auto;
     transition: var(--transition);
     color: var(--color-background);
     width: fit-content;

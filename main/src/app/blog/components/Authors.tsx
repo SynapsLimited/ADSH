@@ -10,23 +10,28 @@ const Authors = () => {
   const { t } = useTranslation();
   const [authors, setAuthors] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const defaultAvatar = '/assets/Avatar-default.png';
 
   useEffect(() => {
     const getAuthors = async () => {
       setIsLoading(true);
+      setError(null);
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/users`);
-        setAuthors(response.data);
-      } catch (error) {
+        setAuthors(response.data || []);
+      } catch (error: any) {
+        console.error('Error fetching authors:', error.response?.status, error.message);
+        setError(t('authors.fetchError'));
       }
       setIsLoading(false);
     };
     getAuthors();
-  }, []);
+  }, [t]);
 
   if (isLoading) return <Loader />;
+  if (error) return <h2 className="error-blog-not-found">{error}</h2>;
 
   return (
     <section data-aos="fade-up" className="authors">
