@@ -23,7 +23,7 @@ const Dashboard = () => {
 
   const { currentUser } = useUserContext();
   const token = currentUser?.token;
-  const userId = currentUser?._id; // Use _id from context
+  const userId = currentUser?._id;
 
   useEffect(() => {
     if (!token || !userId) {

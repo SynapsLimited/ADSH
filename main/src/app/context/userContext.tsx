@@ -1,14 +1,14 @@
-'use client'; // Mark as a client component
+'use client';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface User {
-  _id: string; // Changed from `id` to `_id` to match Mongoose and API
+  _id: string;
   name: string;
-  token?: string; // Optional, as it may not always be present
-  email?: string; // Optional, added to match API response
-  avatar?: string; // Optional, added to match user model
-  posts?: number; // Optional, added to match user model
+  token?: string;
+  email?: string;
+  avatar?: string;
+  posts?: number;
 }
 
 interface UserContextType {
@@ -21,8 +21,26 @@ export const UserContext = createContext<UserContextType | undefined>(undefined)
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
+  // Restore user state from localStorage on mount
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setCurrentUser({ _id: '', name: '', token: storedToken });
+    }
+  }, []);
+
+  // Custom setter to persist token in localStorage
+  const setUserWithPersistence = (user: User | null) => {
+    setCurrentUser(user);
+    if (user?.token) {
+      localStorage.setItem('token', user.token);
+    } else {
+      localStorage.removeItem('token');
+    }
+  };
+
   return (
-    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+    <UserContext.Provider value={{ currentUser, setCurrentUser: setUserWithPersistence }}>
       {children}
     </UserContext.Provider>
   );

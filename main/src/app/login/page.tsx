@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { useUserContext } from '../context/userContext';
+import { useUserContext } from '@/context/userContext';
 import { useTranslation } from 'react-i18next';
 import '@/css/blog.css';
 
@@ -24,8 +24,13 @@ const Login = () => {
     setError('');
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/users/login`, userData);
-      const user = response.data;
-      setCurrentUser(user);
+      const { token, user } = response.data;
+      setCurrentUser({
+        _id: user.id,
+        name: user.name,
+        email: user.email,
+        token,
+      });
       router.push('/');
     } catch (err: any) {
       setError(err.response?.data?.message || t('login.error'));

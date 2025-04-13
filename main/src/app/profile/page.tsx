@@ -24,7 +24,7 @@ const UserProfile = () => {
   const { currentUser } = useUserContext();
   const router = useRouter();
   const token = currentUser?.token;
-  const userId = currentUser?._id; // Use _id instead of id
+  const userId = currentUser?._id;
 
   useEffect(() => {
     if (!token || !userId) {
@@ -58,7 +58,7 @@ const UserProfile = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setAvatarPreview(response.data.avatar); // Update preview with new URL
+      setAvatarPreview(response.data.avatar);
       setError('');
       setIsAvatarTouched(false);
     } catch (err: any) {
@@ -74,7 +74,7 @@ const UserProfile = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (response.status === 200) {
-        router.push('/logout'); // Redirect to logout after update
+        router.push('/logout');
       }
     } catch (err: any) {
       setError(err.response?.data?.message || t('userProfile.error'));
