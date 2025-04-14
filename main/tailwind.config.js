@@ -36,7 +36,16 @@ module.exports = {
         },
       },
       transitionProperty: {
-        'all': 'var(--transition)',
+        all: 'var(--transition)',
+      },
+      animation: {
+        'pulse-ring': 'pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
+      keyframes: {
+        'pulse-ring': {
+          '0%': { transform: 'scale(0.33)', opacity: '0.9' },
+          '80%, 100%': { opacity: '0' },
+        },
       },
     },
   },
