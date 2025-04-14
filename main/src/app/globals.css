@@ -1,116 +1,53 @@
-/* Inject Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Manjari:wght@100;400&family=Nunito+Sans:wght@700&display=swap');
 
+@layer base {
+  :root {
+    --color-primary: #ED205A;
+    --color-secondary: #393939;
+    --color-tertiary: #F5F5F5;
+    --color-complementary: #D9D9D9;
+    --color-white: #FFFFFF;
+    --color-background: #FFFFFF;
+    --color-primary-transparent: rgba(237, 32, 90, 0.7);
+    --color-primary-transparent-sidebar: rgba(237, 32, 90, 0.25);
+    --color-primary-transparent-sidebar-hover: rgba(237, 32, 90, 0.35);
+    --color-secondary-transparent: rgba(57, 57, 57, 0.9);
+    --color-secondary-transparent-sidebar: rgba(57, 57, 57, 0.2);
+    --color-tertiary-transparent: rgba(245, 245, 245, 0.7);
+    --color-complementary-transparent: rgba(217, 217, 217, 0.7);
+    --color-white-transparent: rgba(255, 255, 255, 0.7);
+    --color-background-transparent: rgba(255, 255, 255, 0.7);
+    --container-width-lg: 86%;
+    --container-width-md: 90%;
+    --container-width-sm: 94%;
+    --form-width: 50%;
+    --transition: all 400ms ease;
+  }
 
-:root {
-  --color-primary: #ED205A;
-  --color-secondary: #393939;
-  --color-tertiary: #F5F5F5;
-  --color-complementary: #D9D9D9;
-  --color-white: #FFFFFF;
-  --color-background: #FFFFFF;
-  --color-primary-transparent: rgba(237, 32, 90, 0.7);
-  --color-primary-transparent-sidebar: rgba(237, 32, 90, 0.25);
-  --color-primary-transparent-sidebar-hover: rgba(237, 32, 90, 0.35);
-  --color-secondary-transparent: rgba(57, 57, 57, 0.9);
-  --color-secondary-transparent-sidebar: rgba(57, 57, 57, 0.2);
-  --color-tertiary-transparent: rgba(245, 245, 245, 0.7);
-  --color-complementary-transparent: rgba(217, 217, 217, 0.7);
-  --color-white-transparent: rgba(255, 255, 255, 0.7);
-  --color-background-transparent: rgba(255, 255, 255, 0.7);
-  --foreground-rgb: 57, 57, 57;
-  --background-rgb: 255, 255, 255;
+  * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+  }
 
-
-  --container-width-lg: 86%;
-  --container-width-md: 90%;
-  --container-width-sm: 94%;
-  --form-width: 50%;
-
-  --transition: all 400ms ease;
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
+  body {
+    font-family: 'Manjari', sans-serif;
+    color: #000;
+    background: #fff;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
-  }
-}
-
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 346 84% 53%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 220 14% 22%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 346 84% 53%;
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 346 84% 53%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 346 84% 53%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-@keyframes pulse-ring {
-  0% {
-    box-shadow: 0 0 0 0 rgba(237, 32, 90, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 6px rgba(237, 32, 90, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(237, 32, 90, 0);
   }
 }
 
