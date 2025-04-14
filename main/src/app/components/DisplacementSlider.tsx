@@ -293,9 +293,6 @@ const DisplacementSlider: React.FC = () => {
           <span className="hidden" data-slide-title="5">
             {t('displacementSlider.slideTitles.5')}
           </span>
-          <span className="hidden" data-slide-title="6">
-            {t('displacementSlider.slideTitles.6')}
-          </span>
           <div className="meta">ADSH</div>
           <div id="slide-status" ref={slideStatusRef}>
             {t('displacementSlider.status.products')}
@@ -318,9 +315,6 @@ const DisplacementSlider: React.FC = () => {
           <span className="hidden" data-slide-status="5">
             {t('displacementSlider.status.products')}
           </span>
-          <span className="hidden" data-slide-status="6">
-            {t('displacementSlider.status.products')}
-          </span>
         </div>
       </div>
       <img src="/assets/Homepage - Hero.jpg" alt={t('displacementSlider.slideTitles.0')} />
@@ -328,8 +322,7 @@ const DisplacementSlider: React.FC = () => {
       <img src="/assets/Product - Pastry.jpg" alt={t('displacementSlider.slideTitles.2')} />
       <img src="/assets/Product - Bakery.jpg" alt={t('displacementSlider.slideTitles.3')} />
       <img src="/assets/Product - Packaging.jpg" alt={t('displacementSlider.slideTitles.4')} />
-      <img src="/assets/Product - Nuts.jpg" alt={t('displacementSlider.slideTitles.5')} />
-      <img src="/assets/Product - Equipment.jpg" alt={t('displacementSlider.slideTitles.6')} />
+      <img src="/assets/Product - Equipment.jpg" alt={t('displacementSlider.slideTitles.5')} />
       <div id="pagination" ref={paginationRef}>
         <button className="active" data-slide="0"></button>
         <button data-slide="1"></button>
@@ -337,7 +330,6 @@ const DisplacementSlider: React.FC = () => {
         <button data-slide="3"></button>
         <button data-slide="4"></button>
         <button data-slide="5"></button>
-        <button data-slide="6"></button>
       </div>
     </div>
   );
