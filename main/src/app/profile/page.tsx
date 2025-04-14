@@ -191,7 +191,6 @@ export default function UserProfile() {
         <div className="md:col-span-1">
           <Card className="overflow-hidden border-none shadow-lg transition-all duration-300 hover:shadow-xl">
             <CardHeader className="bg-gradient-to-r from-primary/10 to-primary/5 pb-8">
-              <CardTitle className="text-center text-secondary">Profile Picture</CardTitle>
             </CardHeader>
             <CardContent className="-mt-16 flex flex-col items-center">
               <div className="relative group">

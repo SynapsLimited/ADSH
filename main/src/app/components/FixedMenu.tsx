@@ -105,7 +105,7 @@ export default function FixedMenu() {
       <div className="relative">
         <div
           ref={menuRef}
-          className="flex flex-col gap-6 items-center backdrop-blur-lg bg-white/10 dark:bg-black/20 rounded-full p-3 shadow-[0_0_15px_rgba(255,255,255,0.2)] dark:shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-white/20"
+          className="flex flex-col gap-6 items-center backdrop-blur-lg bg-white-transparent dark:bg-black/20 rounded-full p-3 shadow-[0_0_15px_rgba(255,255,255,0.2)] dark:shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-white/20"
         >
           {menuItems.map((item, index) => (
             <button
