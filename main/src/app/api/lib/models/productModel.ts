@@ -1,7 +1,8 @@
 import { Schema, model, Document, models } from 'mongoose';
 import slugify from 'slugify';
 
-interface IProduct extends Document {
+// Update the IProduct interface to include createdAt and updatedAt
+export interface IProduct extends Document {
   name: string;
   name_en?: string;
   category: string;
@@ -13,6 +14,8 @@ interface IProduct extends Document {
   variations_en?: string[];
   slug: string;
   previousSlugs: string[];
+  createdAt: Date; // Added for timestamps
+  updatedAt: Date; // Added for timestamps
 }
 
 const productSchema = new Schema<IProduct>(
@@ -21,7 +24,7 @@ const productSchema = new Schema<IProduct>(
     name_en: { type: String },
     category: {
       type: String,
-      enum: ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging','Equipment', 'Other'],
+      enum: ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Equipment', 'Other'],
       required: true,
     },
     description: { type: String, required: true },

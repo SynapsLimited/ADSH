@@ -34,13 +34,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         } else {
           localStorage.removeItem('token');
           setCurrentUser(null);
-          router.push('/login');
+          router.push('/');
         }
       } catch (error) {
         console.error('Error decoding token:', error);
         localStorage.removeItem('token');
         setCurrentUser(null);
-        router.push('/login');
+        router.push('/');
       }
     }
   }, [router]);
@@ -70,7 +70,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         if (decoded && decoded.exp * 1000 < Date.now()) {
           localStorage.removeItem('token');
           setCurrentUser(null);
-          router.push('/login');
+          router.push('/');
         }
       }
     };

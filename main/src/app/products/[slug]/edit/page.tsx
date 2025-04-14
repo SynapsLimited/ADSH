@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { useUserContext } from '@/context/userContext'; // Use the custom hook
+import { useUserContext } from '@/context/userContext';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -21,7 +21,7 @@ const EditProduct: React.FC = () => {
   const [addTranslation, setAddTranslation] = useState<boolean>(false);
   const router = useRouter();
   const { slug } = useParams<{ slug: string }>();
-  const { currentUser } = useUserContext(); // Use the hook instead of useContext
+  const { currentUser } = useUserContext();
   const token = currentUser?.token;
 
   useEffect(() => {
@@ -30,7 +30,16 @@ const EditProduct: React.FC = () => {
     }
   }, [token, router]);
 
-  const PRODUCT_CATEGORIES = ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Dried Fruits', 'Equipment', 'Other'];
+  const PRODUCT_CATEGORIES = [
+    'Dairy',
+    'Ice Cream',
+    'Pastry',
+    'Bakery',
+    'Packaging',
+    'Dried Fruits',
+    'Equipment',
+    'Other',
+  ];
 
   useEffect(() => {
     const getProduct = async () => {
@@ -46,7 +55,11 @@ const EditProduct: React.FC = () => {
         setDescriptionEn(product.description_en || '');
         setVariations(product.variations.join(', '));
         setVariationsEn(product.variations_en ? product.variations_en.join(', ') : '');
-        if (product.name_en || product.description_en || (product.variations_en && product.variations_en.length > 0)) {
+        if (
+          product.name_en ||
+          product.description_en ||
+          (product.variations_en && product.variations_en.length > 0)
+        ) {
           setAddTranslation(true);
         }
       } catch (error) {
@@ -74,7 +87,7 @@ const EditProduct: React.FC = () => {
     images.forEach((image) => productData.append('images', image));
 
     try {
-      const response = await axios.patch(`/api/products`, productData, {
+      const response = await axios.patch(`/api/products/${slug}`, productData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',

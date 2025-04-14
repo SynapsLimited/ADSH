@@ -6,6 +6,8 @@ import { useUserContext } from '@/context/userContext'; // Use the custom hook
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import '@/css/blog.css';
+import '@/css/products.css';
 
 const CreateProduct: React.FC = () => {
   const { t } = useTranslation();
