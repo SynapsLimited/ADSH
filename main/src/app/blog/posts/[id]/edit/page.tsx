@@ -30,7 +30,7 @@ const EditPost = () => {
   const token = currentUser?.token;
 
   useEffect(() => {
-    if (!token) router.push('/login');
+    if (!token) router.push('/');
   }, [token, router]);
 
   const modules = {

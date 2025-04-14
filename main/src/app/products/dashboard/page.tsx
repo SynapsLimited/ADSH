@@ -21,7 +21,7 @@ const ProductDashboard: React.FC = () => {
 
   useEffect(() => {
     if (!token) {
-      router.push('/login');
+      router.push('/');
     }
   }, [token, router]);
 

@@ -27,7 +27,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!token || !userId) {
-      router.push('/login');
+      router.push('/');
     } else {
       const fetchPosts = async () => {
         setIsLoading(true);

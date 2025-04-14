@@ -28,7 +28,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     if (!token || !userId) {
-      router.push('/login');
+      router.push('/');
     } else {
       const getUser = async () => {
         try {

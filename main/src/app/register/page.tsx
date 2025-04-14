@@ -40,7 +40,7 @@ const Register = () => {
         password2: userData.password2,
       });
       if (response.data) {
-        router.push('/login');
+        router.push('/');
       } else {
         setError(t('register.unexpectedError'));
       }
