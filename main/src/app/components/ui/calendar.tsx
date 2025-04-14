@@ -54,8 +54,28 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
+        // Custom Nav component to handle navigation buttons
+        Nav: ({ ...navProps }) => (
+          <div className="space-x-1 flex items-center">
+            <button
+              className={cn(
+                buttonVariants({ variant: "outline" }),
+                "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 absolute left-1"
+              )}
+              onClick={(event) => navProps.onPreviousClick?.(event)}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              className={cn(
+                buttonVariants({ variant: "outline" }),
+                "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 absolute right-1"
+              )}
+                  onClick={(event) => navProps.onNextClick?.(event)}             >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+        ),
       }}
       {...props}
     />

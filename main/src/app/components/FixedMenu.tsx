@@ -31,7 +31,7 @@ type MenuItem = {
   submenu: SubMenuItem[]
 }
 
-export function SidebarMenu() {
+export function FixedMenu() {
   const { t } = useTranslation()
   const { currentUser } = useUserContext()
   const [activeMenu, setActiveMenu] = useState<number | null>(null)
