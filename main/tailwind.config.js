@@ -1,9 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-      './src/app/**/*.{js,ts,jsx,tsx,mdx}', // Include all App Router files
-      './src/components/**/*.{js,ts,jsx,tsx,mdx}', // Include components
-      './src/**/*.{js,ts,jsx,tsx,mdx}', // Catch any other source files
+        './src/**/*.{js,ts,jsx,tsx,mdx}',
     ],
     theme: {
       extend: {
