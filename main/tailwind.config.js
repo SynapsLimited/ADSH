@@ -39,12 +39,13 @@ module.exports = {
         all: 'var(--transition)',
       },
       animation: {
-        'pulse-ring': 'pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-ring': 'pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite',
       },
       keyframes: {
         'pulse-ring': {
-          '0%': { transform: 'scale(0.33)', opacity: '0.9' },
-          '80%, 100%': { opacity: '0' },
+          '0%': { boxShadow: '0 0 0 0 rgba(237, 32, 90, 0.7)' },
+          '70%': { boxShadow: '0 0 0 6px rgba(237, 32, 90, 0)' },
+          '100%': { boxShadow: '0 0 0 0 rgba(237, 32, 90, 0)' },
         },
       },
     },
