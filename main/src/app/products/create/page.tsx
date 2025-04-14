@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useContext, useEffect } from 'react';
-import { UserContext } from '@/context/userContext';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useUserContext } from '@/context/userContext'; // Use the custom hook
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -20,8 +20,7 @@ const CreateProduct: React.FC = () => {
   const [error, setError] = useState<string>('');
   const [addTranslation, setAddTranslation] = useState<boolean>(false);
   const router = useRouter();
-  const context = useContext(UserContext);
-  const currentUser = context?.currentUser;
+  const { currentUser } = useUserContext(); // Use the hook instead of useContext
   const token = currentUser?.token;
 
   useEffect(() => {
@@ -30,7 +29,7 @@ const CreateProduct: React.FC = () => {
     }
   }, [token, router]);
 
-  const PRODUCT_CATEGORIES = ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Dried Fruits', 'Equipment', 'Other'];
+  const PRODUCT_CATEGORIES = ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Equipment', 'Other'];
 
   const createProduct = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,20 +47,23 @@ const CreateProduct: React.FC = () => {
       productData.set('description_en', descriptionEn);
       productData.set('variations_en', variationsEn);
     }
-    images.forEach((image) => {
-      productData.append('images', image);
-    });
+    images.forEach((image) => productData.append('images', image));
+
     try {
       const response = await axios.post('/api/products', productData, {
-        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
       });
       if (response.status === 201) {
         toast.success(t('Product created successfully.'));
         router.push('/products/dashboard');
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || t('An error occurred'));
-      toast.error(err.response?.data?.message || t('An error occurred'));
+      const message = err.response?.data?.message || t('An error occurred');
+      setError(message);
+      toast.error(message);
     }
   };
 
@@ -87,7 +89,9 @@ const CreateProduct: React.FC = () => {
           />
           <select name="category" value={category} onChange={(e) => setCategory(e.target.value)} required>
             {PRODUCT_CATEGORIES.map((cat) => (
-              <option key={cat}>{t(cat)}</option>
+              <option key={cat} value={cat}>
+                {t(cat)}
+              </option>
             ))}
           </select>
           <textarea

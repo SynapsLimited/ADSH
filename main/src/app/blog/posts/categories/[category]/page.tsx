@@ -9,7 +9,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import '@/css/blog.css';
 
-type Category = 'Dairy' | 'Ice Cream' | 'Pastry' | 'Bakery' | 'Packaging' | 'Dried Fruits' | 'Equipment' | 'Other';
+type Category = 'Dairy' | 'Ice Cream' | 'Pastry' | 'Bakery' | 'Packaging' | 'Equipment' | 'Other';
 
 interface Post {
   _id: string;
@@ -37,7 +37,6 @@ const CategoryPosts = () => {
     Pastry: 'categoryPosts.category_Pastry',
     Bakery: 'categoryPosts.category_Bakery',
     Packaging: 'categoryPosts.category_Packaging',
-    'Dried Fruits': 'categoryPosts.category_Dried_Fruits',
     Equipment: 'categoryPosts.category_Equipment',
     Other: 'categoryPosts.category_Other',
   };

@@ -61,7 +61,6 @@ const CreatePost = () => {
     'Bakery',
     'Pastry',
     'Packaging',
-    'Dried Fruits',
     'Equipment',
     'Other',
   ];

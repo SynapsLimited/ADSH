@@ -3,7 +3,7 @@ import { Schema, model, Document, models } from 'mongoose';
 interface IPost extends Document {
   title: string;
   title_en?: string;
-  category: 'Dairy' | 'Ice Cream' | 'Pastry' | 'Bakery' | 'Packaging' | 'Dried Fruits' | 'Equipment' | 'Other';
+  category: 'Dairy' | 'Ice Cream' | 'Pastry' | 'Bakery' | 'Packaging' | 'Equipment' | 'Other';
   description: string;
   description_en?: string;
   creator: Schema.Types.ObjectId;
@@ -18,7 +18,7 @@ const postSchema = new Schema<IPost>(
     title_en: { type: String },
     category: {
       type: String,
-      enum: ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Dried Fruits', 'Equipment', 'Other'],
+      enum: ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Equipment', 'Other'],
       required: true,
     },
     description: { type: String, required: true },

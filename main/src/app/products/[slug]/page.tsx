@@ -17,8 +17,6 @@ const categoryTranslationMap: Record<string, { sq: string; en: string }> = {
   'Ice Cream': { sq: 'Akullore', en: 'Ice Cream' },
   Pastry: { sq: 'Pastiçeri', en: 'Pastry' },
   Bakery: { sq: 'Furra', en: 'Bakery' },
-  Packaging: { sq: 'Ambalazhe', en: 'Packaging' },
-  'Dried Fruits': { sq: 'Fruta të thata', en: 'Dried Fruits' },
   Equipment: { sq: 'Pajisje', en: 'Equipment' },
   Other: { sq: 'Të tjera', en: 'Other' },
   'All Products': { sq: 'Të gjitha produktet', en: 'All Products' },

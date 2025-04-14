@@ -33,7 +33,7 @@ const connectDB = async () => {
       name_en: { type: String },
       category: {
         type: String,
-        enum: ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Dried Fruits', 'Equipment', 'Other'],
+        enum: ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Equipment', 'Other'],
         required: true,
       },
       description: { type: String, required: true },

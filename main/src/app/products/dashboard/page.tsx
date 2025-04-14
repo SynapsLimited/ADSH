@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { UserContext } from '@/context/userContext';
+import { useUserContext } from '@/context/userContext'; // Use the custom hook
 import axios from 'axios';
 import Loader from '@/components/Loader';
 import DeleteProduct from '@/products/components/DeleteProduct';
@@ -15,9 +15,9 @@ const ProductDashboard: React.FC = () => {
   const router = useRouter();
   const [products, setProducts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const context = useContext(UserContext);
-  const currentUser = context?.currentUser;
+  const { currentUser } = useUserContext(); // Use the hook instead of useContext
   const token = currentUser?.token;
+  const userId = currentUser?._id;
 
   useEffect(() => {
     if (!token) {
@@ -33,12 +33,8 @@ const ProductDashboard: React.FC = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         const userProducts = response.data.filter((product: any) => {
-          if (product.creator) {
-            const creatorId = typeof product.creator === 'object' ? product.creator.id.toString() : product.creator.toString();
-            const currentUserId = currentUser?._id?.toString();
-            return creatorId === currentUserId;
-          }
-          return false;
+          const creatorId = typeof product.creator === 'object' ? product.creator._id : product.creator;
+          return creatorId === userId;
         });
         setProducts(userProducts);
       } catch (error) {
@@ -47,8 +43,10 @@ const ProductDashboard: React.FC = () => {
       }
       setIsLoading(false);
     };
-    fetchProducts();
-  }, [currentUser?._id, token, t]); // Removed currentUser?._id from dependencies
+    if (token && userId) {
+      fetchProducts();
+    }
+  }, [token, userId, t]);
 
   if (isLoading) {
     return <Loader />;
@@ -62,7 +60,7 @@ const ProductDashboard: React.FC = () => {
       {products.length ? (
         <div className="container dashboard-container">
           {products.map((product) => (
-            <article key={product.slug} className="dashboard-post">
+            <article key={product._id} className="dashboard-post">
               <div className="dashboard-post-info">
                 <div className="dashboard-post-thumbnail">
                   <img src={product.images[0]} alt={product.name} />

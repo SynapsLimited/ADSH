@@ -30,7 +30,6 @@ const Blog = () => {
     { key: 'Pastry', value: t('blog.categories.items.Pastry') },
     { key: 'Bakery', value: t('blog.categories.items.Bakery') },
     { key: 'Packaging', value: t('blog.categories.items.Packaging') },
-    { key: 'DriedFruits', value: t('blog.categories.items.DriedFruits') },
     { key: 'Equipment', value: t('blog.categories.items.Equipment') },
     { key: 'Other', value: t('blog.categories.items.Other') },
   ];

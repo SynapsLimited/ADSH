@@ -150,12 +150,7 @@ const Home: React.FC = () => {
       description: t('home.productCategories.categories.PackagingDescription'),
       link: `/products/category/${slugify('Packaging')}`,
     },
-    {
-      title: t('home.productCategories.categories.DriedFruits'),
-      image: '/assets/Product - Nuts.jpg',
-      description: t('home.productCategories.categories.DriedFruitsDescription'),
-      link: `/products/category/${slugify('Dried Fruits')}`,
-    },
+
     {
       title: t('home.productCategories.categories.Bakery'),
       image: '/assets/Product - Bakery.jpg',

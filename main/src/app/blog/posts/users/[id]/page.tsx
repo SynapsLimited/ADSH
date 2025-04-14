@@ -15,8 +15,7 @@ type Category =
   | 'Pastry'
   | 'Bakery'
   | 'Packaging'
-  | 'Dried Fruits'
-  | 'Equipment'
+    | 'Equipment'
   | 'Other'
   | 'All Products';
 

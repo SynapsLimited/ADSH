@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { UserContext } from '@/context/userContext';
+import { useUserContext } from '@/context/userContext'; // Use the custom hook
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -21,8 +21,7 @@ const EditProduct: React.FC = () => {
   const [addTranslation, setAddTranslation] = useState<boolean>(false);
   const router = useRouter();
   const { slug } = useParams<{ slug: string }>();
-  const context = useContext(UserContext);
-  const currentUser = context?.currentUser;
+  const { currentUser } = useUserContext(); // Use the hook instead of useContext
   const token = currentUser?.token;
 
   useEffect(() => {
@@ -51,11 +50,13 @@ const EditProduct: React.FC = () => {
           setAddTranslation(true);
         }
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching product:', error);
         setError(t('productNotFound'));
       }
     };
-    getProduct();
+    if (slug && token) {
+      getProduct();
+    }
   }, [slug, token, t]);
 
   const editProduct = async (e: React.FormEvent) => {
@@ -70,20 +71,23 @@ const EditProduct: React.FC = () => {
       productData.set('description_en', descriptionEn);
       productData.set('variations_en', variationsEn);
     }
-    images.forEach((image) => {
-      productData.append('images', image);
-    });
+    images.forEach((image) => productData.append('images', image));
+
     try {
-      const response = await axios.patch(`/api/products/${slug}/edit`, productData, {
-        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
+      const response = await axios.patch(`/api/products`, productData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
       });
       if (response.status === 200) {
         toast.success(t('Product updated successfully.'));
         router.push('/products/dashboard');
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || t('An error occurred'));
-      toast.error(err.response?.data?.message || t('An error occurred'));
+      const message = err.response?.data?.message || t('An error occurred');
+      setError(message);
+      toast.error(message);
     }
   };
 
@@ -109,7 +113,9 @@ const EditProduct: React.FC = () => {
           />
           <select name="category" value={category} onChange={(e) => setCategory(e.target.value)} required>
             {PRODUCT_CATEGORIES.map((cat) => (
-              <option key={cat}>{t(cat)}</option>
+              <option key={cat} value={cat}>
+                {t(cat)}
+              </option>
             ))}
           </select>
           <textarea

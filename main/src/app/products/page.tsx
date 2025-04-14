@@ -57,12 +57,6 @@ const Products: React.FC = () => {
       link: `/products/category/${slugify('Packaging')}`,
     },
     {
-      category: 'Dried Fruits',
-      name: t('productsPage.section.productsCards.DriedFruits.name'),
-      imageUrl: '/assets/Product - Nuts.jpg',
-      link: `/products/category/${slugify('Dried Fruits')}`,
-    },
-    {
       category: 'Equipment',
       name: t('productsPage.section.productsCards.Equipment.name'),
       imageUrl: '/assets/Product - Equipment.jpg',

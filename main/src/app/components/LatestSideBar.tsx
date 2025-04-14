@@ -180,8 +180,6 @@ const LatestSideBar: React.FC = () => {
         return 'pastry';
       case 'Packaging':
         return 'packaging';
-      case 'Dried Fruits':
-        return 'driedFruits';
       case 'Bakery':
         return 'bakery';
       case 'Equipment':
@@ -196,7 +194,6 @@ const LatestSideBar: React.FC = () => {
     { name: 'Ice Cream', icon: IceCream },
     { name: 'Pastry', icon: Cake },
     { name: 'Packaging', icon: Package },
-    { name: 'Dried Fruits', icon: Nut },
     { name: 'Bakery', icon: Bread },
     { name: 'Equipment', icon: Wrench },
   ];
