@@ -36,10 +36,16 @@ const PostDetail = () => {
   useEffect(() => {
     const getPost = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/posts/${id}`);
-        if (response.data) setPost(response.data);
-        else setError(t('postDetail.postNotFound'));
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/posts/${id}`, {
+          withCredentials: false, // Ensure no credentials are sent unnecessarily
+        });
+        if (response.data) {
+          setPost(response.data);
+        } else {
+          setError(t('postDetail.postNotFound'));
+        }
       } catch (error) {
+        console.error('Error fetching post:', error);
         setError(t('postDetail.postNotFound'));
       } finally {
         setIsLoading(false);
@@ -78,6 +84,9 @@ const PostDetail = () => {
   const canonicalUrl = `https://www.adsh2014.al/posts/${post._id}`;
   const ogImage = post.thumbnail || defaultThumbnail;
 
+  // Determine if the current user is the creator for edit/delete permissions
+  const isCreator = currentUser?._id === (typeof post.creator === 'string' ? post.creator : post.creator._id);
+
   return (
     <div className="post-detail-section">
       <Head>
@@ -103,9 +112,9 @@ const PostDetail = () => {
                 authorID={typeof post.creator === 'string' ? post.creator : post.creator._id}
                 createdAt={post.createdAt}
               />
-              {currentUser?._id === (typeof post.creator === 'string' ? post.creator : post.creator._id) && (
+              {isCreator && (
                 <div className="post-detail-buttons">
-                  <Link href={`blog/posts/${post._id}/edit`} className="btn btn-primary">
+                  <Link href={`/blog/posts/${post._id}/edit`} className="btn btn-primary">
                     {t('postDetail.edit')}
                   </Link>
                   <DeletePost postId={post._id} />

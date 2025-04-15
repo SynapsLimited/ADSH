@@ -149,7 +149,7 @@ export default function BlogDashboard() {
             className="flex-1"
           />
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[180px] bg-white">
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
             <SelectContent>

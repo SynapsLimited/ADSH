@@ -160,12 +160,12 @@
     "blog": "Blog",
     "allPosts": "All Posts",
     "authors": "Authors",
-    "create": "Create",
+    "create": "Create Post",
     "dashboard": "Dashboard",
     "products": "Products",
     "allProducts": "All Products",
     "createProduct": "Create Product",
-    "productsDashboard": "Products Dashboard"
+    "productsDashboard": "Dashboard"
   },
   "footer": {
     "location": "Location",
@@ -560,7 +560,7 @@
   "delete": "Delete",
   "editProduct": "Edit Product",
   "update": "Update",
-  "productDashboard": "Product Dashboard",
+  "productDashboard": "Dashboard",
   "view": "View",
   "edit": "Edit",
   "noProductsFound": "No products found.",

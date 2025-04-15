@@ -158,14 +158,14 @@
           "profile": "Profili",
           "logout": "Dalje",
           "blog": "Blog",
-          "allPosts": "Të Gjitha Postimet",
+          "allPosts": "Shiko postimet",
           "authors": "Autorë",
-          "create": "Krijo",
-          "dashboard": "Paneli i Kontrollit",
+          "create": "Krijo postim",
+          "dashboard": "Paneli",
           "products": "Produkte",
-          "allProducts": "Të Gjitha Produktet",
-          "createProduct": "Krijo Produkt",
-          "productsDashboard": "Paneli i Kontrollit të Produkteve"
+          "allProducts": "Shiko produktet",
+          "createProduct": "Krijo produkt",
+          "productsDashboard": "Paneli"
         },
         "footer": {
           "location": "Vendndodhja",
