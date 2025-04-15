@@ -1,14 +1,16 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { Edit, Eye, Trash2, Plus, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { useUserContext } from "@/context/userContext";
@@ -113,6 +115,17 @@ export default function ProductsDashboard() {
     }).format(new Date(date));
   };
 
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    adaptiveHeight: true,
+    autoplay: true,
+    autoplaySpeed: 2000,
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -162,13 +175,19 @@ export default function ProductsDashboard() {
               className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]"
             >
               <div className="relative h-48 w-full">
-                <Image
-                  src={product.images[0] || "/placeholder.svg"}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                  onError={(e) => (e.currentTarget.src = "/placeholder.svg")}
-                />
+                {product.images.length > 1 ? (
+                  <Slider {...sliderSettings}>
+                    {product.images.map((image: string, index: number) => (
+                      <img key={index} src={image} alt={product.name} className="object-cover w-full h-full" />
+                    ))}
+                  </Slider>
+                ) : (
+                  <img
+                    src={product.images[0] || "/placeholder.svg"}
+                    alt={product.name}
+                    className="object-cover w-full h-full"
+                  />
+                )}
                 <Badge variant="default" className="absolute top-2 right-2 bg-primary text-white">
                   {product.category}
                 </Badge>
@@ -225,7 +244,7 @@ export default function ProductsDashboard() {
                 Are you sure you want to delete the product "{deleteConfirmProduct?.name}"? This action cannot be undone.
               </DialogDescription>
             </DialogHeader>
-            <DialogFooter className="mt-4">
+            <div className="flex justify-end space-x-2 mt-4">
               <Button variant="outline" onClick={() => setDeleteConfirmProduct(null)}>
                 Cancel
               </Button>
@@ -235,7 +254,7 @@ export default function ProductsDashboard() {
               >
                 Delete
               </Button>
-            </DialogFooter>
+            </div>
           </DialogContent>
         </Dialog>
       </div>

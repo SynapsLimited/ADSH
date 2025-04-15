@@ -58,6 +58,8 @@ export default function FixedMenu() {
 
   if (!currentUser) return null
 
+
+
   const menuItems: MenuItem[] = [
     {
       icon: <User className="h-5 w-5" />,
@@ -105,7 +107,7 @@ export default function FixedMenu() {
       <div className="relative">
         <div
           ref={menuRef}
-          className="flex flex-col gap-6 items-center backdrop-blur-lg bg-white-transparent dark:bg-black/20 rounded-full p-3 shadow-[0_0_15px_rgba(255,255,255,0.2)] dark:shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-white/20"
+          className="flex flex-col gap-6 items-center backdrop-blur-sm bg-white-transparent dark:bg-white-transparent text-primary border-1 border-solid border-primary-transparent-sidebar rounded-full p-3 shadow-[0_0_15px_rgba(255,255,255,0.2)] dark:shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-primary-transparent dark:border-primary-transparent-sidebar"
         >
           {menuItems.map((item, index) => (
             <button
@@ -113,10 +115,10 @@ export default function FixedMenu() {
               onClick={() => toggleMenu(index)}
               className={cn(
                 "relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300",
-                "hover:scale-110 active:scale-95",
-                "after:content-[''] after:absolute after:inset-0 after:rounded-full after:opacity-0 after:bg-white/30 after:scale-0 hover:after:scale-100 hover:after:opacity-100 after:transition-all after:duration-300",
+                "hover:scale-110 active:scale-95 ",
+                "after:content-[''] after:absolute after:inset-0 after:rounded-full after:opacity-0 after:bg-white/30 after:scale-0 hover:after:scale-100 hover:after:opacity-100 after:transition-all after:duration-300 after:text-secondary",
                 activeMenu === index
-                  ? "bg-white/20 text-white shadow-md"
+                  ? "bg-white/20 text-secondary shadow-md"
                   : "hover:bg-white/10 text-white/80 hover:text-white",
               )}
             >
@@ -129,16 +131,16 @@ export default function FixedMenu() {
         {activeMenu !== null && (
           <div
             ref={submenuRef}
-            className="absolute left-20 top-1/2 -translate-y-1/2 min-w-56 backdrop-blur-lg bg-white/10 dark:bg-black/20 rounded-2xl p-3 shadow-[0_0_15px_rgba(255,255,255,0.2)] dark:shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-white/20 animate-in slide-in-from-left-4 fade-in duration-200"
+            className="absolute left-20 top-1/2 -translate-y-1/2 min-w-56 backdrop-blur-md bg-white-transparent dark:bg-white-transparent rounded-2xl p-3 shadow-[0_0_15px_rgba(255,255,255,0.2)] dark:shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-white/20 animate-in slide-in-from-left-4 fade-in duration-200 border-1 border-solid border-primary-transparent-sidebar"
           >
             <div className="py-2 px-1">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-white font-medium pl-2">{menuItems[activeMenu].label}</h3>
+                <h3 className="text-primary font-medium pl-2">{menuItems[activeMenu].label}</h3>
                 <button
                   onClick={() => setActiveMenu(null)}
                   className="p-1 rounded-full hover:bg-white/10 text-white/80 hover:text-white transition-colors"
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-4 w-4 text-primary" />
                 </button>
               </div>
               <div className="flex flex-col gap-1">
@@ -146,11 +148,11 @@ export default function FixedMenu() {
                   <Link
                     key={subIndex}
                     href={subItem.link}
-                    className="flex items-center gap-3 text-white/80 hover:text-white px-2 py-2 rounded-lg hover:bg-white/10 transition-colors hover:scale-105 active:scale-95 transition-transform"
+                    className="flex text-secondary items-center gap-3 text-white/80 hover:text-primary px-2 py-2 rounded-lg hover:bg-white/10 transition-colors hover:scale-105 active:scale-95 transition-transform"
                   >
                     <span className="flex-shrink-0">{subItem.icon}</span>
                     <span className="text-sm">{subItem.label}</span>
-                    <ChevronRight className="h-4 w-4 ml-auto opacity-60" />
+                    <ChevronRight className="h-4 w-4 ml-auto text-primary opacity-60" />
                   </Link>
                 ))}
               </div>

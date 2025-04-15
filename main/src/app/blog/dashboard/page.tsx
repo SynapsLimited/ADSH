@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Edit, Eye, Trash2, Plus, Loader2 } from "lucide-react";
@@ -13,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { useUserContext } from "@/context/userContext";
 import axios from "axios";
+import { useTranslation } from 'react-i18next';
 
 // Define the Post interface
 interface Post {
@@ -29,12 +29,25 @@ export default function BlogDashboard() {
   const router = useRouter();
   const { currentUser } = useUserContext();
   const userId = currentUser?._id;
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language as 'sq' | 'en';
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [deleteConfirmPost, setDeleteConfirmPost] = useState<Post | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+
+  const categoryTranslationMap: Record<string, { sq: string; en: string }> = {
+    Dairy: { sq: 'Bulmetore', en: 'Dairy' },
+    'Ice Cream': { sq: 'Akullore', en: 'Ice Cream' },
+    Pastry: { sq: 'Pastiçeri', en: 'Pastry' },
+    Bakery: { sq: 'Furra', en: 'Bakery' },
+    Packaging: { sq: 'Ambalazhe', en: 'Packaging' },
+    Equipment: { sq: 'Pajisje', en: 'Equipment' },
+    Other: { sq: 'Të tjera', en: 'Other' },
+    'All Products': { sq: 'Të gjitha produktet', en: 'All Products' },
+  };
 
   useEffect(() => {
     if (!currentUser || !userId) {
@@ -106,6 +119,8 @@ export default function BlogDashboard() {
     }).format(new Date(date));
   };
 
+  const defaultThumbnail = '/assets/Blog-default.webp';
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -141,7 +156,7 @@ export default function BlogDashboard() {
               <SelectItem value="all">All Categories</SelectItem>
               {categories.map((category) => (
                 <SelectItem key={category} value={category}>
-                  {category}
+                  {categoryTranslationMap[category]?.[currentLanguage] || category}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -155,15 +170,13 @@ export default function BlogDashboard() {
               className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]"
             >
               <div className="relative h-48 w-full">
-                <Image
-                  src={post.thumbnail || "/placeholder.svg"}
+                <img
+                  src={post.thumbnail || defaultThumbnail}
                   alt={post.title}
-                  fill
-                  className="object-cover"
-                  onError={(e) => (e.currentTarget.src = "/placeholder.svg")}
+                  className="object-cover w-full h-full"
                 />
                 <Badge variant="default" className="absolute top-2 right-2 bg-primary text-white">
-                  {post.category}
+                  {categoryTranslationMap[post.category]?.[currentLanguage] || post.category}
                 </Badge>
               </div>
               <div className="p-4">
