@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
@@ -31,7 +31,6 @@ export default function ProductsDashboard() {
   const { toast } = useToast();
   const router = useRouter();
   const { currentUser } = useUserContext();
-  const token = currentUser?.token;
   const userId = currentUser?._id;
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -41,34 +40,35 @@ export default function ProductsDashboard() {
   const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
-    if (!token || !userId) {
+    if (!currentUser || !userId) {
       router.push("/");
-    } else {
-      const fetchProducts = async () => {
-        setIsLoading(true);
-        try {
-          const response = await axios.get<Product[]>("/api/products", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          const userProducts = response.data.filter((product) => {
-            const creatorId = typeof product.creator === "object" ? product.creator._id : product.creator;
-            return creatorId === userId;
-          });
-          setProducts(userProducts);
-        } catch (error) {
-          console.error("Error fetching products:", error);
-          toast({
-            title: "Error",
-            description: "Failed to fetch products.",
-            variant: "destructive",
-          });
-        } finally {
-          setIsLoading(false);
-        }
-      };
-      fetchProducts();
+      return;
     }
-  }, [token, userId, router, toast]);
+
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get<Product[]>("/api/products", {
+          withCredentials: true, // Include cookies for authentication
+        });
+        const userProducts = response.data.filter((product) => {
+          const creatorId = typeof product.creator === "object" ? product.creator._id : product.creator;
+          return creatorId === userId;
+        });
+        setProducts(userProducts);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        toast({
+          title: "Error",
+          description: "Failed to fetch products.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProducts();
+  }, [currentUser, userId, router, toast]);
 
   const categories = useMemo(() => {
     return Array.from(new Set(products.map((p) => p.category)));
@@ -83,7 +83,7 @@ export default function ProductsDashboard() {
   const handleDelete = async (product: Product) => {
     try {
       await axios.delete(`/api/products/${product.slug}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true, // Include cookies for authentication
       });
       setProducts(products.filter((p) => p._id !== product._id));
       setDeleteConfirmProduct(null);
@@ -93,7 +93,7 @@ export default function ProductsDashboard() {
         variant: "default",
       });
     } catch (error) {
-      console.error("Error deleting product:", error);
+      console.error('Error deleting product:', error);
       toast({
         title: "Error",
         description: "Failed to delete product.",

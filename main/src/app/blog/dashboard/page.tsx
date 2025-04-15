@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
@@ -8,7 +8,7 @@ import { Edit, Eye, Trash2, Plus, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { useUserContext } from "@/context/userContext";
@@ -28,7 +28,6 @@ export default function BlogDashboard() {
   const { toast } = useToast();
   const router = useRouter();
   const { currentUser } = useUserContext();
-  const token = currentUser?.token;
   const userId = currentUser?._id;
 
   const [posts, setPosts] = useState<Post[]>([]);
@@ -38,30 +37,31 @@ export default function BlogDashboard() {
   const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
-    if (!token || !userId) {
-      router.push("/");
-    } else {
-      const fetchPosts = async () => {
-        setIsLoading(true);
-        try {
-          const response = await axios.get<Post[]>(`${process.env.NEXT_PUBLIC_BASE_URL}/posts/users/${userId}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setPosts(response.data);
-        } catch (error) {
-          console.error("Error fetching posts:", error);
-          toast({
-            title: "Error",
-            description: "Failed to fetch posts.",
-            variant: "destructive",
-          });
-        } finally {
-          setIsLoading(false);
-        }
-      };
-      fetchPosts();
+    if (!currentUser || !userId) {
+      router.push('/');
+      return;
     }
-  }, [token, userId, router, toast]);
+
+    const fetchPosts = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get<Post[]>(`${process.env.NEXT_PUBLIC_BASE_URL}/posts/users/${userId}`, {
+          withCredentials: true, // Include cookies for authentication
+        });
+        setPosts(response.data);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+        toast({
+          title: "Error",
+          description: "Failed to fetch posts.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchPosts();
+  }, [currentUser, userId, router, toast]);
 
   const categories = useMemo(() => {
     return Array.from(new Set(posts.map((p) => p.category)));
@@ -76,7 +76,7 @@ export default function BlogDashboard() {
   const handleDelete = async (post: Post) => {
     try {
       await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/posts/${post._id}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true, // Include cookies for authentication
       });
       setPosts(posts.filter((p) => p._id !== post._id));
       setDeleteConfirmPost(null);
@@ -86,7 +86,7 @@ export default function BlogDashboard() {
         variant: "default",
       });
     } catch (error) {
-      console.error("Error deleting post:", error);
+      console.error('Error deleting post:', error);
       toast({
         title: "Error",
         description: "Failed to delete post.",
@@ -203,7 +203,7 @@ export default function BlogDashboard() {
                 Are you sure you want to delete the post "{deleteConfirmPost?.title}"? This action cannot be undone.
               </DialogDescription>
             </DialogHeader>
-            <DialogFooter className="mt-4">
+            <div className="flex justify-end space-x-2 mt-4">
               <Button variant="outline" onClick={() => setDeleteConfirmPost(null)}>
                 Cancel
               </Button>
@@ -213,7 +213,7 @@ export default function BlogDashboard() {
               >
                 Delete
               </Button>
-            </DialogFooter>
+            </div>
           </DialogContent>
         </Dialog>
       </div>

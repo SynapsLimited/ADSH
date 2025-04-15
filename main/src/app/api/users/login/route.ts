@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/api/lib/db'; // Adjust path as needed
-import User from '@/api/lib/models/userModel'; // Adjust path as needed
+import connectDB from '@/api/lib/db';
+import User from '@/api/lib/models/userModel';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -34,10 +34,20 @@ export async function POST(req: NextRequest) {
       { expiresIn: '1h' }
     );
 
-    return NextResponse.json(
-      { token, user: { id: user._id, name: user.name, email: user.email } },
+    // Set the token as an HTTP-only cookie
+    const response = NextResponse.json(
+      { user: { id: user._id, name: user.name, email: user.email } },
       { status: 200 }
     );
+    response.cookies.set('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 3600, // 1 hour in seconds
+      path: '/',
+    });
+
+    return response;
   } catch (error) {
     console.error('Error in POST /api/users/login:', error);
     return NextResponse.json(

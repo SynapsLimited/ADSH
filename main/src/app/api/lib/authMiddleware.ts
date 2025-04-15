@@ -7,12 +7,11 @@ interface AuthenticatedRequest extends NextRequest {
 }
 
 export const authMiddleware = async (req: AuthenticatedRequest) => {
-  const authorization = req.headers.get('authorization');
-  if (!authorization || !authorization.startsWith('Bearer')) {
+  const token = req.cookies.get('token')?.value;
+  if (!token) {
     throw new HttpError('Unauthorized. No token provided.', 401);
   }
 
-  const token = authorization.split(' ')[1];
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string; name: string };
     req.user = decoded;
