@@ -34,10 +34,10 @@ export default function ProductsDashboard() {
   const userId = currentUser?._id;
 
   const [products, setProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [deleteConfirmProduct, setDeleteConfirmProduct] = useState<Product | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all"); // Default to "all"
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   useEffect(() => {
     if (!currentUser || !userId) {
@@ -49,7 +49,7 @@ export default function ProductsDashboard() {
       setIsLoading(true);
       try {
         const response = await axios.get<Product[]>("/api/products", {
-          withCredentials: true, // Include cookies for authentication
+          withCredentials: true,
         });
         const userProducts = response.data.filter((product) => {
           const creatorId = typeof product.creator === "object" ? product.creator._id : product.creator;
@@ -83,7 +83,7 @@ export default function ProductsDashboard() {
   const handleDelete = async (product: Product) => {
     try {
       await axios.delete(`/api/products/${product.slug}`, {
-        withCredentials: true, // Include cookies for authentication
+        withCredentials: true,
       });
       setProducts(products.filter((p) => p._id !== product._id));
       setDeleteConfirmProduct(null);
@@ -162,7 +162,13 @@ export default function ProductsDashboard() {
               className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]"
             >
               <div className="relative h-48 w-full">
-                <Image src={product.images[0] || "/placeholder.svg"} alt={product.name} fill className="object-cover" />
+                <Image
+                  src={product.images[0] || "/placeholder.svg"}
+                  alt={product.name}
+                  fill
+                  className="object-cover"
+                  onError={(e) => (e.currentTarget.src = "/placeholder.svg")}
+                />
                 <Badge variant="default" className="absolute top-2 right-2 bg-primary text-white">
                   {product.category}
                 </Badge>

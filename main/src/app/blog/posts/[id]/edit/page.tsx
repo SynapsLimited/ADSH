@@ -27,11 +27,12 @@ const EditPost = () => {
   const id = params.id as string;
 
   const { currentUser } = useUserContext();
-  const token = currentUser?.token;
 
   useEffect(() => {
-    if (!token) router.push('/login');
-  }, [token, router]);
+    if (!currentUser) {
+      router.push('/login');
+    }
+  }, [currentUser, router]);
 
   const modules = {
     toolbar: [
@@ -72,7 +73,8 @@ const EditPost = () => {
     const getPost = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/posts/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${currentUser?.token}` },
+          withCredentials: true,
         });
         const postData = response.data;
         setTitle(postData.title);
@@ -85,8 +87,8 @@ const EditPost = () => {
         console.log('Error fetching post:', error);
       }
     };
-    if (token && id) getPost();
-  }, [id, token]);
+    if (currentUser && id) getPost();
+  }, [id, currentUser]);
 
   const editPost = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,8 +107,9 @@ const EditPost = () => {
       const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/posts/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${currentUser?.token}`,
         },
+        withCredentials: true,
       });
       if (response.status === 200) router.push('/blog');
     } catch (err: any) {

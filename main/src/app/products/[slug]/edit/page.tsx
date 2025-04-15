@@ -22,13 +22,12 @@ const EditProduct: React.FC = () => {
   const router = useRouter();
   const { slug } = useParams<{ slug: string }>();
   const { currentUser } = useUserContext();
-  const token = currentUser?.token;
 
   useEffect(() => {
-    if (!token) {
+    if (!currentUser) {
       router.push('/login');
     }
-  }, [token, router]);
+  }, [currentUser, router]);
 
   const PRODUCT_CATEGORIES = [
     'Dairy',
@@ -45,7 +44,8 @@ const EditProduct: React.FC = () => {
     const getProduct = async () => {
       try {
         const response = await axios.get(`/api/products/${slug}`, {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${currentUser?.token}` },
+          withCredentials: true,
         });
         const product = response.data;
         setName(product.name);
@@ -67,10 +67,10 @@ const EditProduct: React.FC = () => {
         setError(t('productNotFound'));
       }
     };
-    if (slug && token) {
+    if (slug && currentUser) {
       getProduct();
     }
-  }, [slug, token, t]);
+  }, [slug, currentUser, t]);
 
   const editProduct = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,9 +89,10 @@ const EditProduct: React.FC = () => {
     try {
       const response = await axios.patch(`/api/products/${slug}`, productData, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${currentUser?.token}`,
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true,
       });
       if (response.status === 200) {
         toast.success(t('Product updated successfully.'));

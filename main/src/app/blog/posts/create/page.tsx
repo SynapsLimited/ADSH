@@ -24,11 +24,12 @@ const CreatePost = () => {
 
   const router = useRouter();
   const { currentUser } = useUserContext();
-  const token = currentUser?.token;
 
   useEffect(() => {
-    if (!token) router.push('/login');
-  }, [token, router]);
+    if (!currentUser) {
+      router.push('/login');
+    }
+  }, [currentUser, router]);
 
   const modules = {
     toolbar: [
@@ -82,8 +83,9 @@ const CreatePost = () => {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/posts`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${currentUser?.token}`,
         },
+        withCredentials: true,
       });
       if (response.status === 201) router.push('/blog');
     } catch (err: any) {

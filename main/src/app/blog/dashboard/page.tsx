@@ -31,10 +31,10 @@ export default function BlogDashboard() {
   const userId = currentUser?._id;
 
   const [posts, setPosts] = useState<Post[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [deleteConfirmPost, setDeleteConfirmPost] = useState<Post | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all"); // Default to "all"
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   useEffect(() => {
     if (!currentUser || !userId) {
@@ -46,7 +46,7 @@ export default function BlogDashboard() {
       setIsLoading(true);
       try {
         const response = await axios.get<Post[]>(`${process.env.NEXT_PUBLIC_BASE_URL}/posts/users/${userId}`, {
-          withCredentials: true, // Include cookies for authentication
+          withCredentials: true,
         });
         setPosts(response.data);
       } catch (error) {
@@ -76,7 +76,7 @@ export default function BlogDashboard() {
   const handleDelete = async (post: Post) => {
     try {
       await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/posts/${post._id}`, {
-        withCredentials: true, // Include cookies for authentication
+        withCredentials: true,
       });
       setPosts(posts.filter((p) => p._id !== post._id));
       setDeleteConfirmPost(null);
@@ -155,7 +155,13 @@ export default function BlogDashboard() {
               className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]"
             >
               <div className="relative h-48 w-full">
-                <Image src={post.thumbnail || "/placeholder.svg"} alt={post.title} fill className="object-cover" />
+                <Image
+                  src={post.thumbnail || "/placeholder.svg"}
+                  alt={post.title}
+                  fill
+                  className="object-cover"
+                  onError={(e) => (e.currentTarget.src = "/placeholder.svg")}
+                />
                 <Badge variant="default" className="absolute top-2 right-2 bg-primary text-white">
                   {post.category}
                 </Badge>

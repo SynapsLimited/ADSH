@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUserContext } from '@/context/userContext'; // Use the custom hook
+import { useUserContext } from '@/context/userContext';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -22,14 +22,13 @@ const CreateProduct: React.FC = () => {
   const [error, setError] = useState<string>('');
   const [addTranslation, setAddTranslation] = useState<boolean>(false);
   const router = useRouter();
-  const { currentUser } = useUserContext(); // Use the hook instead of useContext
-  const token = currentUser?.token;
+  const { currentUser } = useUserContext();
 
   useEffect(() => {
-    if (!token) {
+    if (!currentUser) {
       router.push('/login');
     }
-  }, [token, router]);
+  }, [currentUser, router]);
 
   const PRODUCT_CATEGORIES = ['Dairy', 'Ice Cream', 'Pastry', 'Bakery', 'Packaging', 'Equipment', 'Other'];
 
@@ -54,9 +53,10 @@ const CreateProduct: React.FC = () => {
     try {
       const response = await axios.post('/api/products', productData, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${currentUser?.token}`,
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true,
       });
       if (response.status === 201) {
         toast.success(t('Product created successfully.'));
