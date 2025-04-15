@@ -30,7 +30,7 @@ const nunitoSans = Nunito_Sans({
 export const metadata = {
   title: {
     default: 'ADSH - Home',
-    template: '%s - ADSH',
+    template: '%s',
   },
   description: 'Welcome to ADSH - Explore our products, blog, and more!',
   keywords: [
