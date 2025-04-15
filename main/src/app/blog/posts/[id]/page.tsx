@@ -1,3 +1,4 @@
+// pages/blog/posts/[id].js
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -8,7 +9,7 @@ import PostAuthor from '@/blog/components/PostAuthor';
 import Loader from '@/components/Loader';
 import DeletePost from '@/blog/components/DeletePost';
 import { useUserContext } from '@/context/userContext';
-import axios from 'axios';
+import publicApi from '@/api/lib/publicApi'; // Import the public Axios instance
 import { useTranslation } from 'react-i18next';
 import '@/css/blog.css';
 
@@ -36,9 +37,7 @@ const PostDetail = () => {
   useEffect(() => {
     const getPost = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/posts/${id}`, {
-          withCredentials: false, // Ensure no credentials are sent unnecessarily
-        });
+        const response = await publicApi.get(`/posts/${id}`); // Use publicApi instead of axios
         if (response.data) {
           setPost(response.data);
         } else {
