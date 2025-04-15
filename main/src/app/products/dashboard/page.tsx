@@ -37,7 +37,7 @@ export default function ProductsDashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [deleteConfirmProduct, setDeleteConfirmProduct] = useState<Product | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all"); // Default to "all"
 
   useEffect(() => {
     if (!currentUser || !userId) {
@@ -77,7 +77,7 @@ export default function ProductsDashboard() {
   const filteredProducts = products.filter(
     (product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (selectedCategory === "" || product.category === selectedCategory)
+      (selectedCategory === "all" || product.category === selectedCategory)
   );
 
   const handleDelete = async (product: Product) => {
@@ -145,7 +145,7 @@ export default function ProductsDashboard() {
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Categories</SelectItem>
+              <SelectItem value="all">All Categories</SelectItem>
               {categories.map((category) => (
                 <SelectItem key={category} value={category}>
                   {category}

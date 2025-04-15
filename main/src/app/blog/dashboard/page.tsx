@@ -34,7 +34,7 @@ export default function BlogDashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [deleteConfirmPost, setDeleteConfirmPost] = useState<Post | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all"); // Default to "all"
 
   useEffect(() => {
     if (!currentUser || !userId) {
@@ -70,7 +70,7 @@ export default function BlogDashboard() {
   const filteredPosts = posts.filter(
     (post) =>
       post.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (selectedCategory === "" || post.category === selectedCategory)
+      (selectedCategory === "all" || post.category === selectedCategory)
   );
 
   const handleDelete = async (post: Post) => {
@@ -138,7 +138,7 @@ export default function BlogDashboard() {
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Categories</SelectItem>
+              <SelectItem value="all">All Categories</SelectItem>
               {categories.map((category) => (
                 <SelectItem key={category} value={category}>
                   {category}
