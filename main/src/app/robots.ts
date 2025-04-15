@@ -18,6 +18,8 @@ export default function robots(): MetadataRoute.Robots {
         '/products/dashboard',
         '/products/*/delete',
         '/products/*/edit',
+        '/download-catalog',
+        '/download-catalog/*',
       ],
     },
     sitemap: 'https://www.adsh2014.al/sitemap.xml',

@@ -51,12 +51,12 @@ export const metadata = {
   },
   openGraph: {
     title: 'ADSH - Home',
-    description: 'Discover ADSH products and insights.',
+    description: 'Discover ADSH products and insights. We empower your culinary creations with quality ingredients and supplies. From dairy delights to pastry perfection, we are your trusted partner in culinary excellence.',
     url: 'https://www.adsh2014.al',
     type: 'website',
     images: [
       {
-        url: 'https://www.adsh2014.al/assets/Homepage - Hero.jpg',
+        url: 'https://www.adsh2014.al/assets/opengraph-image.png',
         width: 1200,
         height: 630,
         alt: 'ADSH',
@@ -66,8 +66,8 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'ADSH',
-    description: 'Explore ADSH products and blog.',
-    images: ['https://www.adsh2014.al/assets/Homepage - Hero.jpg'],
+    description: 'Explore ADSH products and blog. We empower your culinary creations with quality ingredients and supplies. From dairy delights to pastry perfection, we are your trusted partner in culinary excellence.',
+    images: ['https://www.adsh2014.al/assets/opengraph-image.png'],
   },
 };
 
