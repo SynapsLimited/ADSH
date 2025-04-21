@@ -20,6 +20,9 @@ export default function robots(): MetadataRoute.Robots {
         '/products/*/edit',
         '/download-catalog',
         '/download-catalog/*',
+        '/_next/static/media/',
+        '/favicon.ico',
+
       ],
     },
     sitemap: 'https://www.adsh2014.al/sitemap.xml',
